@@ -1,0 +1,735 @@
+React JS Notes
+
+npm install create-react-app -g
+
+create-react-app my_app_name
+
+==============================================================================
+
+-> Class Based Components
+
+import React, { Component } from 'react';
+class App extends Component {
+ 	render() {
+		return (
+			<div>
+			   <h1>Hello World!!!</h1>
+			</div>
+		);
+	}	
+}
+
+export default App;
+
+===============================================================================
+Understanding JSX
+
+<div className="App">
+   <h1>Hello World!!!</h1>
+   <p>Antony Chiramel</p>
+</div>
+
+The above JSX is same as the code below
+
+React.createElement('div', {className: "App"}, React.createElement('h1', null, "Hello World!!!"), React.createElement('p', null, "Antony Chiramel"))
+JSX is just a syntatic sugar to avoid writting all the React.creatElement's.
+
+================================================================================
+
+-> Functional Components
+
+import React from "react";
+
+const person = () => {
+	return(
+	  <div>
+	     <h1>I am Antony Chiramel</h1>
+	  </div>
+	);
+}
+
+export default person;
+
+=================================================================================
+Components can send properties
+
+<Person name="Antony" age="24" />
+
+In the component, these properties can be accessed using the props object. For the above example it would be
+props.name, props.age
+
+Components can also have elements nested within its opening and closing tag, like
+
+<Person name="Antony" age="24"> 
+  <p>Mt Hobbies: Learn Coding</p>
+</Person>
+
+The nested elements can be accessed in the props object as children.
+props.children
+
+For a class based component, we can access props like "this.props.something".
+We need not define props in any argument anywhere in the code for a class based component, we can directly start using this.props
+Because behind the scenes React use's lifecycle hooks to initialise the props object(lifecycle hooks will be discussed later).
+
+==================================================================================
+
+State can be used only with Class based components. React hooks is the new way of using state with functional components.
+
+State is a JS object. It can be accessed using the this keyword inside the class.
+
+Difference between prop and state is that, prop gets data from outside. state is data within the component.
+
+===================================================================================
+Handling events in React
+
+onClick={this.eventHandler}
+onChange = {this.eventHandler}
+
+eventHandler is a method/function in the class/function that will be called when the onClick event is triggered.
+Note: In JavaScript we can have functions inside functions(Functional components)
+
+====================================================================================
+
+How to change state??
+
+this.setState({takes in an object to merge over the old state})
+
+====================================================================================
+
+React Hooks(state management in functional components)
+
+To use state in functional components, we need to import useState from react library
+import React, {useState} from 'react';
+
+useState is a function, you define this function inside the functional component.
+useState is a function that takes in the state object. It returns an array of two elements.
+The first element is the state itself and the second element is the function to set the state.
+
+const [someState, setSomeState] = useState({state: {name: 'Antony', age: 24}})
+
+now we can use state in our JSX as someState.state.name and someState.state.age
+
+In JavaScript functional components(functions in general) can have other function definitions inside a function.
+Therefore we can handle events by running functions inside functional components.
+In the JSX use onClick={handleEvent}
+
+const handleEvent = () => {
+   setSomeState({state: {name: 'Divya', age: 23}})
+}
+
+The above code snippet completely replaces the state.
+That is the key difference between setState(class based components) vs setSomeState(functional components)
+setState will only merge the changed state with the old state, other state properties are maintained as it is. But setSomeState completely 
+rewrites the state. Other state properties that we did not want to change is discarded and a brand new state is generated.
+
+Therefore, if you have multiple state properties, use useState multiple times.
+Example
+
+const [firstState, setFirstState] = useState({ first: {name: 'Antony', age: 24}})
+const [secondState, setSecondState] = useState({second: {name: 'Divya', age: 23}})
+
+In this way, even if we setFirstState to something else the secondState is unchanged.
+
+=====================================================================================
+How to send custom data to event handling methods?
+There are two ways where we can send data to methods
+
+switchNameHandler = (newName) => {
+  setState({name: newName})
+}
+
+How do we send "newName" to the method?
+
+First process(avoid it, but I like this method)
+
+onClick={() => this.switchNameHandler('Antony Chiramel')}
+
+Second process
+
+onClick={this.switchNameHandler.bind(this, 'Antony Chiramel')}
+
+=====================================================================================
+
+You can pass references to methods via props.
+For example: If you want a method in your class component to run when someone does something in your functional component.
+You can pass the reference to that method as a property in your functional component.
+
+=====================================================================================
+render method is executed everytime something needs to be changed in the DOM.
+So if we define a variable with some JSX as its value, we can control this variable using JS logic and choose to display it or not.
+Always try to pull the JS logic outside JSX block.
+
+render() {
+	let persons = null;
+
+	if(this.state.showPersons) {
+  		persons = (
+			<div>
+  	   		   <h1>Hello World!! </h1>
+			</div>);
+	}
+
+	return (
+		{persons}
+	);
+}
+
+Now, persons is either null or the JSX based on the if condition.
+The other way of doing conditional logic in React is using the ternary operator(this is logic inside the JSX block, which should be avoided)
+
+return(
+  {this.state.showPersons === true ? (
+	<div>
+	   <h1>Hello World!!!</h1>
+	</div>
+  ) : null}
+)
+
+Both the code snippets do the same thing, display the div based on the showPersons condition.
+
+======================================================================================
+React will render an array of valid JSX as siblings in the DOM. But remember, that each array element should have a key attribute or property.
+
+return (
+  {[<h1 key=1>First Array Element</h1>, <p key=2>Second array element</p>, <h3 key=3>Third array element</h3>]}
+);
+
+React will render each of the above array element as siblings in the DOM.
+
+Using the same principle, we can use the array map method to render a list of elements.
+Map basically returns another array, of whatever you wish to do with each array element.
+
+Therefore,
+
+this.state.persons.map((person, index) => {
+  return <Person key={index} name={person.name} age={person.age} />
+})
+
+========================================================================================
+Never mutate the state directly.
+If the state happen to have an array property, first copy that array to another array.
+If we do array1 = array2, in JavaScript both array1 and array2 will reference the same array in memory. So if we do changes on array1, array2 will also get affected.
+So we need to create a brand new array with the values of the old array and then work on the new array.
+
+We use the spread operator for this.
+
+const array1 = [...array2];
+Now array1 is a brand new array with a different memory location and it will also have all the values of array2.
+
+Similarly
+
+const newArry = [...this.state.oldArry];
+const object1 = {...object2};
+
+==========================================================================================
+Array methods like splice and slice should be avoided to the max. 
+If we are using these methods on newArray and not directly on the state array it is fine.
+But if we use these methods directly on the state array, it will mutate the state, which is not desirable.
+
+Therefore use filter method. This method returns a brand new array based on the condition in the callback function. The state is preserved.
+
+const newArray = this.state.oldArray.filter((oldValue, index) => {
+  return oldValue.length < 7 ? oldValue : null;
+})
+
+The above code snippet generates a newArray with values of oldArray whose length is less than 7.
+The best part about this approach is, oldArray will remain as it is(state is not mutated).
+
+============================================================================================
+Dynamically changing styles of components.
+
+render() {
+const persons = {
+	backgroundColor: "green"
+  }
+
+  if(this.state.showPersons) {
+	persons.backgroundColor = "red"
+  }
+
+  return(
+    <div style={persons} onClick={this.changeShowPersons}>
+	<h1>Hello World!!!</h1>
+    </div>
+  )
+}
+
+
+In the above code snippet, when the div is clicked a method is executed to change the state, to toggle showPersons(which is a boolean).
+Initially the background color is set to green, but when the div is clicked and when the showPersons is toggled, the background color changes to red.
+
+===============================================================================================
+How to add style classes dynamically?
+
+const classes = [];
+
+if(some condition) {
+  classes.push('alert');
+  classes.push('alert-danger');
+}
+
+render() {
+  return(
+ 	<div className={classes.join(' ')}>
+	   <h1>Hi Everyon</h1>
+	</div>
+  )
+}
+
+=================================================================================================
+How do we add pseudo selectors and media queries for inline styles in React?
+
+We tend to use an additional package called radium.
+But there are several things to keep in mind when working with radium.
+
+import React, { Component } from 'react'; 
+import Radium, { StyleRoot } from 'radium';
+
+class App extends Component {
+   render() {
+	const style = {
+	    backgroundColor: 'red',
+	    width: '100%'
+	    ':hover': {
+		backgroubdColor: 'green'
+             }
+    	    '@media (min-width: 500px)': {
+		width: '60%'
+	     }
+        }
+   }
+
+   return (
+      <StyleRoot>
+	<div style={style}>
+           <h1>This world is good!!!</h1>
+        </div>
+      </StyleRoot>
+   )
+}
+
+export default Radium(App);
+
+Key points to note from the above code snippet. The default export App is wrapped inside another component called Radium.
+The entier JSX is wrapped inside <StyleRoot>. We have used both pseudo-selectors(:hover) and a media query in the inline styling.
+The above code snippet changes background color to green over hovering and will take up only 60% of the screenwidth below 500px.
+If we are not using any media queries we need not wrap the JSX in <StyleRoot> but if we are using media queries we need to wrap the entier application
+in <StyleRoot>. For example, if we are using media queries in the inline style of a sub component, then we should NOT wrap the JSX of the sub component
+with <StyleRoot> but should wrap the JSX of the App component with <StyleRoot>. This is what I meant by wrapping the entier application.
+
+If we are just using pseudo-selectors, we just need to wrap the default export component with the Radium component, no need for <StyleRoot>
+export default Radium(App);
+
+====================================================================================================
+Another way of adding styles with pseudo classes and media queries is to use another npm package
+npm install --save styled-components
+
+How do we use them?
+
+import React from 'react';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+   width: 60%;
+   text-align: center;
+   
+   @media (min-width: 500px) {
+      width: 450px;
+   }
+   
+   &:hover {
+      background-color: red;
+   }
+`;
+
+const person = (props) => {
+  return (
+  	<StyledDiv>
+	    <h1>Hello World!!!</h1>
+        </StyledDiv>  
+  );
+};
+
+export default person;
+
+Explanation:
+styled is an object we import, styled has several properties.
+All the html tags are properties of the styled object.
+Therefore styled.div, styled.button are all valid.
+
+There properties are actually methods that have template literals tagged to them.
+
+What is tagged template literals?
+Template literals have a lot of benefits along with these benefits is the ability to tag them.
+For example: const highlight = (strings, ...values) => {
+		const str = '';
+		string.forEach((string, index) => {
+			str += string + values[index];
+		});
+		
+		return str;
+	     }
+	     
+             const name = 'Antony', age = 24;
+	     const sentence = highlight`I am ${name} and I am ${age} years old.`;
+
+Notice how we tagged the template literal to the function call highlight.
+highlight now gets two values, both are arrays.
+strings = ['I am', 'and I am', 'years old'];
+values = ['Antony', 24];
+
+the varaiable sentence will be what is returned from the function highlight.
+
+Getting back to our CSS styling in React with styled-components.
+The methods in the sytled object are tagged with template literals with CSS styling.
+These methods return components with classes assigned to them internally by styled-components, these classes have the styles we defined inside the 
+template literals.
+
+========================================================================================================
+Now how do we have dynamic styling for our components when using styled-components?
+
+Imagine we have a button that is initially dark green in color. When we hover it the color changes to light green.
+This is easily possible with styled-components. However, what if I want to change the color to red when clicked, and when hovered after the click
+the color should be pink?
+
+For this dynamic change, we assign a prop to the component.
+Afterall, styled methods return components which we later use in our JSX.
+And we know we can send properties to our components.
+
+const StyledButton = styled.button`
+	background-color: ${props => props.clicked ? "red" : "darkgreen"};
+        &:hover {
+	    background-color: ${props => props.clicked ? "pink" : "lightgreen"};
+        }
+`;
+
+const buttonClicked = true;
+
+const final = () => {
+	return(
+	   <StyledButton clicked={buttonClicked}>
+		Click Me!!!
+	   </StyledButton>
+	);
+};
+
+The above code snippet is simple, we send the clicked property to our component. We get the clicked property in the props object.
+We check if clicked is true or false(in our code its true). The CSS property is set based on the output from the ternary operator.
+Everyting is JavaScript in React. I am already liking it.
+
+===========================================================================================================
+Now, another way to add styles to your React components.
+We all love seperate CSS and JS files, we do not want CSS inside JS it makes your JS files unreadable.
+
+Now we can seperate the css from js using CSS modules. The CSS classes defined in your CSS files are exported(you need to export it manually).
+Therefore in your JS files you import these classes.
+
+import CSS_classes from './Person.css';
+
+The CSS_classes is an object that now has properties, all the properties are classes defined in your css file.
+For example:
+In your css file
+
+.App {
+  color: red;
+}
+
+.Button {
+  background: yellow;
+}
+
+In your js file
+
+import CSS_classes from './Person.css';
+
+const person = (props) => {
+    return (
+	<div className={CSS_classes.App}>
+	    <button className={CSS_classes.Button}>Click Me!!</button>
+	</div>
+    );
+}
+
+Now the styles get applied. In the DOM you will see unique classes assigned to our elements not .App or .Button.
+You will see class names like Person__Person__e1d5a or Person__Person__d21aj. This ensures that styles are unique to each component.
+Let's say we want to define .App in another css file for another component, but with different styles.
+The unique class in DOM will be Component__Component__rwe23 which will not clash with the .App in the Person component which has a different unique class
+in the DOM.
+We can added multiple classes using array push method and then using array.join(" ") in the style property. 
+<button style={classes.join(" ")}>Click Me</button>
+Where classes is an array of css classes that can be pushed into or popped out based on conditions.
+
+To do all this, to work with CSS modules, we need to tweak the webpack config files.
+To get the config files, we need to run the "npm run eject" command.
+In the webpack dev config and webpack prod config js files under css section, under options we need to add two more properties
+
+modules: true,
+localIdentName: "[name]__[local]__[hash:base64:5]",
+
+modules will ensure we can use CSS modules and localIdentName will be the naming format for the unique classes in the DOM.
+
+Point to remember. We only do the above method if we are working with react applications that are using react-scripts version 1.x.x
+However, if our create-react-app uses react-scripts version 2.x or higher we DO NOT need to eject.
+We can import classes by default. However, we should name our CSS files differently: <CSSFileName>.module.css
+
+In our JS file it would then look like: import classes from './CSSFileName.module.css';
+
+===================================================================================================================
+Debugging React Apps.
+
+Use Googles Debugger tools debug your logical errors.
+Use React Developer tools as a Chrome Extension.
+
+What if one of your components throw an error during run-time, something which no one can predict?
+There is a smooth way to handle errors in React 16 and above, Error Boundaries.
+We create a new class based component name it whatever you want, common choice is ErrorBoundary.js.
+
+import React, {Component} from 'react';
+
+class ErrorBoundary extends Component {
+   state = {
+ 	hasError = false,
+	errorMessage ="",
+   };
+
+   componentDidCatch = (error, info) => {
+	this.setState({hasError: true, errorMessage: error});
+   };
+ 
+   render() {
+	if(this.state.hasError) {
+	    return <h1>{this.state.errorMessage}</h1>;
+        } else {
+	    return this.props.children;
+        }
+   };
+}
+
+export default ErrorBoundary;
+
+In the above code snippet we elegantly catch errors in React. Notice the componentDidCatch method, this is 
+a method already defined by React(it is a lifecycle hook), we cannot use another name we have to use the same name ie: componentDidCatch().
+In another file import ErrorBoundary. Wrap the JSX you feel will throw an error during run-time.
+
+<ErrorBoundary>
+ <Person clicked={this.runHnadler}>
+</ErrorBoundary>
+
+In the above code snippet we wrapped Person component with a higher order component <ErrorBoundary>, now if
+Person component throws an error the JSX inside your ErrorBoundary component will be rendered with the error message.
+If there are no errors, the children of ErrorBoundary ie Person Component will be rendered.
+
+=========================================================================================================================
+Try to minimize the JSX in the App component. Make various components to handle the JSX.
+The minimalist attitude.
+The App.js file should just have methods that manage and manipulate the state and also references to other custom components.
+=========================================================================================================================
+One key difference between Class Based components and Functionl Components is that Class based components have something called 
+Lifecycle Hooks. Please note, Lifecycle hooks have got nothing to do with React Hooks.
+Lifecycle hooks are pre-defined methods by react that when used in our code will be executed by React for us.
+Some lifecycle hooks are componentDidCatch(), componentDidMount(), componentDidUpdate(), render()
+
+When a component is created, first the constructor() executes. This is not a lifecycle hook, but a default JS feature
+constructor(props)
+Since we usually don't create the constructor in our react app's, react does it for us.
+But if we want to use the constructor we can
+
+constructor(props) {
+  super(props);
+  this.name = props.firstName;
+  this.age = props.age;
+  this.state = {
+    something: {},
+    somethingElse: {},
+  }
+}
+
+After the constructor, a lifecycle hook called getDerivedStateFromProps(props, state) runs.
+After getDerivedStateFromProps execute, the render() method gets executed. This renders the DOM components.
+Now render() may have child components to render, once the lifecycle of the child components are complete another lifecycle hook gets called,
+componentDidMount(), this is where we can do http requests.
+
+If you do a console.log in your class based components with all those hooks you will see in your log that these get called by react in the same
+order I mentioned above.
+
+=========================================================================================================================
+Just as there is a lifecyle when a component is created, there is a lifecycle when a component needs to be updated.
+Below is the lifecycle for updation when props changes.
+
+This lifecycle starts with
+getDerivedStateFromProps(props, state)
+
+The next lifecycle hook is
+shouldComponentUpdate(nextProps, nextState) -> Here you can decide if you want to continue with the update or not
+
+The next lifecycle method is render()
+Then it updates any child components in your render method JSX
+
+The next lifecycle hook that runs is getSnapshotBeforeUpdate(prevProps, prevState), we can use this to return back to the 
+previous way the DOM looked.
+
+The next lifecycle method is componentDidUpdate(), this is where you can make http requests.
+
+==========================================================================================================================
+The lifecycle for state change updation is very similar to props change updation, right before componentDidUpdate() another lifecycle hook executes
+shouldComponentUpdate(nextProps, nextState)
+
+==========================================================================================================================
+As mentioned earlier, lifecycle hooks are only available for class based components.
+For functional components, since React version 16 and above, we can use one of the React hooks to achieve the same functionality.
+
+useEffect()
+
+useEffect is the next most important react hook after useState(). One can do all the things a lifecycle hook did with this one react hook.
+
+useEffect() takes in a function with no arguments as its argument, and this function gets called everytime the component is re-rendered.
+
+useEffect(() => {
+   console.log('This component re-rendered again!!!!');
+});
+
+==========================================================================================================================
+There are challenges when using useEffect(), for example: what if we want to make an http request only when the component is created.
+Because useEffect() gets called for every re-render cycle(ie: update) we can't keep making the same http request always.
+
+Let us fake an http request using setTimeout
+
+useEffect(() => {
+   setTimeout(() => {
+	alert('Data saved to cloud!!');
+   }, 1000);
+});
+
+Now, everytime this component is created and re-rendered to the DOM you will see the alert after 1s. Not cool.
+
+To control this behaviour, we send a second argument to the useEffect() hook, an array.
+
+This array will hold values, and useEffect() will only get called when one of the values change.
+
+useEffect(() => {
+   setTimeout(() => {
+	alert('Data saved to cloud!!');
+   }, 1000);
+}, [props.person]);
+
+Now, person is an array sent to props, useEffect() will only run when there is a change to that value.
+If you want useEffect() to run only once when the component is created, then pass an empty array as the second argument.
+
+useEffect(() => {
+   setTimeout(() => {
+	alert('Data saved to cloud!!');
+   }, 1000);
+}, []);
+
+===========================================================================================================================
+Another lifecyle hook is componentWillUnmount()
+This hook gets called when the component is removed(Remember: mount is creation unmount is removal).
+If you have any code to run after a component is removed, you can execute it here. Like some clean up work.
+
+If you wan to do some clean up work using react hooks, we can do so with the useEffect() again!!!
+
+We can return an anonymous function from useEffect() which will execute only after the component is removed from the dom.
+
+useEffect(() => {
+   console.log('This is the useEffect React Hook');
+   return (() => {
+	console.log('This is the clean up work');
+   }); 
+});
+
+If you want the clean up to run for every update, then don't pass the empty array as the second argument to useEffect().
+If you pass an empty array as the second argument, the clean up work just happens once when the component is removed. 
+========================================================================================================================
+shouldComponentUpdate() can be used for performance optimization.
+Let's say a component really only depends on one property, just because its parent component re-renders doesn't mean its fair
+for a component that is unchanged to also re-render.
+shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.persons !== this.props.persons) {
+	return true;
+    } else {
+	return flase;
+    }
+}
+
+The above piece of code, ensures that the component dependent on persons property will get re-rendered only when the nextProps.persons is not
+the same as the present persons(ie when persons change).
+
+If we need to check for changes in all the props of a component then our shouldComponentUpdate() would look like this
+shouldComponentUpdate(nextProps, nextState) {
+   if(nextProps.persons !== this.props.persons || nextProps.clicked !== this.props.clicked || nextProps.changed !== this.props.changed) {
+	return true;  //the component will update
+   } else {
+ 	return false; //the component will not update
+   }
+}
+
+The above code snippet works fine, but React makes our life much easier
+instead of import React, { Component } from 'react';
+use
+import React, { PureComponent } from 'react';
+
+When we use PureComponent, we need not use shouldComponentUpdate(), because PureComponent packages itself with all props change check.
+
+=========================================================================================================================
+Functional components should be wrapped at the time of exporting with
+export default React.memo(<Component_Name>)
+If your function component renders the same result given the same props, you can wrap it in a call tp React.memo for performance boost in some 
+cases by memorizing the result. This means that React will skip rendering the component and reuse the last rendered result.
+React.memo only check for prop changes. If your function component is wrapped in React.memo has a useState or useContext hook, it will
+still rerender, when the state or context change.
+
+=========================================================================================================================
+React has a virtual DOM, it uses it because its faster than the real DOM.
+When the render method is called, React updates the "Re-render Virtual DOM", it then compares this "Re-render Virtual DOM" with
+the "Old Virtual DOM" if it found any differences, React will only update the real DOM with the updates, it does not re-render the entire application.
+
+==========================================================================================================================
+When you return your JSX you have to wrap it in one element.
+<div>
+  All Your JSX goes here
+</div>
+
+React gives us another option to avoide the wrapping div, by using React.Fragment
+
+<React.Fragment>
+   All Yours JSX goes here
+</React.Fragment>
+
+============================================================================================================================
+Higher Order Components
+These are components that wrap other components.
+We can do certain logic in our higher order components if we wish to.
+Higher order components return props.children so that the child component gets rendered.
+
+const hoc = (props) => {
+   return(
+	<div className={props.classes}>
+	   {props.children}
+	</div>
+   );
+};
+
+We use hoc as the Higher Order Component
+
+<hoc classes="App">
+    <Sub Components>
+</hoc>
+
+Another way of creating a higher order component is by creating a normal function that takes several arguments and returns a functional component.
+
+const hoc = (WrappedComponent, classes) => {
+   return(() => {
+	return(
+	   <div className=classes>
+	       <WrappedComponent />
+	   </div>
+	);
+   });
+}
+
+The above code snippet is not a component, therefore the file name should start with a lowercase letter.
+Import this file where we need this higher order component. Remember this is a normal JS function that returns a functional component.
+In the imported location, wrap the exported component with this function.
+
+export default hoc(Person, "App");
+============================================================================================================================

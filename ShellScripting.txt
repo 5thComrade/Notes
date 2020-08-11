@@ -1,0 +1,17 @@
+To open the bash shell in a docker image of ubuntu, run the below command
+docker run -it ubuntu /bin/bash
+adduser antony
+whoami
+su - antony
+exit
+
+========================================================================================================================================
+What is the shell?
+Shell is a program that takes keyboard commands and passes them to the operating system to carry out.
+Almost all linux(Ubuntu) supply a shell program from the GNU Project called bash(Bourne Again Shell).
+
+We need another program called a terminal emulator or simply terminal to interact with the shell.
+If the last character of the shell prompt is # instead of $, that means we are logged in as the root user or we selected a terminal
+emulator that provides superuser(administrative) privileges.
+=========================================================================================================================================
+

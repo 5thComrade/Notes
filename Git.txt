@@ -1,0 +1,230 @@
+Git
+Git is a Distributed Version Control System. This means, every time someone clones a repository that someone mirrors the entire repository 
+including its full history.
+So now if something happens to the main repository, someone can copy the client repository to restore the main repo.
+
+===========================================================================================================================================
+Difference between Git and other VCS's?
+
+Other VCS's think of the information they store as a set of files and the changes made to each file over time.
+Git doesn't think of or store its data this way. Instead, Git thinks of its data more like a series of snapshots of a miniature filesystem.
+With Git, every time you commit, or save the state of your
+project, Git basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. 
+To be efficient, if files have not changed, Git doesn’t store the file again, just a link to the previous identical file it has already stored. 
+Git thinks about its data more like a stream of snapshots.
+
+===========================================================================================================================================
+The 3 states in which your files reside in
+
+1: Modified: means that you have changed the file but have not committed it to your database yet.
+2: Staged: means that you have marked a modified file in its current version to go into your next commit snapshot.
+3: Committed:  means that the data is safely stored in your local database.
+
+===========================================================================================================================================
+If you want to check your configuration settings, use the following command
+git config --list
+
+Getting help when using git commands
+
+git help <command>
+git <command> --help
+
+The above two commands open the browser and shows a really vast discription of the command.
+
+git <command> -h
+
+The above shows some basic help in the terminal.
+===========================================================================================================================================
+How to get a Git Repository?
+
+1: You can take a local directory that is currently not under version control, and turn it into a Git repository.
+2: You can clone an existing Git repository from elsewhere.
+
+Making a local directory to have a git repository, go to the folder in your terminal and type the following command
+git init
+
+This creates a subdirectory named .git that contains all of your necessary repository files.
+This doesn't mean git is now tracking your files.
+
+Cloning an existing git repository
+
+git clone <url>
+git clone <url> <NameOfDir>
+
+The first clone command creates a directory with the original name of the repo and initializes a .git directory inside it.
+The second clone command does exactly the same as above, but you get to choose the name of the directory in your local machine instead of the default.
+
+===========================================================================================================================================
+The way to check which files are in what state is the "git status" command.
+If we add a brand new file to the repository and run git status, you will see that file name mentioned under "Untracked files"
+To start tracking it we run the command "git add <file_name>".
+This command will make git start tracking the file.
+
+Once you run the git add command the file will be moved to the staging area.
+If you run the git status command now, you will find the file under "Changes to be committed" section.
+
+Now if you modify an already existing file and run git status.
+You will see that file mentioned under "Changes not staged for commit" section. This was a tracked file that got modified.
+Again we use git add <file_name> to move the modified file to staging area.
+
+===========================================================================================================================================
+Ignoring files/folders from begin tracked by git
+
+Include a .gitignore file in your root directory, add the names of all the files and folders that you don't want git to track
+
+Folder1/   -> All the files and subfolders inside Folder1 will now not be tracked by git
+*.pdf      -> All the files with a .pdf extension will now not be tracked by git
+index.css  -> The index.css file will not be tracked by git
+
+==========================================================================================================================================
+To find out what exactly have you changed use the git diff.
+Once you make some changes in your files, run git diff, this command will compare what is in your currect working directory with your last commit
+or with the files in the staging area. The result will show you what exactly did you change.
+
+git diff --staged
+
+This command compares your staged changes to your last commit. Stage all your mofified and recently added files and run the above command,
+I was happy!!!	
+
+==========================================================================================================================================
+Commit your changes
+
+git commit -m "Your commit message"
+
+The above command will commit the changes to your local repository with the message.
+
+===========================================================================================================================================
+Skipping the staging area
+
+git commit -a
+
+The above command lets you commit all the tracked changes without git add command
+
+===========================================================================================================================================
+If you want git to stop tracking a file
+
+git rm <file_name>
+
+This command will remove the file from your working directory and git will also stop tracking it.
+If the file you want to remove is in the staging area, you will have to force remove it
+
+git rm -f <file_name>
+
+===========================================================================================================================================
+Viewing the commit history.
+
+git log
+
+The above command logs about the commit details from the past. 
+This command displays the SHA-1 checksum, authors name, email, date written and the commit message.
+The latest commits appear first and the older commits follow. You can quit the log by clicking "q" on your keyboard.
+
+-p or --patch option
+git log -p
+This command shows the difference between each commit
+
+-2
+git log -2
+This command shows the last two commits
+git log -p -2, this command shows the difference between the last two commits
+
+git log --stat
+This command displays an abbreviated stat of each commit. It displays how many files were changed, and how many lines in those files
+were added and removed.
+
+Another important log option is --pretty
+
+git log --pretty=format:"%h %an %ae %ad %s"
+
+The above command displays the log in the specified format
+
+%H : Commit hash
+%h : Abbreviated commit hash
+%an: Author name
+%ae: Author email
+%ad: Author date
+%cn: Committer name
+%ce: Committer email
+%cd: Committer date
+%s: Subject or Commit message
+
+The author is the person who originally wrote the work, whereas the committer is the person who last applied the work
+ 
+==========================================================================================================================================
+Other useful log options are --since, --author, --before
+
+git log --since=2.weeks
+git log --since="2008-01-15" --before="2009-01-15" --author="Antony Chiramel"
+git log --author="Antony Chiramel"
+
+There are several other git log options/filters feel free to Google them if necessary.
+There are something called merge commits, which are pretty useless, if you want them to be avoided in your logs then use
+git log --no-merges
+
+==========================================================================================================================================
+Undoing things in Git
+
+One of the undo's you would want to do is when you find that your previous commit was wrong. In that case, make the necessary changes 
+then stage the files. Then run the below command
+git commit --amend -m "new commit message, this will rewrite the previous commit"
+
+The command to unstage a staged file is
+git restore --staged <file>
+
+The command to unmodify a mofified file is
+git restore <file>
+
+==========================================================================================================================================
+Git Remotes
+
+Remote repositories are versions of your project that are hosted on the Internet or network somewhere.
+To see the remote servers run the below command
+git remote
+
+It lists the shortnames of each remote handle you've specified. If you have cloned your repository, you should atleast see origin -
+that is the default name Git gives to the server you cloned from.
+
+Use the -v option to show the urls that Git has stored for the shortname to be used when reading and writing to that remote.
+
+git remote -v
+
+To add a new remote Git repository as a shortname you can reference easily, run the below command
+git remote add <shortname> <url>
+Ex: git remote add origin <url>
+
+To get data from your remote projects, run the below command
+git fetch <remote>
+Ex: git fetch origin
+
+If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin fetches 
+any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the git 
+fetch command only downloads the data to your local repository — it doesn’t automatically merge it with any of your work or modify what 
+you’re currently working on. You have to merge it manually into your work when you’re ready.
+
+If your current branch is set up to track a remote branch you can use the git pull command to automatically fetch and then merge that
+remote branch into your current branch. Running git pull generally fetches data from the server you originally cloned from and
+automatically tries to merge it into the code you’re currently working on.
+
+git pull <remote>
+
+When you have your project at a point that you want to share run the below command
+
+git push <remote> <branch>
+Ex: git push origin master (If you want to push your master branch to your origin server)
+
+If you want to see more information about a particular remote, run the below command. It lists the URL for the remote repository 
+as well as the tracking branch information. This is arguably the most useful remote command.
+
+git remote show <remote>
+
+Renaming a remote
+git remote rename <oldname> <newname>
+
+Removing a remote
+git remote rm <remote>
+
+========================================================================================================================================
+
+
+
+
