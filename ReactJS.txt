@@ -98,7 +98,7 @@ this.setState({takes in an object to merge over the old state})
 
 React Hooks(state management in functional components)
 
-To use state in functional components, we need to import useState from react library
+To use state in functional components, we need to import useState() hook from react library
 import React, {useState} from 'react';
 
 useState is a function, you define this function inside the functional component.
@@ -681,7 +681,7 @@ still rerender, when the state or context change.
 =========================================================================================================================
 React has a virtual DOM, it uses it because its faster than the real DOM.
 When the render method is called, React updates the "Re-render Virtual DOM", it then compares this "Re-render Virtual DOM" with
-the "Old Virtual DOM" if it found any differences, React will only update the real DOM with the updates, it does not re-render the entire application.
+the "Old Virtual DOM" if it found any differences, React will only update the real DOM with the differences, it does not re-render the entire application.
 
 ==========================================================================================================================
 When you return your JSX you have to wrap it in one element.
@@ -690,6 +690,7 @@ When you return your JSX you have to wrap it in one element.
 </div>
 
 React gives us another option to avoide the wrapping div, by using React.Fragment
+Using React.Fragment instead of the wrapping div is also a performance boost.
 
 <React.Fragment>
    All Yours JSX goes here
@@ -733,3 +734,177 @@ In the imported location, wrap the exported component with this function.
 
 export default hoc(Person, "App");
 ============================================================================================================================
+Hnadling props in Higher Order Components
+Remember before the wrapped component is even exported, it is wrapped around the higher order function.
+The wrapped component before hoc, was exporting a functional component, the return statement of the hoc is also a functional component.
+Therefore the props set in the parent component will flow to both these functional components.
+
+const hoc = (WrappedComponent, classes) => {
+   return((props) => {
+	return (
+	   <div className=classes>
+	       <WrappedComponent {...props}/>
+	   </div>
+        );
+   });
+}
+
+================================================================================================================================
+In your class based components when you have a setState method which depends on the previous state then the correct way to setState is 
+different.
+
+For Example:
+
+this.setState({
+   persons: newPersons,
+   counter: this.state.counter + 1,
+});
+
+The above code snippet clearly shows that set state depends on the previous state because it uses this.state.counter
+React does not gurantee that the previous state may or may not be the exact state, it could be an older state.
+
+Therefore the right way to handle setState when its dependant on previous state is
+
+this.setState((prevState, props) => {
+   return({
+	persons: newPersons,
+        counter: prevState.counter + 1,
+   });
+});
+
+Now this will ensure that the prevState refers exactly to the previous state.
+
+==================================================================================================================================
+Ensuring you are passing the right props is important.
+We use an external library also provided by the React Team
+
+npm i --save prop-types
+
+Then you import it and use it as follow, after your component definition but before exporting the component
+
+import PropTypes from "prop-types";
+
+<Component Name>.propTypes = {  //note we used a starting lowercase propTypes
+   name: PropsTypes.string,     //note we used the import here PropTypes
+   clicked: PropTypes.func,
+   age: PropTypes.number
+};
+
+=====================================================================================================================================
+Creating References for your html tags
+
+What if we want to click a button using code? What if we want to focus an input field?
+I will explain the React Hooks method to reference an html tag, because the class based approach for ref was confusing.
+
+So in your functional components, import another React Hook, useRef()
+
+const toggleBtnRef = useRef(null);
+
+useEffect(() => {
+   toggleBtnRef.current.click();
+}, []);
+
+return(
+  <div>
+     <button ref={toggleBtnRef}>Click Me</button>
+  </div>
+);
+
+The above code snippet clicks the button with the reference right after this component is rendered.
+Since the function passed into useEffect runs only after the JSX is rendered and since we pass an empty array as the second argument to useEffect
+The button gets clicked only once, the first time the component is rendered.
+
+=======================================================================================================================================
+Context API
+Imagine there are 3 components in your application A,B, and C.
+If you have a property in Component A that you want to send to Component C(refer to the code snippet below), then you would first need to
+send it to Component B(where the prop is uselss) and from Component B you have to give it to component C.
+
+const property = X;
+<ComponentA>
+   <ComponentB myValue={property}/>
+</ComponentA>
+
+
+<ComponentB (props)>
+   <ComponentC iNeedThis={props.myValue}/>
+</ComponentB>
+
+<ComponentC (props)>
+   const property = props.iNeedThis;
+</ComponentC>
+
+Look at how the const property is getting passed on from A to C. It is pointlessly passing through B.
+We can avoide this props chaining using Context API provided by React.
+
+We create a seperate folder and js file for the context.
+In the context js file
+
+import React from "react";
+
+const propContext = React.createContext({
+   propertySet: Y,   //this is default value, if we use a context api somewhere without passing a value the default value will be used
+});
+
+export default propContext;
+
+In the files where you want to use the context import the context just like any other component(with first character upper case).
+
+const property = X;
+<ComponentA>
+    <ImportedContext.Provider value={
+       {
+	  propertySet: property
+       }
+    }>
+        <ComponentB />
+    </ImportedContext.Provider>
+</ComponentA>
+
+
+<ComponentC>
+   <ImportedContext.Consumer>
+	{
+           (context) => {
+               const property = context.propertySet;
+            }
+        }
+   </ImportedContext.Consumer>
+</ComponentC>
+
+Now look at how we skip the B component, please look at the subtle uses of code in the above snippet.
+Feel free to Google about Context API for further reference as this is an important topic.
+
+=============================================================================================================================================
+Notice how we are using the context api above.
+We are using it as a JSX component and wrapping the JSX componets that needs access to the context. What if we want access to context in our component
+but outside JSX?
+
+In your class based components there is a much more elegant way of accessing context, that too outside JSX.
+
+import ImportedContext from 'contextfile.js';
+
+class Yolo extends Component{
+   static contextType = ImportedContext; //static contextType should be exactly like this, its not optional to change the name
+   console.log(this.context.propertySet); //this.context is set by React for us, again its not optional to change the name
+   
+   render() {
+      return(
+         <div>{this.context.propertySet}</div>
+      )
+   }
+}
+
+=============================================================================================================================================
+In Functional based components we need to use the useContext() hook.
+
+import React, { useEffect, useContext } from 'react';
+import ImportedContext from 'contextfile.js';
+
+const person = (props) => {
+   const authContext = useContext(ImportedContext); //using the hook passing the imported context as argument
+   console.log(authContext.propertySet);
+   //We can use it inside the JSX too
+}
+
+==============================================================================================================================================

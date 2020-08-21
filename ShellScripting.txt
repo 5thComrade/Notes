@@ -14,4 +14,77 @@ We need another program called a terminal emulator or simply terminal to interac
 If the last character of the shell prompt is # instead of $, that means we are logged in as the root user or we selected a terminal
 emulator that provides superuser(administrative) privileges.
 =========================================================================================================================================
+NAVIGATION
+
+The first directory in the file system is called the root directory.
+To display the current working directory: pwd
+To list the files and directories in the current working directory: ls
+To change the working directory: cd
+Absolute Path - An absolute pathname begins with the root directory and follows the tree branch by branch until the path to 
+                the desired directory or file is completed. cd /usr/bin
+Relative Path - A relative path starts from the working directory. 
+                "." notaion refers to the working directory, cd ./home
+                ".." notation refers to the working director's parent directory, cd ..
+
+To navigate to the previous working directory: cd -
+Files that begin with the period character are hidden, to display hidden files: ls -a
+
+=========================================================================================================================================
+More about the ls command
+We can use the ls command to list the directory of our choice, it need not always be the current working directory
+ls /usr
+This commands list the files and folders in the /usr directory
+You can also list multiple directories by adding a space between them in the command
+ls /home /usr
+This command lists the files and folders of both the /home directory and the /usr directory
+
+There are several options we could use with the ls command
+ls -l //displays results in long format
+ls -S //sort results by file size
+ls -t //sort by modification time
+ls -ld //ls usually displays the files and directories inside X directory, use this command if you want to know about the X directory instead of its contents
+ls -a //lists all files even the hidden ones
+ls -lh //in the long format displays file sizes in human readable formats rather than bytes
+ls -r //reeverses the order
+ls -lhSr //this is a combination of options, long human readable sorted files with the files arranged in ascending order of file sizes.
+
+==========================================================================================================================================
+The file command displays a brief discription of the file's contents
+
+file picture.jpg
+
+==========================================================================================================================================
+less command
+The less command is a program to view text files.
+
+less <filename>
+
+Many of the configuration files and the actual programs called scripts are text files.
+To be able to read them gives us insight about how the system works.
+To exit less press the "q" key.
+==========================================================================================================================================
+Wildcards in Shell Scripting
+
+*              - Matches any characters
+?              - Matches any single character
+[characters]   - Matches any character that is a member of the set characters
+[!characters]  - Matches any character that is not a member of the set characters
+[[:class:]]    - Matches any character that is a member of the specified class
+
+Commonly used character classes
+[:alnum:]      - Matches any alphanumeric character
+[:alpha:]      - Matches any alphabetic character
+[:digit:]      - Matches any numeral
+[:lower:]      - Matches any lowercase letter
+[:upper:]      - Matches any uppercase letter
+
+Examples:
+*   All files
+g*  All file beginning with "g"
+[abc]*  All file beginning with an "a", or a "b" or a "c"
+[[:upper:]]* All file beginning with an uppercase character
+[![:digit:]]* Any file not beginning with a numeral
+*[[:lower:]123]  Any file ending with a lowercase letter or numeral 1, 2 or 3
+
+==========================================================================================================================================
 

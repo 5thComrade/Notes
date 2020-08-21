@@ -1,5 +1,5 @@
 Git
-Git is a Distributed Version Control System. This means, every time someone clones a repository that someone mirrors the entire repository 
+Git is a Distributed Version Control System. This means, every time someone clones a repository that person actually mirrors the entire repository 
 including its full history.
 So now if something happens to the main repository, someone can copy the client repository to restore the main repo.
 
@@ -8,8 +8,8 @@ Difference between Git and other VCS's?
 
 Other VCS's think of the information they store as a set of files and the changes made to each file over time.
 Git doesn't think of or store its data this way. Instead, Git thinks of its data more like a series of snapshots of a miniature filesystem.
-With Git, every time you commit, or save the state of your
-project, Git basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. 
+With Git, every time you commit, or save the state of your project, Git basically takes a picture of what all your 
+files look like at that moment and stores a reference to that snapshot. 
 To be efficient, if files have not changed, Git doesn’t store the file again, just a link to the previous identical file it has already stored. 
 Git thinks about its data more like a stream of snapshots.
 
@@ -58,7 +58,7 @@ The second clone command does exactly the same as above, but you get to choose t
 The way to check which files are in what state is the "git status" command.
 If we add a brand new file to the repository and run git status, you will see that file name mentioned under "Untracked files"
 To start tracking it we run the command "git add <file_name>".
-This command will make git start tracking the file.
+This command will make git start tracking the file, it will also stage the file for the next commit.
 
 Once you run the git add command the file will be moved to the staging area.
 If you run the git status command now, you will find the file under "Changes to be committed" section.
@@ -83,7 +83,7 @@ or with the files in the staging area. The result will show you what exactly did
 
 git diff --staged
 
-This command compares your staged changes to your last commit. Stage all your mofified and recently added files and run the above command,
+This command compares your staged changes to your last commit. Stage all your modified and recently added files and run the above command,
 I was happy!!!	
 
 ==========================================================================================================================================
@@ -121,9 +121,8 @@ The latest commits appear first and the older commits follow. You can quit the l
 
 -p or --patch option
 git log -p
-This command shows the difference between each commit
+This command shows the difference between each commit(what was added, what was removed what has changed)
 
--2
 git log -2
 This command shows the last two commits
 git log -p -2, this command shows the difference between the last two commits
@@ -131,6 +130,9 @@ git log -p -2, this command shows the difference between the last two commits
 git log --stat
 This command displays an abbreviated stat of each commit. It displays how many files were changed, and how many lines in those files
 were added and removed.
+
+git log --oneline
+This command displays a shortened version of the commit hash and the commit message
 
 Another important log option is --pretty
 
@@ -158,7 +160,8 @@ git log --since="2008-01-15" --before="2009-01-15" --author="Antony Chiramel"
 git log --author="Antony Chiramel"
 
 There are several other git log options/filters feel free to Google them if necessary.
-There are something called merge commits, which are pretty useless, if you want them to be avoided in your logs then use
+There are something called merge commits which also will get displayed for git log, which are pretty useless, 
+if you want them to be avoided in your logs then use
 git log --no-merges
 
 ==========================================================================================================================================
@@ -224,7 +227,294 @@ Removing a remote
 git remote rm <remote>
 
 ========================================================================================================================================
+We can tag our commits. Let's say all the commits to the master branch are different versions of the app, then it becomes necessary to
+tag those commits with the version number v1.0.0, v1.2.1
 
+To list all the tags
+git tag
+git tag -l "1.0.*"
+
+The first command displays all the tags, the second command displays all the tags that are 1.0.something
+
+Creating tags...git supports two types of tags, lightweight and annotated.
+It is recommeneded to use annotated tags, creating an annotated
+
+git tag -a v1.0.1 -m "Initial Beta Release"
+
+The above command tags the last commit as v1.0.1
+You can use the git show command to view the tag and the commit associated with it
+
+git show v1.0.1
+
+You can tag commits later, lets say you skipped to tag a commit to a version number
+
+git tag -a v0.0.1 7d971b -m "First Release"
+
+In the above command, 7d071b is the first few characters of the commit hash.
+
+By default, the git push command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server 
+after you have created them. This process is just like sharing remote branches — you can run 
+git push origin <tagname>.
+
+git push origin v1.0.1
+
+If you have a lot of tags to push at once
+
+git push origin --tags
+
+Deleting tags
+git tag -d <tagname>
+
+Now the above command does not delete the tag from the remote server, to do so
+git push origin --delete <tagname>
+
+========================================================================================================================================
+Git Aliases
+Instead of typing long commands everytime, we can create aliases for those commands and run those commands using git
+
+For example:
+git log --pretty=format:'%H %cn %cd %s'
+
+The above command shows all the past commits, with their hash, committer name, commit date and commit message.
+It becomes difficult to retype it always.
+Hence git aliases
+
+git config --global alias.commits "log --pretty=format'%H %cn %cd %s'"
+
+The above command creates an alias called commits for "log --pretty=format:'%H %cn %cd %s'"
+Next time we can just run
+git commits
+
+==========================================================================================================================================
+Git Branching
+A branch in Git is simply a lightweight movable pointer to one of your commits.
+The default branch name in Git is master. As you make commits, you're given a master branch that points to the last commit you made.
+
+Creating a new branch
+When you create a new branch you are creating a new pointer for you to move around. It creates a new pointer to the same commit you're currently on
+
+git branch testing
+
+The above command only created the branch, it did not switch it.
+Git keeps track of the currently used branch using the HEAD Pointer.
+To determine which branch you are currently on either run git branch or git log --oneline
+git branch command highlightes the current branch
+git log --oneline command clearly shows to what branch the HEAD pointer is pointing.
+
+To switch to a new branch
+
+git checkout testing
+
+Now the HEAD points to testing branch. Now whatever commits you do in this branch the testing branch will keep pointing to the latest commit
+under this branch. The master branch will be pointing to last commit made under the master branch.
+This ensures one thing, we can mess up things in testing branch, see if it works or not, and keep only neat code in the master branch.
+I am already in love with Git.
+Remember: git log command logs the commit history of that particular branch. If you want to see the commit history of testing branch
+          while you are still in the master branch then run git log testing
+
+Another cool feature, when you git checkout between branches, notice the code above in the editor, it will be the snapshots your branch is 
+pointing at(it keeps changing between branches).
+
+To see the difference between branches run the below command
+
+git log --oneline --decorate --graph --all
+
+To create a branch and switch to it at the same time, run the below command
+git checkout -b <branch_name>
+
+==========================================================================================================================================
+Merging
+Lets say you have a master branch, a hotfix branch and an issue56 branch. All these branchs are pointing at X commit.
+You go to the hotfix branch, make the code changes, commit the changes and test the hotfix.
+Now you want to merge it to the master branch, then first go to the master branch and then merge using git merge
+
+git checkout master
+git merge hotfix
+
+Git "fast-forwards" the master pointer now, that is the pointer of the master now moves forward to the commit in the hotfix.
+Now, the pointer goes to Y commit, now both the hotfix branch and master branch are pointing to Y Commit whereas issue56 branch is still pointing at X commit.
+
+After merging with the master, delete the hotfix branch, cause you no longer need it
+git branch -d hotfix 
+
+In our hotfix merge, the master pointer just moved to the hotfix commit. 
+Now imagine if there were other branch that were unaware of the hotfix, still pointing at an older commit where the master pointed before the hotfix.
+Now lets say we completed the work in this branch and we want to merge it to the master.
+In this case the master pointer does not just move to the new branch commit, git creates a new commit with the changes made in the new branch 
+in the master branch. This commit is called the merge commit. (Pro Git page: 74).
+That is, we start working on issue56 which is pointing at X commit, after the work is completed in issue56 we need to merge it with the master.
+Since the master pointer and issue56 pointer does not point to the same commit(parent) what git does is it creates a new commit after merging the code 
+in master and issue56 and the master moves to this new commit Z. This kind of commit is called merge commit.
+
+Now lets say the hotfix and issue56 branch changed the same line of code.
+Then there will be a merge conflit, this happens when two or more branchs change the same piece of content, at this poiny the developer 
+should choose which line he wants to keep and which line he wants to discard.
+If the changes were different, then both the changes will appear in master branch.
+
+The common ancestor of Master Branch and issue56 is the X commit.
+What git does is, it compares the snapshots of both these branches with the common ancestor.
+Now what do you think will happen when git finds that both these branches have the same line of code changed?
+Git cannot merge it and do the new commit, that is why the merge conflict should be resolved.
+
+If you changed the same part of the same file differently in the two branches you’re merging, Git won’t be able to merge them cleanly.
+When there is a merge conflict Git will show you in the file editor what is causing the issue, at this stage the merge is paused.
+Run git status to see the paused merge
+To abort the merge
+git merge --abort
+==========================================================================================================================================
+Branch Management
+To view the last commit of each branch along with the branch names
+git branch -v
+
+To see which branches are already merged into the branch you’re on, you can run 
+git branch --merged
+
+To see all the branches that contain work you haven’t yet merged in, you can run 
+git branch --no-merged
+
+===========================================================================================================================================
+Remote Branches
+When you clone your repository from a server, git clone automatically names it origin for you and pulls down all its data, creates a pointer
+to where its master branch is and names it origin/master locally.
+Git also gives you your own local master branch starting at the same place as origin’s master branch, so you have something to work from.
+
+            Server
+            
+                                           (master)
+            commit1s--------commit2s--------commit3s
+ 
+            My Computer
+
+                                       (origin/master - Remote Branch)
+            commit1l--------commit2l--------commit3l
+                                       (master - Local Branch)
+
+
+Now lets say you did some work in your local master branch and in the meantime someone else pushes to the server, then your histories move
+forward differently.
+
+            Server
+ 
+                                                                            (master)
+            commit1s--------commit2s--------commit3s--------commit4s--------commit5s
+
+            My Computer
+
+                                         (origin/master)
+            commit1s--------commit2s--------commit3s--------commit4l--------commit5l
+                                                                            (master)
+
+
+To synchronize your work with a given remote, you run a git fetch <remote> command (in our case git fetch origin)
+This command looks up the server, fetches any data from it that you don't yet have and updates your local database moving your origin/master 
+pointer to its new, more up-to-date position.
+
+            Server
+
+                                                                            (master)
+            commit1s--------commit2s--------commit3s--------commit4s--------commit5s
+
+            My Computer
+
+                                                                         (origin/master)
+            commit1s--------commit2s--------commit3s--------commit4s--------commit5s
+                                               |
+                                               |
+                                               --------commit4l--------commit5l
+                                                                       (master)
+
+
+=================================================================================================================================================
+Pushing
+When you want to share one of your branches with the world, you have to push it up to a remote to which you have write access
+
+git push <remote> <branch>
+
+git push origin master
+This command pushes the local master branch with the remote master branch
+
+git push origin serverfix:production
+This command pushes the local serverfix branch to the remote production branch
+
+Now lets say after you pushed your serverfix branch to the production branch in the remote server, now a friend wants to continue working
+on your serverfix code on his computer.
+He has to 
+git fetch origin
+
+Now git will fetch all the data from the origin that he already did not have. The serverfix code is in the production branch in remote.
+Your friend will not have a production branch in his system after fetch, he will only have the origin/production pointer.
+Your friend needs to create a new local branch and move to that branch
+git checkout -b serverfix
+
+He has now moved into the serverfix branch
+Now merge origin/production branch here
+
+git merge origin/production
+
+Now your serverfix code you pushed into the remote is now on his system in his serverfix branch.
+
+==================================================================================================================================================
+Tracking Branches
+Lets say you have a local branch called serverfix and you want your serverfix branch always to keep a track
+of the origin-production branch.
+The example in the previous section where your friend had to fetch from the origin and the merge it into a local branch.
+That is easily two steps.
+Git provides an easier way to skip these steps, branch tracking.
+Tracking branches have a direct relationship with the remote branches.
+
+If you have a tracking local branch, you just have to run git pull from that branch, and git will know which server to fetch from
+and which branch to merge in.
+
+To make a local branch a tracking branch, run the below command
+git checkout --track <remote>/<branch>  //this will create a local branch with the same name as your remote branch and track it
+
+or
+
+git checkout -b <branch> <remote>/<branch>  //If you dont want the same name as your remote branch for your local branch use this command
+
+If you already have a branch and you want to track a remote branch then run below command inside the branch
+git branch -u origin/production
+
+===================================================================================================================================================
+If you want to inspect your branches the best command is
+
+git branch -vv
+
+This will show us what branches are tracking what, how ahead or behind the local branch is and the last commit message in each branch.
+
+====================================================================================================================================================
+Rebasing
+In git there are two main ways to integrate changes from one branch into another: merge and rebase
+
+In merging git performs a three way merge between the two latest branch snapshots and the most recent common ancestor, creating a new snapshot.
+
+In rebase, whatever changes that were committed in one branch can be taken and replayed on a different branch.
+
+For rebasing                                    (experiment branch)
+                                       commit4--------commit5
+                                          |
+         commit1--------commit2--------commit3
+                                   (master branch)
+
+git checkout experiment
+git rebase master
+
+                                                                     (experiment)
+         commit1--------commit2--------commit3--------commit4'--------commit5'
+                                   (master branch)
+ 
+git checkout master
+git merge experiment
+
+                                                                    (experiment)
+         commit1--------commit2--------commit3--------commit4'--------commit5'
+                                                                      (master)
+
+Now you can delete the experiment branch.
+Now your commit history looks like you did everything based out of the master branch.
+Try to avoid rebasing, its confusing as hell
+
+=====================================================================================================================================================
 
 
 
