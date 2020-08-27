@@ -60,6 +60,9 @@ If we add a brand new file to the repository and run git status, you will see th
 To start tracking it we run the command "git add <file_name>".
 This command will make git start tracking the file, it will also stage the file for the next commit.
 
+You can use git add .
+The above command will add all the modified and new files to the staging area for the next commit.
+
 Once you run the git add command the file will be moved to the staging area.
 If you run the git status command now, you will find the file under "Changes to be committed" section.
 
@@ -96,7 +99,7 @@ The above command will commit the changes to your local repository with the mess
 ===========================================================================================================================================
 Skipping the staging area
 
-git commit -a
+git commit -a -m "<commit message>"
 
 The above command lets you commit all the tracked changes without git add command
 
@@ -343,8 +346,8 @@ Now lets say we completed the work in this branch and we want to merge it to the
 In this case the master pointer does not just move to the new branch commit, git creates a new commit with the changes made in the new branch 
 in the master branch. This commit is called the merge commit. (Pro Git page: 74).
 That is, we start working on issue56 which is pointing at X commit, after the work is completed in issue56 we need to merge it with the master.
-Since the master pointer and issue56 pointer does not point to the same commit(parent) what git does is it creates a new commit after merging the code 
-in master and issue56 and the master moves to this new commit Z. This kind of commit is called merge commit.
+Since the master pointer and issue56 pointer does not point to the same commit(parent) what git does is it creates a new commit(three way merge) after 
+merging the code in master and issue56 and the master moves to this new commit Z. This kind of commit is called merge commit.
 
 Now lets say the hotfix and issue56 branch changed the same line of code.
 Then there will be a merge conflit, this happens when two or more branchs change the same piece of content, at this poiny the developer 
@@ -423,6 +426,17 @@ pointer to its new, more up-to-date position.
                                                --------commit4l--------commit5l
                                                                        (master)
 
+If you want to merge the origin/master with the local master branch
+Inside your master branch 
+git merge origin/master
+
+            My Computer
+
+                                                                           (origin/master)
+            commit1s--------commit2s--------commit3s--------commit4s--------commit5sl
+                                                                            (master)
+
+
 
 =================================================================================================================================================
 Pushing
@@ -441,7 +455,7 @@ on your serverfix code on his computer.
 He has to 
 git fetch origin
 
-Now git will fetch all the data from the origin that he already did not have. The serverfix code is in the production branch in remote.
+Now git will fetch all the data from the origin that he already did not have. Your serverfix code is in the production branch in remote.
 Your friend will not have a production branch in his system after fetch, he will only have the origin/production pointer.
 Your friend needs to create a new local branch and move to that branch
 git checkout -b serverfix
