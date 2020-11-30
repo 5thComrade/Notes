@@ -1,0 +1,58 @@
+User Experience Brief essentials
+
+1: Project Name
+2: Project Description
+3: Who is this for?
+4: Feature List
+5: Competitors and Product Inspiration
+6: Deliverables
+7: Cost
+8: Timeline/Deadline
+
+Wireframing
+Ctrl+1/ Ctrl+2 to Zoom in
+
+Alt+Click+Drag to copy and drag something
+
+Ctrl+L to Lock a component, if you don't want it to move around
+
+For SVG icons use Material io or Iconfinc or https://tablericons.com/
+
+Design Resources
+1: 100 Daily UI Free
+2: Icons 8
+3: Invision App
+4: Uplabs
+5: Undraw
+6: Sketch App Sources
+7: Paaatterns
+8: Drawkit
+9: Manypixels
+10: Humaaans
+11: Avataars
+12: Freeillustration
+13: freebiesketch
+14: Blush
+15: IRA Design
+16: UI Design Daily
+17: UI Space
+18: Open Doodles
+
+Color Design Resources
+1: Coolors
+2: Muzli
+3: colors and fonts .com
+4: html color codes.com
+5: color hunt
+6: colorinspo
+7: colorswall
+8: happy hues
+9: pigment
+10: color.adobe.com --------------->Amazing place
+
+Web Design Inspiration
+
+1: Behance
+2: Dribbble
+3: Niice.co
+

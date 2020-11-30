@@ -1,0 +1,253 @@
+HTTP
+
+Web Clients and Servers
+The clients send HTTP requests to servers and servers return the requested data in HTTP responses. Together, HTTP clients and HTTP servers
+make up the basic components of the World Wide Web.
+
+The web servers host web resources, they could be text files, html files, jpeg files, video or audio files.
+Web resources need not be static, it could be dynamic too.
+Because Internet hosts many thousands of different types of web resources, HTTP tags each object that is being transported with a data format label 
+called MIME type(Multipurpose Internet Mail Extensions). When a web browser gets an object back from a server, it looks at the associated MIME type 
+to see if it knows how to handle the object.  Most browsers can handle hundreds of popular object types: displaying image files, parsing and formatting 
+HTML files, playing audio files through the computer's speakers, or launching external plug-in software to handle special formats. 
+
+                         Content-type: image/jpeg (MIME type)
+                         Content-length: 23645
+               CLIENT  <------------------------------------- SERVER
+
+Popular MIME types
+
+Extension                  Kind of Document                    MIME Type
+.css                       Cascading Style Sheets              text/css
+.doc                       Microsoft Word                      application/msword
+.gif                       Graphics Interchange Format         image/gif
+.html                      HyperText Markup Language           text/html
+.jpeg/.jpg                 JPEG images                         image/jpeg
+.json                      JSON format                         application/json
+.mp3                       MP3 audio                           audio/mpeg
+.pdf                       Portable Document Format            application/pdf
+.txt                       Text                                text/plain
+
+
+Each web server resource has a name, its called Uniform Resource Identifier or URI.
+Example of a URI
+http://helloantony.herokuapp.com/resume.pdf
+
+Uniform resource locator(URL) is the most common form of resource identifier.
+The first part of the URL is called the scheme, and it describes the protocol used to access the resource. 
+This is usually the HTTP protocol (http:// ). 
+The second part gives the server Internet address (e.g., helloantony.herokuapp.com).
+The rest names a resource on the web server (e.g., /resume.pdf ).
+Today, almost every URI is a URL. 
+
+===========================================================================================================================================================
+HTTP supports several different request commands, called HTTP methods.
+Http methods are GET, PUT, DELETE, POST, PATCH etc
+
+Every http response message comes back with a status code.
+Status Code           Meaning
+200                   OK, document returned correctly
+404                   Not Found. Resource not found
+
+===========================================================================================================================================================
+HTTP messages sent from web clients to web servers are called request messages. Messages from servers to clients are called response messages.
+There are no other kinds of HTTP messages.
+HTTP message consist of three parts:
+
+Start line: Indicates what to do with the request and what happened to the response
+Header fields: Each header field consists of a name and a value, separated by a colon(:) for easy parsing.
+Body: Optional message body containing any kind of data.
+
+Example Request and Response
+
+Request Start Line -------------------------------------> GET /hello.html HTTP/1.0
+                                                          
+                                                          User-agent: Mozilla/4.75 [en] (Win 98; U)
+Request Headers    -------------------------------------> Host: www.helloantony.herokuapp.com
+                                                          Accept: text/html, image/gif, image/jpeg
+                                                          Accept-language: en
+
+No Request Body   --------------------------------------> 
+
+
+Response Start Line ------------------------------------> HTTP/1.0 200 OK
+
+Response Headers  --------------------------------------> Date: Sun, 01 Oct 2000 23:25:17 GMT
+                                                          Server: Apache/1.3.11 BSafe-SSL/1.38 (Unix)
+                                                          Last-Modified: Tue, 04 Jul 2000 09:46:21 GMT
+                                                          Content-length: 403
+                                                          Content-type: text/html
+
+Response Body    ---------------------------------------> <html><div>Hello World!!!</div></html>
+
+==========================================================================================================================================================
+Http is an application layer protocol, it does not worry about the nitty-gritty details of network communication, it leaves it to TCP/IP
+
+                                                          HTTP Network Protocol Stack
+       
+                                                               HTTP ---------------------> Application Layer
+                                                               TCP  ---------------------> Transport Layer
+                                                               IP   ---------------------> Network Layer
+                                                   Network-specific link interface ------> Data link layer
+                                                   Physical network hardware ------------> Physical layer
+
+Before an HTTP client can send a message to a server, it needs to establish a TCP/IP connection between the client and server using 
+Internet protocol (IP) addresses and port numbers. 	
+
+Steps Involved
+1: The browser extracts the server's hostname from the URL.
+2: The browser converts the server's hostname into the server's IP address.
+3: The browser extracts the port number (if any) from the URL. Default port is 80.
+4: The browser establishes a TCP connection with the web server. 
+5: The browser sends an HTTP request message to the server.
+6: The server sends an HTTP response back to the browser.
+7: The connection is closed, and the browser displays the document.
+
+=============================================================================================================================================================
+URL's
+URI(Uniform Resource Identifier) is a more general concept comprised of two subsets URL(Uniform Resource Locator) and URN(Uniform Resource Name).
+URL's identify resources by describing where resources are located.
+URN's identify resources by name, regardless of where they currently reside.
+
+=============================================================================================================================================================
+Latency
+Latency is the time it takes for a message, or a packet, to travel from its point of origin to the point of destination.
+
+Components of Latency
+1: Propagation delay: is dictated by the distance and the medium through which the signal travels.
+2: Transmission delay: is dictated by the available data rate of the transmitting link and has nothing to do with the distance 
+                       between the client and the server(1Mbps and 100Mbps).
+3: Processing delay: once the packet arrives at the router, the router must examine the packet header to determine the outgoing 
+                     route and may run other checks on the data.
+4: Queuing delay: if the packets are arriving at a faster rate than the router is capable of processing, then the packets are 
+                  queued inside an incoming buffer. 
+
+One way to mitigate latency is using CDN(Content Delivery Network), that is distributing the content around the globe, and serving that content from a 
+nearby location to the client, will allow us to significantly reduce the propagation time of all the data packets.
+
+Measuring Latency using Traceroute
+Traceroute is a simple network diagnostics tool for identifying the routing path of the packet and the latency of each network hop in an IP network.
+On Unix platforms the tool can be run from the command line via traceroute, and on Windows it is known as tracert.
+Example: tracert google.com
+
+At the heart of the Internet are two protocols IP(Internet Protocol) and TCP(Transmission Control Protocol)
+The network communication channel is by nature non-reliable, there could be data losses, congestion and various other problems.
+TCP is what makes this channel reliable, by abstracting all the cool features away from the channel.
+TCP ensures retransmission of lost data, in-order delivery, congestion control and avoidance, data integrity, and more.
+
+HTTP does not insist it needs TCP as its transport protocol, if we want we could deliver HTTP using UDP(User Datagram Protocol).
+But internet today mostly uses TCP because of the added features TCP provides out of the box.
+
+Three-Way Handshake
+TCP connections begin with a three way handshake.
+1st SYN: Client picks a random sequence number x and sends a SYN packet, which may also include additional TCP flags and options.
+2nd SYN ACK: Server increments x by one, picks its own random sequence number y, appends its own set of flags and options and dispatches the response.
+3rd ACK: Client increments both x and y by one and completes the handshake by dispatching the last ACK packet in the handshake.
+
+                                            3-way Handshake
+                    Client                                                 Server
+                     SYN                      28ms
+                    x=rand()  --------------------------------------->    
+                                              28ms
+                              <---------------------------------------    SYN ACK
+                                                                        x+1 y=rand()                   
+                     ACK                      28ms
+                   y+1 x+1   ----------------------------------------->
+
+
+Just to establish the TCP connection it took 28+28+28=84ms
+Only after this 84ms can the client and server exchange application data.
+The delay imposed by the three-way handshake makes new TCP connections expensive to create, and is one of the big reasons why 
+connection reuse is a critical optimization for any application running over TCP.
+
+Flow Control
+Flow control is a mechanism to prevent the sender from overwhelming the receiver with data it may not be able to process.
+To address this issue, each side of the TCP connection shares the size of the available buffer space, receive window(rwnd) to hold the incoming data.
+Every ACK packet carries the latest rwnd value for each side, if the window reaches zero then it is treated as a signal that no more data should be
+sent until the existing data in the buffer has been cleared by the application layer.
+
+Flow control fixed one problem.
+But there was yet another problem, bandwidth of the sender and receiver.
+Imagine watching Nerflix at 10Mbps, suddenly your father gets connected to the wifi too and starts streaming on his phone too.
+Now the available bandwidth for you reduced, but imagine a situation the the Netflix server never knew your bandwidth reduced and keeps
+sending the packets at the same rate at which it initially sent. There will be data loss.
+Slow-start is the solution.
+In slow start the server initializes a new congestion window(cwnd), it can be 1 segment, 4 segments, 10 segments or more
+
+Lets see an example
+Roundtrip time: 56 ms
+Client and server bandwidth: 5 Mbps
+Client and server receive window: 65,535 bytes
+Initial congestion window: 4 segments (4 × 1460 bytes ≈ 5700 bytes)
+Server processing time to generate response: 40 ms
+ 
+                                        Client                                                           Server
+
+                                         SYN ---------------------------------------------------------->
+                                             <---------------------------------------------------------- SYN ACK
+                                                                                           
+                                         ACK -----------------------------------------------------------> 84ms
+                                      GET /home                                                          get request 
+                                                                                                         processing(20KB response ready) 40ms
+                                       152ms <---------------------------------------------------------- 4 TCP segments (5.48KB)
+                                       
+                                       4 ACK -----------------------------------------------------------> 
+                                                                                                       
+                                       208ms <-----------------------------------------------------------8 TCP segments (11.68KB)    
+
+                                       8 ACK ------------------------------------------------------------>
+
+                                       264ms <-----------------------------------------------------------3 TCP segments (4.38KB)
+                                       3 ACK ------------------------------------------------------------> 
+                                                                                                         
+
+0ms              Client begins the TCP handshake with the SYN packet
+28ms             Server replies with SYN-ACK and specifies its rwnd size.
+56ms             Client ACKs the SYN-ACK, specifies its rwnd size, and immediately sends the HTTP GET request.
+84ms             Server receives the HTTP request.
+124ms            After 40ms to process the response which is 20KB, the server sends 4TCP segments(initial cwnd is 4)
+152ms            Client receives four segments and ACKs each one.
+180ms            Server increments its cwnd for each ACK and sends eight segments.
+208ms            Client receives eight segments and ACKs each one.
+236ms            Server increments its cwnd for each ACK and sends remaining segments(5.48 + 11.68 + 4.38 = 20KB)
+264ms            Client receives remaining segments, ACKs each one.
+
+Congestion window therefore increases exponentially to the power 2.
+If the initial congestion window is set to 10 segments, we can have a faster system.
+
+Imagine if we resure the TCP connection, the 20KB file that took 264ms will only take 96ms(without the 3way handshake and slow start).
+
+Performance Checklist TCP
+• Upgrade server kernel to latest version (Linux: 3.2+).
+• Ensure that cwnd size is set to 10.
+• Disable slow-start after idle.
+• Ensure that window scaling is enabled.
+• Eliminate redundant data transfers.
+• Compress transferred data.
+• Position servers closer to the user to reduce roundtrip times.
+• Reuse established TCP connections whenever possible.
+
+===================================================================================================================================================
+UDP-User Datagram Protocol
+No delivery gurantees and no failure notifications, hence unreliable.
+Most popular use case of UDP is Domain Name System, given a human-friendly hostname, we need the IP address before any data exchange can occur.
+
+===================================================================================================================================================
+HTTP
+The browser extracts the server’s hostname from the URL.
+The browser converts the server’s hostname into the server’s IP address.
+The browser extracts the port number (if any) from the URL.
+The browser establishes a TCP connection with the web server.
+The browser sends an HTTP request message to the server.
+The server sends an HTTP response back to the browser.
+The connection is closed, and the browser displays the document.
+
+==================================================================================================================================================
+URL's
+Say you want to fetch the URL http://www.joes-hardware.com/seasonal/index-fall.html
+
+The first part of the URL(http) is the URL scheme. The scheme tells the web client how to access the resource. In this case the URL says to use 
+the HTTP Protocol.
+The second part of the URL(www.joes-hardware.com) is the server location. This tells the web client where the resource is hosted.
+The third part of the URL(/seasonal/index-fall.html) is the resource path. The path tells what particular local resource on the server is being requested.
+

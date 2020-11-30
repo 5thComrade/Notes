@@ -5,6 +5,37 @@ npm install create-react-app -g
 create-react-app my_app_name
 
 ==============================================================================
+VS Code Settings JSON
+
+{
+  "workbench.colorTheme": "Material Theme Palenight High Contrast",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "window.menuBarVisibility": "visible",
+  "window.zoomLevel": 0,
+  "editor.formatOnSave": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.syntaxProfiles": {
+    "javascript": "jsx",
+    "javascript": "html"
+  },
+  "editor.wordWrap": "on",
+  "editor.formatOnPaste": true
+}
+
+
+VS Code extensions
+
+Prettier - Code formatter
+Material Theme
+Live Server
+JavaScript(ES6) code snippets
+ES7 React/redux/GraphQL
+Bracket Pair Colorizer
+Emmet
+
+==============================================================================
 
 -> Class Based Components
 
@@ -32,7 +63,7 @@ Understanding JSX
 The above JSX is same as the code below
 
 React.createElement('div', {className: "App"}, React.createElement('h1', null, "Hello World!!!"), React.createElement('p', null, "Antony Chiramel"))
-JSX is just a syntatic sugar to avoid writting all the React.creatElement's.
+JSX is just a syntatic sugar to avoid writting all the React.createElement's.
 
 ================================================================================
 
@@ -77,7 +108,7 @@ State can be used only with Class based components. React hooks is the new way o
 
 State is a JS object. It can be accessed using the this keyword inside the class.
 
-Difference between prop and state is that, prop gets data from outside. state is data within the component.
+Difference between props and state is that, props gets data from outside. state is data within the component.
 
 ===================================================================================
 Handling events in React
@@ -205,6 +236,7 @@ this.state.persons.map((person, index) => {
   return <Person key={index} name={person.name} age={person.age} />
 })
 
+map returns an array... [<Person key....</Person>, <Person key...</Person>, <Person key...</Person>]
 ========================================================================================
 Never mutate the state directly.
 If the state happen to have an array property, first copy that array to another array.
@@ -225,8 +257,11 @@ const object1 = {...object2};
 Array methods like splice and slice should be avoided to the max. 
 If we are using these methods on newArray and not directly on the state array it is fine.
 But if we use these methods directly on the state array, it will mutate the state, which is not desirable.
+Avoid array.push('something'), because this will mutate the array, if you want to add a new value to an array use
+newArray = array.concat('something');
+Concat returns a new array.
 
-Therefore use filter method. This method returns a brand new array based on the condition in the callback function. The state is preserved.
+Also use filter method. This method returns a brand new array based on the condition in the callback function. The state is preserved.
 
 const newArray = this.state.oldArray.filter((oldValue, index) => {
   return oldValue.length < 7 ? oldValue : null;
@@ -271,7 +306,7 @@ if(some condition) {
 render() {
   return(
  	<div className={classes.join(' ')}>
-	   <h1>Hi Everyon</h1>
+	   <h1>Hi Everyone</h1>
 	</div>
   )
 }
@@ -512,7 +547,7 @@ a method already defined by React(it is a lifecycle hook), we cannot use another
 In another file import ErrorBoundary. Wrap the JSX you feel will throw an error during run-time.
 
 <ErrorBoundary>
- <Person clicked={this.runHnadler}>
+ <Person clicked={this.runHandler}>
 </ErrorBoundary>
 
 In the above code snippet we wrapped Person component with a higher order component <ErrorBoundary>, now if
@@ -521,10 +556,12 @@ If there are no errors, the children of ErrorBoundary ie Person Component will b
 
 =========================================================================================================================
 Try to minimize the JSX in the App component. Make various components to handle the JSX.
-The minimalist attitude.
+The minimalist attitude. First rule in React "Never Repeat".
 The App.js file should just have methods that manage and manipulate the state and also references to other custom components.
 =========================================================================================================================
-One key difference between Class Based components and Functionl Components is that Class based components have something called 
+Life-Cycle Hooks
+
+One key difference between Class based components and Functionl Components is that Class based components have something called 
 Lifecycle Hooks. Please note, Lifecycle hooks have got nothing to do with React Hooks.
 Lifecycle hooks are pre-defined methods by react that when used in our code will be executed by React for us.
 Some lifecycle hooks are componentDidCatch(), componentDidMount(), componentDidUpdate(), render()
@@ -545,9 +582,14 @@ constructor(props) {
 }
 
 After the constructor, a lifecycle hook called getDerivedStateFromProps(props, state) runs.
-After getDerivedStateFromProps execute, the render() method gets executed. This renders the DOM components.
+After getDerivedStateFromProps execute, componentWillMount() gets executed.
+After componentWillMount(),the render() method gets executed. This renders the DOM components.
 Now render() may have child components to render, once the lifecycle of the child components are complete another lifecycle hook gets called,
 componentDidMount(), this is where we can do http requests.
+
+constructor() --set the state here
+componentWillMount() --update state here, do not make http requests here
+componentDidMount() --Make http requests here, but try to avoid updating the state cause it will trigger the component to re-render
 
 If you do a console.log in your class based components with all those hooks you will see in your log that these get called by react in the same
 order I mentioned above.
@@ -562,13 +604,19 @@ getDerivedStateFromProps(props, state)
 The next lifecycle hook is
 shouldComponentUpdate(nextProps, nextState) -> Here you can decide if you want to continue with the update or not
 
+The next lifecycle hook is
+componentWillUpdate(nextProps, nextState)
+
 The next lifecycle method is render()
 Then it updates any child components in your render method JSX
 
 The next lifecycle hook that runs is getSnapshotBeforeUpdate(prevProps, prevState), we can use this to return back to the 
 previous way the DOM looked.
 
-The next lifecycle method is componentDidUpdate(), this is where you can make http requests.
+The next lifecycle method is componentDidUpdate(), this is where you can make http requests. Please do not update the state here
+cause it creates an infinite loop, ie if the state is updated, the component is updated and componentDidUpdate() gets called which again changes 
+state and the cycle goes on. If you badly need to change the state here, then you should add your code inside an if block that checks for a state
+change.
 
 ==========================================================================================================================
 The lifecycle for state change updation is very similar to props change updation, right before componentDidUpdate() another lifecycle hook executes
@@ -626,7 +674,7 @@ Another lifecyle hook is componentWillUnmount()
 This hook gets called when the component is removed(Remember: mount is creation unmount is removal).
 If you have any code to run after a component is removed, you can execute it here. Like some clean up work.
 
-If you wan to do some clean up work using react hooks, we can do so with the useEffect() again!!!
+If you want to do some clean up work using react hooks, we can do so with the useEffect() again!!!
 
 We can return an anonymous function from useEffect() which will execute only after the component is removed from the dom.
 
@@ -673,10 +721,10 @@ When we use PureComponent, we need not use shouldComponentUpdate(), because Pure
 =========================================================================================================================
 Functional components should be wrapped at the time of exporting with
 export default React.memo(<Component_Name>)
-If your function component renders the same result given the same props, you can wrap it in a call tp React.memo for performance boost in some 
+If your function component renders the same result given the same props, you can wrap it in a call to React.memo for performance boost in some 
 cases by memorizing the result. This means that React will skip rendering the component and reuse the last rendered result.
 React.memo only check for prop changes. If your function component is wrapped in React.memo has a useState or useContext hook, it will
-still rerender, when the state or context change.
+still re-render, when the state or context change.
 
 =========================================================================================================================
 React has a virtual DOM, it uses it because its faster than the real DOM.
@@ -734,7 +782,7 @@ In the imported location, wrap the exported component with this function.
 
 export default hoc(Person, "App");
 ============================================================================================================================
-Hnadling props in Higher Order Components
+Handling props in Higher Order Components
 Remember before the wrapped component is even exported, it is wrapped around the higher order function.
 The wrapped component before hoc, was exporting a functional component, the return statement of the hoc is also a functional component.
 Therefore the props set in the parent component will flow to both these functional components.
@@ -865,9 +913,7 @@ const property = X;
 <ComponentC>
    <ImportedContext.Consumer>
 	{
-           (context) => {
-               const property = context.propertySet;
-            }
+           (context) => <p>Hello {context.propertySet}</p>
         }
    </ImportedContext.Consumer>
 </ComponentC>
@@ -908,3 +954,835 @@ const person = (props) => {
 }
 
 ==============================================================================================================================================
+HTTP Requests in React
+Well I know how to use Node and Express to send back an HTML page from the server, trust me even for a small application it took ages to load.
+It becomes necessary to decouple your frontend from your backend.
+When using react, the server does not send back html pages, instead sends JSON data.
+
+We should make http requests from componentDidMount() lifecycle hook.
+
+The recommended way to send HTTP requests in React is by using a third party package called axios.
+
+JavaScript executes its code synchronously, ie after this line is executed the next line gets executed, it does not wait.
+
+Wrong Way
+const post = axios.get('<url>');
+console.log(post);
+
+The above code will fail, because once the get request is sent to that url, js does not wait until the server responds.
+It will go directly to the next line.
+
+Hence axios, return a promise.
+The promise must be handled, js does not even let you leave a promise unhandled.
+To handle a promise we use the then/catch block
+
+Right Way
+axios.get('<url>').then((res) => {
+  console.log(res);
+}).catch((err) => window.alert('Something went wrong!!'));
+
+===============================================================================================================================================
+Axios Interceptors
+
+We can manipulate the request axios sent and the response axios receive, using interceptors.
+We should use interceptors globally, index.js file is the best place to use interceptors.
+Lets say we need to add an authorization header in the request, we can do so by interceptors.
+Below are the code snippets for both the request and response interceptors.
+
+axios.interceptors.request.use(
+  (request) => {
+    console.log(request);
+    return request;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+If your application is making api calls to the same url, axios allows you to set it as the default baseURL
+axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+
+Now you can send requests to /posts, /posts/id etc
+You can set many defaults, not just url, please refer to axios documentation.
+
+Also read about axios instances, it helps us set various url if our app happens to send api calls to various urls
+================================================================================================================================================
+Routing
+
+To add the functionality of routing in our project, we need two packages, actually just one react-router-dom, because react-router-dom already has
+react-router as one of its dependencies
+
+npm i --save react-router react-router-dom
+
+There won't be multiple HTML files for multiple routes, instead we dynamically output content to one html page depending on the route that was parsed
+by react-router-dom.
+In order to enable routing, we should wrap the entire application using a property we import from the react-router-dom package.
+
+In the index.js file wrap your entire JSX with
+import { BrowserRouter } from "react-router-dom";
+
+<BrowserRouter>
+     <YourPrimaryComponent />
+</BrowserRouter>
+
+YourPrimaryComponent can be a component that holds the nav items, because that is constant for every page.
+Now go to YourPrimaryComponent and import another property from the react-router-dom
+
+import { Route } from "react-router-dom";
+
+Now use can use Route to dynamically render different components for different routs
+
+return(
+    <div>
+	<NavComponent />
+    	<Route path="/" exact render={() => <div> Your JSX </div>} />
+    	<Route path="/new-post" exact component={YourComponentName} />
+    </div>
+)
+
+You will notice that everytime we switch routes the page get reloaded.
+This is not the behaviour that we need, because for every page reload the state is lost.
+We just need to rerender the content for each route.
+This happens because of the <a> tag we use in the nav bar.
+It should be replaced with the Link property we import from react-router-dom
+
+import { Route, Link } from "react-router-dom";
+
+<nav>
+   <ul>
+      <li>
+         <Link to="/">Home</Link>
+      </li>
+      <li>
+	 <Link to={{pathname: "/new-post", search="?quick-search=true"}}>New Post</Link>
+      </li>
+   </ul>
+</nav>
+
+Now the page will not reload the page, hence the state is saved.
+If the page reloads we lose the state.
+
+React Router also adds few additional props when you switch between routes.
+Just console.log(this.props) inside your componentDidMount method and you can find the hash, query params and several other important info regarding the path.
+
+The routes we set up above are all absolute paths ie it is treated as domain/new-post
+What if we want to navigate to domain/posts/new-post
+Then we need to dynamically add the route
+<Link to={{pathname: `${this.props.match.url}/new-post`}}>Button</Link>
+
+For Navigation links, react-router-dom provides another component, NavLink
+wrap your nav's with NavLink just like below.
+Why is it different from Link?
+Because, <Link> does not add the active class to the nav link when we are on the route, but <NavLink> will add class=active to the <a> tag 
+maintained by react router. Now we can style it using a.active {color: red;}
+If you want a custom active class name you can do so
+<NavLink to="/" exact activeClassName="custom-active">Home</NavLink>
+
+===============================================================================================================================================================
+Let's say ComponentA gets rendered for route "/"
+We can access the special properties added by react router in the props of ComponentA
+Now ComponentA renders ComponentB
+These special properties cannot be accessed by ComponentB, it is not passed on to the children.
+
+We can manually pass the props 
+
+<ComponentA>
+   render() {
+	return(<ComponentB {...this.props} />)
+   }
+</ComponentA>
+
+Now all the props of ComponentA is passed to ComponentB
+
+Another way of doing it is.
+Go to the child component and import { withRouter } from react-router-dom package.
+This is a higher order component, just wrap the export of this child component with the higher order component.
+
+Example: 
+export default withRouter(ComponentB);
+
+=================================================================================================================================================================
+Accessing Route Parameters, Query Parameters, and fragments from your URL's
+
+Let's first look at how we can set and access parameters(:id)
+But we should have a route <Route path="/:id" component={someComponent} />
+Setting a parameter
+<Link to={`/${post.id}`}>Click Me</Link>
+The above snippet will set the url to domain/id
+
+We can access it via this.props.match.params.id
+
+Setting Query Parameters
+
+<Link 
+    to={
+        {
+          pathname: '/my-path',
+          search: '?start=5'
+        }
+       }> Go To Five </Link>
+
+You can dynamically set it too.
+How do we access it?
+this.props.location.search will give you ?start=5, but we need key and value pair.
+Therefore we use URLSearchParams()
+const query = new URLSearchParams(this.props.location.search);
+for(let param of query.entries()) {
+  console.log(param); //yields ['start', '5']
+}
+
+URLSearchParams is given to us by JavaScript.
+
+Setting Fragements
+
+<Link to="/my-path#skills"> Go to my Skills </Link>
+
+or
+<Link to={{pathname: '/mypath', hash: 'skills'}}> Go to my Skills </Link>
+
+You can access it using props.location.hash
+
+===========================================================================================================================================================
+Another way to navigate without the <Link> component is, to have a eventHandler like onClick, which then calls another method lets call it MethodA
+
+
+MethodA(id) {
+  this.props.history.push(`/${id}`);
+}
+
+So now methodA gets called on click and we use the push method inside the history property to push a page to the stack.
+There are several methods on the history property you can make good use of.
+
+===========================================================================================================================================================
+Nested Routes
+
+What if we for route /posts we want to render Posts component and inside the component render another route /posts/1?
+
+We can use the Route property anywhere even as a nested route.
+<Posts Component>
+  <Route path="/:id" component={FullPost}>
+</Posts Component>
+
+We just have to dyamically set the path
+path={this.props.match.url + "/:id"}
+
+When you have nested routes, ensure you have a handler when the component changes ie: componentDidUpdate()
+===========================================================================================================================================================
+Redirecting Routes
+
+Let's say that we want to redirect all our domain.com/posts requests to domain.com
+We can use another property we can import from react-router-dom, ie Redirect
+
+We should use Redirect inside our Switch component because we cannot use "from" outside Switch.
+
+<Switch>
+   <Redirect from="/posts" to="/" />
+   <Route path="/" component={Posts} />
+</Switch>
+
+Conditional Redirecting
+What if we want to redirect when a button is clicked?
+
+clickedHandler() {
+  this.setState({formSubmitted: true})
+}
+
+render() {
+  let redirect = null;
+  if(this.state.formSubmitted) {
+    redirect = <Redirect to="/" />
+  }
+
+  return(
+    <div>
+	{redirect}
+        <button onClick={this.clickedHandler}>Click Me</button>
+    </div>
+  )
+}
+
+In the above code snippet we are checking the state and then redirecting based on the state.
+Also note, since we are outside the <Switch> component we cannot use from in our Redirect component, we can only use to.
+
+Another way to redirect is to use the history prop to push a new page to the browser stack
+this.props.history.push('/'); or this.props.history.replace('/');
+==========================================================================================================================================================
+Route Guards
+
+If you have a route that needs authentication
+Check the authentication in componentDidMount()
+If not authenticated, redirect the user from componentDidMount() like this.props.history.replace("/home");
+You can also conditionally render the route
+{this.props.auth ? <Route path="/dashboard" component={Dashboard}/> : null}
+
+Another way of handling unknown routes are
+<Route component={404_Page} />
+
+We define a route with no paths to render the 404 page.
+==========================================================================================================================================================
+Lazy Loading
+
+How to load Components asynchrously?
+Webpack bundles all our code into one js file and sends it to the browser.
+Imagine we have a huge application and our client only navigates to one route, we are pointlessly bundeling the code for other routes as well.
+We can load components asynchronously, ie we can bundle code only when user visits a particular route.
+We use a higher order component for that.
+
+import React, { Component } from "react";
+
+const asyncComponent = (importComponent) => {
+  return class extends Component {
+    state = {
+      component: null,
+    };
+
+    async componentDidMount() {
+      try {
+        const cmp = await importComponent();
+        this.setState({ component: cmp.default });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    render() {
+      const C = this.state.component;
+      return C ? <C {...this.props} /> : null;
+    }
+  };
+};
+
+export default asyncComponent;
+
+Now in our root component, we should not use import the normal way.
+We should import it in a special way
+
+import asyncComponent from "../../hoc/asyncComponent";
+const AsyncNewPost = asyncComponent(() => {
+  return import("./NewPost/NewPost");
+});
+
+Now AsyncNewPost is our asynchrnously loaded NewPost Component.
+
+======================================================================================================================================================
+Lazy Loading with React 16.6 or higher
+
+With react 16.6 or higher versions, we can load components asynchronously much easier.
+
+import React, { Component, Suspense } from "react";
+
+const Posts = React.lazy(() => import("./NewPost/NewPost"));
+
+<Route path="/posts" render(() => {
+   <Suspense fallback={<div>Loading</div>}>
+ 	<Posts />
+   </Suspense>
+})
+
+Note how we use React.lazy() and the Suspense component to help us load a component asynchronously.
+=====================================================================================================================================================
+You have url a to render component A and url b to render component B
+Component B should be displayed below Component A
+How is this possible? They both are rendered using 2 different routes and how can they stack up one below other?
+
+Its quite simple
+When routing to url a, set the state for Component A
+Then set a route below Component A for Component B
+
+<React.Fragment>
+  <ComponentA jsx here(we are inside ComponentA definition)/>
+  <Route path={url b} component={ComponentB} />
+</React.Fragment>
+
+Now when we go to url b  ComponentB will be displayed below ComponentA plus Component A will stay as it is because we set its state.
+And state only disappears when the page reloads and react router ensures there is no reload.
+
+Taking the same example as above, what if the state we set in ComponentA is also required by ComponentB, how will you share it when you are
+accessing ComponentB via the Route handler?
+
+Its super simple, re-write the above snippet as below
+
+<React.Fragment>
+  <ComponentA jsx here(we are inside ComponentA definition) />
+  <Route path={url b} render={() => <ComponentB ingredients={this.state.ingredients} />}
+</React.Fragment>
+
+Now componentB has a property ingredients accessable inside componentB which gets its value from the state in component A
+
+!!IMPORTANT
+The render method is rendering a functional component, we can access the parent props by 
+render={(props) => <ComponentB ingredients={this.state.ingredients} {...props} />}
+====================================================================================================================================================
+ALWAYS REMEMBER IF YOU ARE SUBMITTING A FORM
+THE PAGE GET'S RELOADED, BECAUSE THAT IS THE DEFAULT BEHAVIOUR OF A FORM.
+WHEN THE PAGE RELOADS WE LOSE THE STATE.
+event.preventDefault(); to the rescue.
+
+====================================================================================================================================================
+The NavLink we get from react-router-dom adds active class to the navigation link during run time.
+Howerver our css modules may have an active class style, but during run time it gets another name, something like Navlink_active_3rse4z
+So, NavLink from react-router-dom comes with an active class name
+
+import CSSclasses from "./OurCssFile.css"
+
+<NavLink to={props.link} exact activeClassName={CSSclasses.active} />
+
+Now the active classes for the nav link will be the css module active class we import in our file.
+
+====================================================================================================================================================
+Form Validation
+
+Each input element should be a component in itself.
+All the attributes we normally set for an input element now becomes the props of the Input component.
+
+Input elements should have an onChange handler.
+
+<Input value={this.state.value} changed={this.inputChangedHandler} />
+
+Inside the Input.js file
+
+<input value={props.value} onChange={props.changed} />
+
+Now changed gets called every time there is a change in the input field, inputChangedHandler should then set the state property value
+using event.target.value, this is what gets passed to the value prop, building a two way binding.
+
+If you attach an handler to an event listener, react passes the event object by default
+
+<input onChange={inputChangedHandler} />
+
+inputChangedHandler = (event) => {
+  console.log(event.target.value);
+}
+
+If you want to pass on something else along with the event to the event handler, then use an anonymous function
+
+<input onChange={(event) => eventHnadler(event, props.name)} />
+
+Now we get the event and props.name in the eventHnadler method we define.
+
+========================================================================================================================================================
+If you have nested objects inside the state, remember to the nested objects too using the spread operator.
+For example,
+
+const state = {
+  address: {
+    street: {
+       doorNo: "",
+       streetName: "",
+    },
+    zipCode: "",
+    state: "",
+  }
+}
+
+Now street is a nested object, we need to clone to that level to change streetName.
+
+const newAddress = {...this.state.address}; //we got the address clone
+const newStreet = {...address.street}; //now we got the street clone
+
+newStreet.streetName = "Sattar Layout";
+newAddress.street = newStreet;
+
+this.setState({address: newAddress});
+
+========================================================================================================================================================
+Instead of having a onClick handler on the Submit button of a form, form has a onSubmit event listener
+
+<form onSubmit={this.formSubmitHandler}>
+ <Input Component />
+ <Button Component />
+</form>
+
+Always store user input in state, try to avoid document.getElementById('email').value;
+Never try to use the document object in react, though you can.
+
+*******
+PLEASE CHECK HOW FORMS ARE HANDLED IN THE BURGER PROJECT ALSO CHECK THE FORM VALIDATION METHODS USED.
+
+========================================================================================================================================================
+REDUX
+
+Component --------------------> Action ------------------------------------------------> Reducer ------------------------------------------> Central Store
+   |                pre-defined information package                 receives action and updates state(no side effects)               Stores entire application state
+   |                                                                                                                                               |
+   |                                                                                                                                               |
+   |                                                                                                                                               |
+   <-----------------------------------------------------------------Subscription-------------------------------------------------------------------
+                                                            Passes updated state as props
+                                  The component has to subscribe for the state change('Hey!! Update me when the state changes')
+
+
+
+Redux is a stand alone library, not dependant on React.
+We will take a closer look at all the redux flows mentioned in the diagram above
+
+const redux = require('redux');
+
+const initialState = {
+  counter: 0,
+}
+
+//Reducer
+const rootReducer = (state = initialState, action) => {
+  if (action.type === "INC_COUNTER") {
+    return {
+      ...state,
+      counter: state.counter + 1,
+    };
+  }
+
+  if (action.type === "ADD_COUNTER") {
+    return {
+      ...state,
+      counter: state.counter + action.value,
+    };
+  }
+
+  return state;
+};
+
+//Store
+const store = redux.createStore(rootReducer);
+console.log(store.getState()); ----------------------------------->OUTPUT {counter: 0}
+
+//Subscription
+store.subscribe(() => {
+  console.log("[Subscription]", store.getState()); --------------->OUTPUT [Subscription] { counter: 1 } 
+});                                                                       [Subscription] { counter: 11 }
+
+//Dispatching Action
+store.dispatch({ type: "INC_COUNTER" });
+store.dispatch({ type: "ADD_COUNTER", value: 10 });
+console.log(store.getState()); ----------------------------------->OUTPUT {counter: 11}
+
+====================================================================================================================================================
+The method inside the subscribe method executes whenever the state changes.
+Take a closer look at all the methods redux provides.
+Reducer gets the previous state and action as its arguments.
+The dispatch method always takes an object as its argument which should always have the type property, you can have multiple properties, but type is a must.
+The type property should hold a name with all characters in upper case(its the convention).
+Never mutate the state directly in the reducer, always make a copy of the state(even the nested objects, take a copy of them too) and then update the state.
+
+====================================================================================================================================================
+Adding Redux to a basic React Project
+We all know now, that we need a central store, a reducer and an action dispatcher, but where do these fit in our apps.
+We create the central store where the App component is used ie index.js file.
+Conventionally the reducer resides in a reducer.js file in a folder called store.
+The action dispatchers should be in the components that set the state and need the state.
+
+==================================================================================================================================================
+Now coming to the index.js file.
+We import the createStore method from the redux package.
+import {createStore} from "redux";
+In order for redux to work with react, we need another library called react-redux, because redux is a standalone package it is not built specifically 
+for react. We need the Provider component from the react-redux package.
+import {Provider} from "react-redux";
+
+In order to create the store, we need the reducer, import that too
+import reducer from "./store/reducer";
+
+The Provider component will wrap our entire App component and will take the prop store with a value holding our store.
+The index.js file would look like this
+
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import registerServiceWorker from "./registerServiceWorker";
+
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./store/reducer";
+
+const store = createStore(reducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
+registerServiceWorker();
+
+===========================================================================================================================================================
+Now lets go to the components where we dispatch actions and use state.
+
+In the component where we need state, we need to import a method called connect from the react-redux package.
+import {connect} from "react-redux";
+What connect basically does is, it will connect to our redux setup, convert the state to props and convert our dispatch actions into props.
+These props are then made available in our components.
+
+At the bottom of our component, we add the below code
+const mapStateToProps = (state) => {
+  return {
+    ctr: state.counter,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
+    onDecrementCounter: () => dispatch({ type: "DECREMENT" }),
+    onAddCounter: () => dispatch({ type: "ADD", value: 5 }),
+    onSubtractCounter: () => dispatch({ type: "SUBTRACT", value: 5 }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NameOfOurComponent);
+
+Now the component that hold this piece of code has 5 additional props available
+ctr, onIncrementCounter, onDecrementCounter, onAddCounter, and onSubtractCounter which we can hook up to any input fields or input handlers.
+Note, if you do not have any state management in your component, but you have handlers that change the state, then the export would look like below
+
+export default connect(null, mapDispatchToProps)(NameOfOurComponent);
+
+Please note, the state is set in the reducer(which we will cover next) which hold the property counter.
+Notice how we are handling dispatches, lets say we hooked up our onAddCounter to a button, when we click the button the onAddCounter prop is called,
+which will execute the anonymous function ()=>dispatch({type: "ADD", value: 5})
+
+This action is handled in the reducer, which will update the state(counter: counter + 5).
+type is a mandatory property in all our dispatch objects, other values are optional(in onAddCounter we have value: 5).
+Also notice how we use connect and how we export our component.
+
+==========================================================================================================================================================
+Now lets get to the reducer in the reducer.js file
+This is a pure JS file, we do not import anything(atleast in this example)
+The code is self explainatory
+
+const initialState = {
+  counter: 0,
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return {
+        ...state,
+        counter: state.counter + 1,
+      };
+    case "DECREMENT":
+      return {
+        ...state,
+        counter: state.counter - 1,
+      };
+    case "ADD":
+      return {
+        ...state,
+        counter: state.counter + action.value,
+      };
+    case "SUBTRACT":
+      return {
+        ...state,
+        counter: state.counter - action.value,
+      };
+    default:
+      return state;
+  }
+};
+
+export default reducer;
+
+The reducer function takes in the previous state, we set it to initialState as default and action.
+The dispatchs we sent from the components are now available as properties in the action object(action.type and action.value)
+We return an object in our switch statements, which will be sent to the store which will inturn hold our entire application state.
+Careful, never mutate the state directly(even the nested objects should be copied to another object before mutating).
+
+If you have an array in your state that you want to update, remember even arrays are reference types in JS
+One way to update an array without mutating it is array.concat('Yolo');
+concat returns a new array, whereas array.push('Yolo') mutates the array.
+
+How to delete an element from an array without mutating the array?
+array.filter((res, index) => {
+   return index !== id;
+})
+
+The filter method returns a new array, in our example the new array will have all the elements except for the element who index is equal to the id.
+
+How do we send a value from the UI to the component to the reducer?
+<button onClick={() => this.props.onDeleteHandler(id)}>Click</button> //we are sending the id from the UI
+
+In our dispatch to props section
+
+const mapDispatchToProps = (dispatch) => {
+   return{
+      onDeleteHandler: (id) => dispatch({type: "DELETE_RESULT", deleteId: id});
+   };
+}
+
+Now the dispatch will contain the id of the element that need to be deleted from the state, which is handled in the reducer.
+
+============================================================================================================================================================
+The action dispatch types could lead to typos. For bigger applications it would be difficult to identify this typo.
+Hence its a common practice to have a actions.js file in your store folder(along side your reducer.js).
+What the action.js file contains is several exports of constants
+
+export const INCREMENT = "INCREMENT";
+export const ADD = "ADD";
+
+Now we import this file in our component and reducer like
+import * as actionTypes from "./actions";
+
+Now all the consts are now properties of the actionTypes object and can be easily accessed like actionTypes.ADD
+
+=============================================================================================================================================================
+As your application grows in size, another common thing you would notice is to split the reducers into multiple reducers.
+Redux allows this with a method called combineReducers.
+In your store folder, create the sub folder called reducers with multiple reducer logic.
+In the index.js file where the store is created using the reducer, we import these reducers individually.
+We also import the combineReducers method from redux.
+
+import {createStore, combineReducers} from "redux"
+import reducer1...
+import reducer2...
+
+const rootReducer = combineReducers({
+  red1: reducer1,
+  red2: reducer2,
+}) 
+
+const store = createStore(rootReducer);
+
+red1 and red2 are sub-states inside the main state.
+
+Before combining the reducers in our component we accessed state like
+
+const mapStateToProps = (state) => {
+  return {
+    ctr: state.counter,
+    storedResults: state.results,
+  };
+};
+
+But after the combining the reducers the way we access state properties is
+
+const mapStateToProps = (state) => {
+  return {
+    ctr: state.red1.counter,
+    storedResults: state.red2.results,
+  };
+};
+
+Look how red1 and red2 are used.
+
+Imagine we want to use the state from reducer1 inside our reducer2.
+We have to dispatch a property from reducer1 state via a payload in the component to reducer2.
+In doubt, just refer to the redux-basics project(will be pushed to Github).
+==================================================================================================================================================
+Should I use redux for all my states?
+
+Local UI State(ex: Show/Hide Backdrop) ---> Mostly handled within components, NO REDUX
+Persistent State(ex: all users, all posts) ---> Stored on Server, relevant slice managed by Redux
+Client State(ex: Authenticated, filters set by User) ---> USE REDUX
+
+When you have a set of values you want to use across several components then use redux store.
+If you have a set of values that only that component needs use state management in that component.
+
+===================================================================================================================================================
+Advanced Redux
+
+Middleware in Redux
+We add middleware right between the action being dispatched and the reducer.
+You add middleware where you have your store.
+
+We need another import from redux file ie. applyMiddleware
+
+import {createStore, applyMiddleware} from "redux";
+
+const logger = store => {
+   return next => {
+	return action => {
+		console.log(`This is the middleware logging the action: ${action}`);
+ 		const result = next(action);
+		console.log(`We get the next state here: ${store.getState()}`);
+		return result;
+	}
+   }
+}
+
+const store = createStore(reducer, applyMiddleware(logger));
+
+This is how you create a basic middleware, where we log the action as they are dispatched.
+If you have multiple middlewares then applyMiddleware(logger, middleware2, middleware3....);
+
+In order to use the Redux dev tools on Chrome, we need the Chrome extension also we need to modify our code.
+Redux dev tools help us visualise the store on the Chrome Developer Console.
+
+In the code
+We need to import compose from redux and this line of code
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(logger)));
+
+Instead of hardcoding our objects with actionTypes for the dispatch methods, we can use action creators which return an object with the action types and any other payloads 
+and then use this returned objects in our dispatch method.
+There are several benefits of using action creators.
+
+In order to work with asynchronous code in Redux, we need another third party package called redux-thunk
+Install it.
+It is a middleware, we add it to our applyMiddleware method in our index.js file where we create the store and define other middlewares.
+
+import thunk from "redux-thunk";
+const store = createStore(reducer, composeEnhancers(applyMiddleware(logger, thunk)));
+
+You really do not need redux-thunk if you understand the concept of middlewares and what redux thunk is actually doing.
+Just check out their github repo file....its just 6 lines of code.
+Instead of adding thunk, use the below code(middleware) to work with asynchronous redux.
+
+const thunk = (store) => {
+  return (next) => {
+    return (action) => {
+      if (typeof action === "function") {
+        return action(store.dispatch, store.getState());
+      }
+      return next(action);
+    };
+  };
+};
+
+
+When you have multiple reducers handling multiple dispatches, then its always better to split your actionTypes and actionCreators into separate files.
+actionCreators are basically a function that returns an object which has the type property and other payload that goes as argument in the dispatch method.
+For example: If you have a counter reducer, then you need a counter action creator file.
+One common actionTypes file, several actionCreator files and one common file exporting all the actionCreators
+export {
+  add,
+  subtract,
+} from "./counter";
+export {
+  saveResult,
+  deleteResult,
+} from "./result";
+
+The above code goes into one file in the actions folder, what this file does is it exports all the actionCreators.
+
+If you want to add logic then use it in Reducers not action creators. Of course use action creators to do async tasks, but once we get the data
+and want to modify it using some logic, then reducers is the place over action creators.
+
+Cleaning up the reducer using utility functions
+End of the each switch statement returns an object which has all the previous state values + the new updated values.
+Why not outsource this? 
+This outsourced function which returns an object is called the utility function
+Example: 
+export const updateObject = (oldObject, updatedValues) => {
+  return {
+    ...oldObject,
+    ...updatedValues,
+  };
+};
+
+Why the utility function?
+NEVER REPEAT THE SAME CODE.
+
+===================================================================================================================================================================
+
+

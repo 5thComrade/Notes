@@ -1,0 +1,135 @@
+Functional Programming
+
+In JavaScript, we use functions the same way we use variables.
+Higher-order functions: Functions that either take or return other functions
+
+Functional programming is a part of a larger programming paradigm: declarative programming
+
+Difference between imperative programming vs declarative programming
+
+const makeStringURLFriendly = () => {
+     Write all the logic ourselves, this is imperative programming(How things should happen)
+}
+
+const makeStringURLFriendly = () => {
+   return string.replace(/ /g, "-"); //this is declarative programming(What should happen)
+}
+
+==========================================================================================================================================
+What is Pure Functions?
+A pure function is a function that returns a value this is computed based on its arguments. They do not cause side effects. They
+treat their arguments are immutable data.
+
+Impure functions
+let someObject = {
+  life: "dead",
+}
+
+let impureFunc = () => {
+  someObject.life = "impure life";
+  return someObject;
+}
+
+let impureFunc2 = (obj) => {
+   obj.life = "impure life 2";
+   return life;
+}
+
+The functions above are impure functions, everytime its called it changes something out of its scope.
+The second impure function even mutates its argument object causing side effect.
+
+let pureFunc = (obj) => {
+  return({
+    ...obj,
+    life: "pure life",
+  })
+}
+
+Now, this function is a pure function. It computes a value based on the argument that was sent to it. It returns a new object
+without mutating the argument sent to it and therefore has no side effects.
+
+When writing functions, follow these rules:
+1: The function should take in atleast one argument.
+2: The function should return a value or another function.
+3: The function should not change or mutate any of its arguments
+
+============================================================================================================================================
+Array functions that do not mutate the original array.
+
+Array.join
+Array.filter
+Array.map
+
+Object.keys(<ObjectName>) //returns an array of the object keys
+
+
+===========================================================================================================================================
+Pure React
+We use the React Library and ReactDOM CDN for practice.
+
+Virtual DOM
+Updating the DOM is pretty simple using DOM API, however inserting a new element using the DOM API will take a hit on the application's performance.
+That is why we use React. React makes changes to a virtual DOM and then react renders those changes for us using the DOM API as efficiently as possible.
+React just improves application performance significantly.
+
+React Elements
+The browser DOM is filled with DOM elements and the ReactDOM is filled with React elements.
+
+We create a react element to represent h1 as 
+React.createElement("h1", null, "Baked Salmon");
+React.createElement("h1", {id: "recipe-0", 'data-type': "title", "className": "Title"}, "Baked Salmon");
+
+ReactDOM
+All the tools necessary to generate HTML from the virtual DOM are found in this library. For example the render method.
+
+let dish = React.createElement("h1", null, "Baked Salmon");
+ReactDOM.render(dish, document.querySelector('.react-container'));
+
+React Components
+Components allow us to reuse the same DOM structure.
+
+class IngredientsList extends React.Component {
+	renderListItem = (ingredient, i) => {
+          return React.createElement("li", { key: i }, ingredient);
+        };
+
+        render() {
+          return React.createElement(
+            "ul",
+            { className: "ingredients" },
+            this.props.items.map(this.renderListItem)
+          );
+        }
+}
+
+const items = [
+        "1 lb Salmon",
+        "1 cup Pine Nuts",
+        "2 cups Butter Lettuce",
+        "1 Yellow Squash",
+        "1/2 cup Olive Oil",
+        "3 cloves of Garlic",
+      ];
+
+ReactDOM.render(
+     React.createElement(IngredientsList, { items }, null),
+     document.querySelector(".react-container")
+);
+
+We just created a react component, IngredientsList, used ReactDOM to render it to the DOM.
+
+
+Stateless Functional Components
+Using stateless functional components makes your app a lot faster.
+const ingredientsList = (props) => {
+        return React.createElement(
+          "ul",
+          { className: "ingredients" },
+          props.items.map((ingredient, i) =>
+            React.createElement("li", { key: i }, ingredient)
+          )
+        );
+      };
+
+
+

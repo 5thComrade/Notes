@@ -1,0 +1,1129 @@
+Declaring Custom variables in CSS
+:root {
+    --primary-color: #ff1b68;
+}
+
+section {
+    background: var(--primary-color);
+}
+
+We use root for a global scope. It could be any element if you want to limit the scope.
+Variables should start with --
+============================================================================================================
+Specificity
+
+Inline Styles > #id selectors > .class, :pseudo-class, [attribute] > <Tag> and ::pseudo-element selectors > *
+
+If two or more selectors set the same style, then the style of the last selector in the CSS file wins.
+============================================================================================================
+Combinators
+
+Adjacent Sibling (applies the style to p tag that immediately follow a h2 tag under the same parent)
+h2 + p {
+}
+
+General Sibling (applies to all p tags that has a h2 sibling somewhere on the top but under the same parent)
+h2 ~ p {
+}
+
+Child (any p tag that is a direct child of the div tag gets the child)
+div > p {
+}
+
+Descendant (any p tag that is a direct or indirect child of the div tag gets the style)
+div p {
+}
+
+.classA .classB (matches any elements with classB that are descendants of element with classA)
+
+.classA.classB (matches any element with both the classes)
+<tag>.classA (matches any <tag> element that has the classA. Ex: a.active selects anchor tags that
+              have the class active)
+<tag>[type="email"] (matches any tag element with the type attribute set to email)
+            
+=============================================================================================================
+Always start any CSS file like this
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+==============================================================================================================
+
+Font Properties
+
+font: inherit, this will force the element to inherit the fonts we set replacing the browser defaults
+cursor: pointer
+font-family: Sets what font you want your text nodes to have
+font-weight: Sets how thick or thin the characters of your texts should be
+font-size: Sets the size of your fonts
+text-decoration: Sets how your texts should look and what decorations it should have
+                 Values for this property are none, underline, overline, line-through, dotted, dashed
+
+=======================================================================================================
+
+List Properties
+
+list-style: Sets the style of the bullet points. 
+            Values are none, disc, circle, square, upper-alpha, lower-alpha, decimal
+
+
+=======================================================================================================
+
+Alignment Properties
+
+text-align: Aligns content horizontally
+            Values are center, left, right, start, end, initial, inherit
+
+vertical-align: Aligns content vertically
+                Values are middle, top, bottom, super, sub
+
+=======================================================================================================
+Border Properties
+
+border: 1px solid red;
+border-radius: 5px; //this rounds the corners
+border-radius: 50% //for a perfect circle, but the height and width of the element should be exactly the same
+border: none;
+border-color: <color>
+
+box-shadow: x-axis y-axis blur spread color;
+box-shadow: inset x-axis y-axis blur spread color;
+
+outline: none 
+         This property is not part of the box model, yet it exists. It exists under the :focus pseudo class
+         is active.
+
+=======================================================================================================
+Margin
+
+margin: auto; //distributes margin evenly around all sides, helps in centering the content
+
+=======================================================================================================
+Position
+
+position: fixed; //position context is the viewport
+position: relative; //the position context is the element itself
+position: absolute; //position context is the html element or the nearest ancestor with a position property
+                    //other than static
+position: sticky;
+
+overflow: hidden; //If our element gets positioned outside the parent, set this in the parent to hide everything
+                  //that overflows
+
+top: 0;
+left: 20px;
+right: 35px;
+bottom: 34px;
+z-index: 100;
+=========================================================================================================
+
+background-size: cover; //ensures no white spaces, will crop the image
+background-size: contain; //ensures the full image is visible, there can be white spaces visible in the container
+background-repeat: no-repeat;
+background-position: left top; 
+background-color: red;
+background-image: url();
+background-origin: border-box;
+background-clip: border-box;
+background-attachment: scroll;
+
+=============================================================================================================
+Display Property
+
+Certain elements in HTML take up the entire horizontal block. It is their default behaviour.
+Their display property is by default block. Example: <div>, <h1>, <p>, <nav>
+
+Certain other html elements take up space only needed for their content in the same line.
+Setting width and height for these elements won't work, because their default display is set to inline.
+Examples: <a>, <img>
+
+Using CSS we are capable changing these default behaviours. 
+By setting the display to whatever suits our need. 
+display can also be set to inline-block, to get the properties of both inline and block elements.
+
+There is a problem with display: inline-block.
+It also considers the space in your html document.
+
+<div>
+   Something
+</div>
+{This space is calculated during inline-block}
+<nav>
+  Something
+</nav>
+
+===========================================================================================================
+Similar to var there is another CSS function calc()
+Allows one to perform calculations to determine CSS perperty values
+
+calc(100px - 60px)
+===========================================================================================================
+Pseudo classes: defines the style for a special state of an element
+Pseudo element: defines the style of a specific part of an element
+We can use pseudo classes and elements alone, need not use it with another selector if we don't want to.
+Please check out all the pseudo classes, its very useful and important.
+
+selector:pseudo-class {
+    property: value;
+}
+
+Example: hover, active, nth-child(), nth-of-type(), last-child, first-child
+
+a:hover {
+    color: red;
+}
+
+selector::pseudo-element {
+    property: value;
+}
+
+Example: after, before, first-line, first-letter
+
+p::first-letter {
+    font-size: 32px;
+}
+
+==========================================================================================================
+If two or more selectors have the same set of properties its always better to combine them.
+selector_1, selector_2 {
+    color: white;
+}
+
+==========================================================================================================
+!important annotaion
+
+div {
+    color: red !important;
+}
+
+This important annotation overwrites specifity and all other selectors.
+Try to avoide it, because you are writing bad code.
+==========================================================================================================
+:not(<selector>) 
+
+:not(p) {
+    color: yellow;
+}
+
+Now this selects anything that is not the p tag.
+
+a:not(.active) {
+    color: red;
+}
+
+Selects any anchor tag that does not have the active class.
+==========================================================================================================
+Browser Support
+We can use a site called caniuse.com to determine if the selectors or features I want to use in 
+my application is supported by various browsers.
+
+==========================================================================================================
+Let's say you centered a div using margin set to auto.
+Now the div will be centered, what about the content inside the div?
+You can center the content inside the div using text-align set to center.
+
+==========================================================================================================
+Postion property
+Let's say we have several divs in our html code. These are block level elements and will follow the document
+flow.
+The default postion of elements is set to static.
+We can however remove the elements from the document flow and position it wherever we want the element to be.
+absolute, relative, fixed, sticky are the various values we can use with position.
+
+We should use top, right, bottom, left and z-index to now position the element.
+
+When we set the position to fixed, we are basically removing the element from
+the document flow. That means other elements does not know that this element exist and also our element
+behaves as an inline-block element.
+
+Note on z-index
+Elements that do not have a position property set to something other than static(default), whatever z-index you 
+set it to, it does not have any effect.
+When you have a position property set to something other than static, remember the z-index gets applied by
+default, even if you do not set it.
+The default z-index that gets set when the position is not static is z-index: auto/z-index: 0
+
+position: absolute; the element will have a position context to the closest ancestor that has a position
+                    property applied. If non of the ancestors have a postion property set, then the position
+                    context is the html element.
+Both absolute and fixed position values take the elements out of the document flow.
+relative does not remove the element from the document flow.
+
+When you set the positon property to relative, the position context is the element it self.
+That is, if we now apply top: 50; left: 50; the element will move 50px on top from its initial position
+and move 50px left from its initial position. So when you set your element position to relative
+top: 0, left: 0; hence the element stays where it was initially, therefore not removed from the document flow.
+
+Now lets say we position an element in such a way that it may go out of its parent element.
+We can avoid it by setting 
+overflow: hidden; to the parent element.
+
+position: sticky; behaves like relative and fixed.
+When we set the property to sticky, it first behaves as a relative position, nothing changes
+As soon as you add top: 20px; The element will stop at 20px from viewport.
+=============================================================================================================
+Background properties
+
+background-size: cover === background-size: 100%
+Cover and 100% ensures that the image takes the complete container width and height, but it may crop it.
+Cover checks if your image is a landscape or a potrait, compares it with the container.
+Cover always ensures that there will not be any white spaces in your container, the container will completely
+hold the image.
+
+background-size: contain
+Contain will ensure that the full image is visible inside the container.
+There may be white spaces, but the full image will be visible.
+Cover actually crops the image to fit it in so that it looks good.
+
+background-position: center;
+Center of the image is the center of the container.
+background-position: left top;
+left edge and top edge of the image will be now visible, that means the bottom will be cropped out
+background-position: left bottom;
+left edge and the bottom edge of the image will be now visible, that means the top of the image
+will be cropped off.
+
+background-position: left 10% bottom 20%
+crop off 10% of the image not visible from left and crop off 20% of the image not visible from the bottom.
+
+background-image: url(); //one or MORE images
+background-color: red;
+background-repeat: none;
+
+Now all our elements have box-sizing set to border-box, however for image that is not the default.
+If we add a dashed border around the image container, you will see white spaces between the dashes.
+background-origin: border-box; will now ensure that you will see the image between the dashes.
+
+background-clip: padding-box; //clip the image, ie remove the image that goes beyond the padding
+background-clip: border-box; //clip the image beoynd the border
+
+background-attachment: fixed; //the image is fixed to the viewport
+background-attachment: scroll; //image is fixed to the container and the content can be scrolled
+background-attachment: local; //both image and content can be scrolled
+===========================================================================================================
+Styling images
+
+Lets say we have an anchor tag with our company logo in it.
+The logo will take its own height, going out of the anchor tag.
+Thats not we want, we can set height: 100%; on the image and this would mean now the image should take
+100% of its container only. But this does not work WHY???
+
+Its because <a> is an inline element.
+Make it block or inline-block and now set height: 100% on the image...the image shrinks to fit the container.
+
+============================================================================================================
+Liner Gradients
+
+Gradients are treated as images in css. By default the direction of linear gradient is top to bottom.
+background-image: linear-gradient(red, blue);
+background-image: linear-gradient(to left bottom, red, blue);
+background-image: liner-gradient(to top, red, blue, yellow);
+background-image: liner-gradient(to bottom, black, transparent);
+
+===========================================================================================================
+Radial Gradients
+
+backgroud-image: radial-gradient(red, green);
+backgroud-image: radial-gradient(circle, red, green, blue);
+backgroud-image: radial-gradient(circle at top left, red, green, blue);
+backgroud-image: radial-gradient(circle at 20% 70%, red, green, blue);
+
+==========================================================================================================
+Using Multiple Backgrounds
+
+background: linear-gradient(), url() left top cover no-repeat, red;
+
+The different background images are separated by commas.
+Make the first one transparent or slightly transparent so we can see the second image.
+
+=========================================================================================================
+Filter
+
+There are several filter methods that we could make use off to filter our background images
+filter: grayscale(100%);
+filter: opacity(50%) blur(1px);
+
+There are several filters we could use please google. 
+Remember to keep the browser compatibility in mind.
+
+========================================================================================================
+CSS Units
+
+pixels - px 
+percentages - %
+root em - rem 
+em - em 
+viewport height - vh 
+viewport width - vw 
+
+Which CSS properties need units?
+1: font-size
+2: padding
+3: border
+4: margin
+5: width
+6: height
+7: top
+8: bottom
+9: left
+10: right
+
+How is size calculated?
+Absolute Lengths (px)
+Viewport Lengths (vh, vw)
+Font-Relative Lengths (rem, em)
+Special case (%)
+
+Rule 1 for %
+If we are using % to set our sizes, we need to understand what a containing block is.
+Containing block is the element that is referred to when we set % sizes.
+If we set the position of our element to fixed ie: position: fixed
+Then the containing block of our element is the viewport.
+So when we set our elements width to 100%, we are referring to the viewport and taking 100% of 
+the viewport width for our element.
+
+Rule 2 for %
+If the element we want to size has a position property set to absolute,
+then the containing block is the closest ancestor which has a position property set to something
+other than static. If none of the ancestors have a position property other than static, then the 
+containing block is the viewport.
+Remember the ancestors content and padding are considered for reference.
+
+Rule 3 for %
+If the element we want to size has a position property set to static(default) or relative
+then the containing block is the closest ancestor which is a block level element.
+Only the content part of the containing block is considered when we use % in this scenario.
+When the position is set to static or relative, setting the height using percentages is a challenge.
+You may need to google a bit.
+
+====================================================================================================
+max-width - maximum width a container can have
+min-width - minimum width a container can have
+
+====================================================================================================
+Font sizing(rem and em)
+
+1em browser default is 16px
+
+Parent (font-size: 1.2em = 1.2 * 16px)
+   Child (font-size: 1.1em = 1.1 * 1.2 * 16px)
+
+You see the Child element inherits the parents em.
+
+Parent (font-size: 1.2em = 1.2 * 16px)
+    Child (font-size: 1.1rem = 1.1 * 16px)
+
+You see, when we use rem for the child element the font-size is always calculated with the
+browser default 16px
+===================================================================================================
+You can any property using rem, however it will always refer to the browser default of 16px(medium)
+If you set the margin to 3rem it would mean 3 * 16 = 48px
+
+==================================================================================================
+Viewport Height and Viewport width
+100vw means 100% of the viewport width
+80vh means 80% of the viewport height
+
+100vw adds horizontal scrollbar, which is sad.
+Use width: 100% instead if you want to avoid the horizontal scrollbar.
+or use overflow-x: hidden
+==================================================================================================
+Which Unit Should I Choose?
+
+font-size - rem
+padding and margin - rem
+border - px
+width and height - % or vh or vw
+top and bottom - %
+left and right - %
+
+==================================================================================================
+Another way to center block elements 
+margin: auto;
+
+==================================================================================================
+Responsive Design
+
+mydevice.io 
+This is an amazing site to compare hardware px to css px
+
+In order to make our website responsive we need the viewport meta tag in our html document.
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+Without this meta tag, our entire website will be sqeezed to fit in on a mobile screen(desktop view on chrome
+mobile browser)
+With this tag, we can now use media queries to design our site on smaller screen sizes.
+
+===================================================================================================
+Mobile First designs and Media queries
+
+Media queries are like if statements
+We should write code for mobile devices and then use media queries to make tablet and desktop designs.
+We can have multiple queries
+
+Complex media qieries "and" and "or"
+
+@media (min-width: 40rem) and (orientation: potrait) {
+    //these will be executed when both the conditions are met
+}
+
+@media (min-width: 40rem) and (min-height: 40rem) {
+    //these will be executed when both the conditions are met
+}
+
+@media (min-width: 40rem), (orientation: landscape) {
+    //these will be executed when one of the condition is met
+}
+
+Try using the following break points, but always design mobile first.
+
+640px - 40rem
+768px 
+1024px
+1200px
+
+If you find your elements expanding as you expand the screen, then max-width is for your rescue.
+===================================================================================================
+Bootstraps breakpoints
+// Extra small devices (portrait phones, less than 576px)
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+
+===================================================================================================
+Advanced Attribute selectors
+
+[type] {
+    color: red;
+}
+
+The above code snippet selects all elements that has a type attribute set
+Ex: <input type="text">
+
+[type="email"] {
+    color: red;
+}
+
+The above code snippet selects all elements that has a type attribute set to email
+Ex: <input type="email">
+
+[lang~="en-us"] {
+    color: red;
+}
+
+The above code snippet selects all elements that has a lang attribute set which has one value en-us
+Ex: <p lang="en-us en-gb">Hi!!</p>
+
+[href^="#"] {
+    color: red;
+}
+
+The above code snippet selects all elements that has href attribute set which starts with a #
+Ex: <a href="#all">Link</a>
+
+[href$=".com"] {
+    color: red;
+}
+
+The above code snippet selects all elements with the href attribute set which ends with .com
+
+label[for="password"] {
+    //this will select all labels with a for attribute set to password
+}
+===================================================================================================
+Form Styling
+
+Input fields have some default browser styles that you may want to overwrite.
+Input fields have something called outline when focussed, you can remove that using
+
+input:focus {
+    outline: none;
+}
+
+Even if you set the display to block, inputs and buttons do not span the entire width, you have to 
+manually set width: 100%; for it to span the entire width.
+
+If you want the text inside the inputs not to be the browser defaults, then you can set
+font: inherit;
+
+Styling checkbox's and select dropdowns is hard, because the browser has its own set of styles applied.
+However we can overwrite them
+
+For example, styling a checkbox
+
+input[type="checkbox"] {
+    -webkit-appearance: none; //chrome default appearance set to none
+    -moz-appearance: none; //mozilla firefox default appearance set to none
+     appearance: none; //general apperance in other browsers set to none
+     background: white; //now setting our styles
+     border: 1px solid #ccc; 
+}
+
+input[type="checkbox"]:checked {
+    //when the checkbox is checked
+    background: green;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    background: #ccc;
+    border-color: #ccc;
+    color: black;
+}
+
+===========================================================================================================
+Fonts
+
+Generic font families and font families
+
+Times New Roman and Georgia are font families, but they belong to serif generic font family.
+Helvetica and Verdana are font families, but they belong to the sans-serif generic font family.
+Brush Script and Mistral are font families, but they belong to the cursive generic font family.
+Courier New and Lucida Bright are font families, but they belong to the monospace font family.
+
+What font will be selected?
+
+If no font-family is set in your css code, the browser will select its default font-family(In Chrome, its 
+called Standard font).
+
+If we set our font-family in our css to a generic font family, then the browser will choose the
+font-family set under that generic font-family in the browser.
+Ex: font-family: sans-serif; //the font-family specified under sans-serif in your browser is choosen
+
+If you set a font-family that is not a generic one, then either the font should be downloaded and saved
+in the users computer, or we use web fonts(Google fonts) or we use a font from a server(our server).
+
+=========================================================================================================
+If you are using Google fonts, then @import them in your shared css file, instead of having multiple
+links to fonts in multiple html files.
+
+If you want to add your own font's
+Download the ttf file, add it to your source code like below in your css file
+
+@font-face {
+    font-family: "GiveSomeName";
+    src: url("./GiveSomeName-Font.ttf");
+}
+
+Different font properties
+font-size
+font-variant
+font-stretch
+letter-spacing
+white-space
+line-height: 2; //means 2*font-size without the decimals for the content box or you could use px or %
+
+text-decoration: underline dotted red;
+text-shadow: offset to x-axis, offset to y-axis, blur, color;
+
+Font Shorthand
+font: font-style(optional) font-weight(optional) font-size(must)/line height(optional) font-family(must)
+
+==========================================================================================================
+FLEXBOX
+
+display: flex;
+The element which holds this property will now be a flex container
+The parent which has display set to flex is called the flex container and the children of this
+parent is called the flex items.
+
+Parent container can have the following properties
+
+flex-flow:
+justify-content:
+align-content:
+align-items:
+
+Flex items can have the following properties
+order:
+flex: 
+align-self:
+
+==========================================================================================================
+One can set the display to flex or inline-flex
+The difference is the flex items inside the flex container expand and compress according to the 
+width of the screen.
+Whereas flex items inside a inline-flex container always take the necessary width and the container
+behaves like an inline element.
+
+When you set display flex to a container, behind the scenes two other properties were added
+
+flex-direction: row; //row is the default value
+flex-wrap: nowrap; //nowrap is the default value
+
+If you set the flex-wrap to wrap, then the flex items will take the original width set in css on 
+another line one by one as we reduce the width, until all the flex items are stacked on top of each other.
+
+                   main axis --->
+     cross axis  flex-direction: row
+         |
+        \|/
+
+                                                                                 <--main axis
+                                                                    flex-direction: row-reverse  cross axis
+                                                                                                      |
+                                                                                                     \|/
+
+                   cross axis --->
+     main axis   flex-direction: column
+         |
+        \|/              
+
+
+                                                       /|\
+                                                        |      flex-direction: column-reverse
+                                                    main axis         cross axis  --->
+
+
+Which property ensures all the flex items take the same direction in the flex container?
+align-items: stretch; //stretch is the default value
+
+align-items: center; //we center the flex items along the cross axis
+align-items: flex-start; //the flex items will now start from the beginning of the cross axis
+align-items: flex-end; //the items will be attached to the bottom of the cross axis
+
+justify-content: center; //we center the flex items along the main axis
+justify-content: flex-start; //the flex items will now start from beginning of the main axis 
+justify-content: flex-end; //the flex items will now start from the bottom of the main axis
+
+align-items -----> cross axis
+justify-content ------> main axis
+align-content ------> combination of align-items and justify-content
+
+align-content: center; //we center the content of the container along the cross axis
+align-content: space-between; //we have space between our contents along the cross axis
+
+=====================================================================================================
+Flex items and its properties
+
+order: 0; //will change the order in which the items are displayed in the main axis
+          //0 is the default, if you set a negative number the item will be positioned at the start of the main
+          //axis, if you set it to a positive number it will be positioned at the end of the main axis
+
+align-self: flex-start; //positions the item (only that item) along the cross axis.
+
+flex-grow: 0;// the width of this item will stretch until all the space in the main axis is used up
+             //ie width of this element + width of all the other flex items combined = main axis Lengths
+             //without flex-grow, the main axis may have some extra unused space.
+             //0 is default, you can set it to any natural number
+             //If you have two items with lets say flex-grow: 1 and flex-grow: 5, then 1/5th of the extra
+             //space gets added to the first flex item and 4/5th of the extra space added to the second item
+
+flex-shrink: 1;//default is 1, if we have flex-wrap set to nowrap, then the element will shrink
+               //until it content requires
+               //However, if we set the value to 0, then the element will shrink only till the defined width
+               //when the defined width is hit, it stops shrinking
+               
+flex-basis: auto;//if the main axis is from left to right, then flex-basis refer to the width
+                 //if it is from top to bottom it refers to the height
+                 //if this value is set, it overrides any width and height properties set based on the 
+                 //direction of the main axis
+                 //flex-direction: row; main axis left to right; element height: 250px; flex-basis: 300px;
+                 //the element will have a width(left to right) of 300px and not 250px.
+
+Short hand for flex-grow, flex-shrink, flex-basis
+flex: 0 1 auto;
+
+=====================================================================================================
+CSS Grid System
+
+Set the container to
+display: grid;
+
+By default, the grid container has only one column, taking 100% of its parent container.
+If we want to disrupt the flow and define multiple columns we use
+
+grid-template-columns: 200px 450px 20%; //This property sets 3 columns each with the specified widths.
+grid-template-columns: 20% 2fr 30% 1fr; //column 1 will have 20% column 3 will have 30%
+                                        //column 2 will have 2/3 * 50% and column 4 will have 1/3 * 50%
+                                        //fr stands for fraction, the remaining space gets divided into
+                                        //fractions 2fr gets twice as space as 1fr from the remaining space.       
+
+
+grid-template-rows: 5rem 2.5rem; //sets 2 rows each with the specified height
+
+Now imagine if we have 3 columns and 2 rows, then the number of grid cells = 2 * 3 = 6 cells
+The children of the grid container each will take one cell, if there are only 4 children, then 4 cells will
+be filled leaving 2 cells with nothing(empty).
+
+How do we overwrite this behaviour where each child takes 1 cell each?
+To overwrite this behaviour we go to the child element css and use the following properties
+
+grid-column-start: 3; //start this child from the 3rd column line
+grid-column-end: 5; //end this child on the 5th column line
+grid-row-start: 1; //start this child at the 1st row line
+grid-row-end: 3; //end this child on the 3rd row line
+grid-column-end: span 2//end this child after it occupies 2 cells
+
+If you want the container to have all equally sized columns
+grid-template-columns: repeat(4, 25%); //this will create 4 columns each with 25% width
+grid-template-columns: repeat(4, 25% 25% 25% 25%); //this will create 4 columns each with 4 other columns
+                                                   //creating 16 columns
+
+Another helper css method is minmax
+
+grid-template-rows: 5rem minmax(2rem, 10rem), 25%; //this will create 3 rows
+                                                   //first one with 5rem height
+                                                   //second one with a 2rem <= height <= 10rem
+                                                   //third one with 25% of the container height
+
+If you explictly specify the grid container children to overlap, they overlap.
+NOTE: Child elements can occupy the same cell, if you explicitely mention it, grid System
+tries to avoide such overlaps.
+
+Instead of using line numbers, we could name them too
+
+grid-template-rows: [row-1-start] 5rem [row-1-end row-2-start] 7rem;
+The above code snippet names the first horizontal line row-1-start, we name the second horizontal line to
+be either row-1end or row-2-start. In this manner we can use these names instead of line numbers in our 
+child elements to position them.
+
+Shorthands in Grid
+grid-column-start and grid-column-end can be combined together to make a Shorthand
+grid-column: 1 / 2; //first is the start value and the second value is the end value
+
+Same with the row too.
+
+Combine all of it into one
+grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;
+
+============================================================================================================
+Gap between cells
+
+On the container
+grid-row-gap: 10px;
+grid-column-gap: 10px;
+grid-gap: grid-row-gap grid-column-gap;
+
+===========================================================================================================
+Naming our child elements
+
+gridContainer {
+    grid-template-rows: 50% 25% 25%; //3 rows
+    grid-template-columns: repeat(4, 25%); //4 columns
+    grid-template-areas: "header header header header"
+                         "sideBar main main main"
+                         ". footer footer footer";
+}
+
+child1 {
+    grid-area: header;
+}
+
+child2 {
+    grid-area: sideBar;
+}
+
+child3 {
+    grid-area: main;
+}
+
+child4 {
+    grid-name: footer;
+}
+
+In the above code snippet we see that our grid system has 12 cells(3*4).
+The first 4 row cells is the header, the next row has 1 cell for side bar and the other 3 for main.
+The last row has one cell empty(defined with a .) and 3 cells for the footer.
+====================================================================================================
+Elements that are not part of the document flow, ie fixed and absolute elements are not part of the grid
+and hence not considered for rows
+
+One way to ensure our rows will fit the content is by using a helper function
+
+grid-template-rows: auto fit-content(8rem);
+
+This will ensure that our second row content will be displayed if the width goes below 8rem.
+Otherwise the default width is 8rem on all pages.
+
+====================================================================================================
+By default a grid child takes the entire width of the cell.
+What if you want the child to occupy only certain parts of the cell?
+We can use justify-items: center; //We use this in the parent grid container
+                                  //Now each grid will be centered in its own cell/s horizontally x-axis, 
+                                  //taking only the space necessary for its content. 
+                                  //Other values, start, end, stretch(default)
+
+            align-items: center; //We use this in the parent grid container
+                                 //Now each grid will be centered in its own cell/s vertically y-axis,
+                                 //taking only the space necessary for its content
+                                 //Other values start, end, stretch(default)
+            
+If the grid container is much bigger than the grid content, then we can position the entire content
+as we want it to.
+
+justify-content: center; //positions along the x axis. Other values, start, end
+align-content: center; //positions along the y axis. Other values start, end
+
+If you want to just position one child in its cell?
+Go to the child css definition
+justify-self: center; //x-axis 
+align-self: center; //y-axis
+
+Responsive grids can be achieved by adding media queries
+to control the number of rows and columns.
+
+===================================================================================================
+When the container has display set to grid, then it will define rows automatically for its direct
+child elements.
+This behaviour is really essential when we do not know how many rows out content requires.
+
+So since grid automatically generates the rows for us, we get a row height also automatically set by
+the grid system. How to overwrite that?
+grid-auto-rows: 20rem; //now all the automatically generated rows will have 20rem height irrespective of its
+content.
+
+Why automatically generated rows? Why not columns?
+Because grid-auto-flow: row; by default is set to row. Change it to grid-auto-flow: column;
+Then the direct child elements will get new columns instead of rows.
+The use
+grid-auto-columns: 20rem; to set the width of the automatically generated columns to 20rem each.
+
+You can definitely define certain rows by yourself and leave the rest for the grid system to handle.
+Like define the first row to be 20rem, and the first child element will take that row. The rest child elements
+will get an automatically created rows with height set to auto.
+
+Check out auto-fill and auto-fit, these look like something I will never use, but you never know.
+=============================================================================================================
+When to use grid and flexbox?
+If you have a row of elements that sit next to each other, or a column of elements that sit one below each
+other, then use flexbox to position.
+If you have a combination of rows and columns to work with then use grid.
+
+=============================================================================================================
+CSS Transforms
+
+You add the transform property to the element.
+transform: rotateZ(45deg); 
+transform-origin: top left; //the elements top left corner stays in its place and rotates the element
+                            //by 45deg, by default transform-origin value is center.
+
+How do we position our element after we transform it?
+We use translate for that
+transform: rotateZ(45deg) translateX(3rem) translateY(-1rem);
+
+translate property moves the element along the X or Y axis, please note the X and Y axis are not relative to
+the screen, it is relative to the element ie if the element is titled by 45 degrees, then the X axis goes
+through the center of the element also titled, same with Y axis.
+
+What if we transform an element and the element goes outside the parent element making it look sad?
+Then we go to the parent element and set the following property
+overflow: hidden;
+
+The other values for transform
+skew(20deg, 20deg) or skewX(20deg) or skewY(20deg)
+scale(2) or scaleX(2) or scaleY(2) -->Scale stretches the element along the x and y axis scale(1) is default
+translate(3.5rem, 1rem) or translateX(3.5rem) or translateY(1rem)
+rotate(45deg) === rotateZ(45deg)
+
+3D Transforms
+rotateX(30deg) rotateY(45deg)
+Wow another function perspective(100px); you could use rem too, but perspective is my personal favourite right
+now. Use it with rotateX or rotateY and see the beauty.
+
+You can use perspective as a property in the parent element
+perspective: 100px;
+perspective-origin: center; //by default, use right, left, px's
+
+perspective is how we are looking at the element, from center or from right or from left or 100px from the 
+center, like that.
+
+translateZ(); //the element moves towards us for positive values or away from us for negative values.
+
+If we positioned our child elements in a 3D space and then rotateX(90deg) our parent, will the children
+hold on to thier 3D positions?
+No, if the parent is roatated 90deg along X the parent disappears, even the children disappear.
+that is because the parent has a default property set
+transform-style: flat; //flat is the default
+However, if you want the children to preserve their 3D, we need to
+transform-style: preserve-3d;
+
+If you are flipping the element and you are showing the elements back and you don't like it
+then backface-visibility: hidden; 
+
+=============================================================================================================
+Transitions
+Transitions are applied between the initial value to the desired final value.
+It takes 4 values
+
+transition: <properties you want to watch> <time it should take to reach the desired value>
+            <timing functions> <delay ie how long should we wait before transition can kick in>
+
+transition: opacity 400ms ease-out 1s;
+
+.modal {
+    opacity: 0; //initial opacity
+    transform: translateY(-3rem); //initial transform
+    transition: opacity 400ms ease-out, transform 500ms ease-out;
+}
+
+.showModal {
+    opacity: 1; //desired opacity
+    transform: translateY(0); //desired transform
+}
+
+If you want to watch multiple properties in transition we separate them with a comma.
+If you want to watch all the watchable properties in transition we use transition: all 400ms ease-in;
+
+Instead of the shorthand we could use
+transition-property: opacity;
+transition-duration: 200ms;
+transition-timing-function: ease-out;
+transition-delay: 1s;
+
+timing functions
+Google Timing functions cheat sheet.
+You can create your own timing functions
+transition-timing-function: cubic-bezier(1, 1.68, 1, -1.06);
+
+You can create it on chromes developer tools or look at the cheat sheet.
+
+======================================================================================================
+Animations
+
+Animations is like transitions++
+We use the animation property on the element to animate
+The property takes the following values
+
+element to animate {
+    animation: keyframe duration delay timing-function iterations direction fill-mode play-state;
+}
+
+Example:
+animation: wiggle 200ms 3s ease-out 8 alternate none running;
+
+We have a wiggle keyframe setup, run the animation for 200ms but repeat the animation 8 times within that 200ms
+Also start the animation 3s after the page is reloaded. The direction of the animation is alternate, meaning
+the from and to is calculated as 2 iterations. The fill-mode is set to none(this is the default, you need
+not mention it), this ensures that the element keeps its default position after the animation is over.
+If you set the animation fill mode to forwards, then the element will hold the to position set in the keyframe
+after the animation, if the fill mode is set to backwards, the element will hold the from position
+after the animation is over. The play state determines if we should play the animation or not, here it is 
+set to run.
+
+@keyframes wiggle {
+  from {
+    transform: rotateZ(-10deg);
+  }
+  to {
+    transform: rotateZ(10deg);
+  }
+}
+
+You can also have percentages giving us more control over our Animations
+
+@keyframes wiggle {
+  0% {
+    transform: rotateZ(0);
+  }
+  50% {
+    transform: rotateZ(-10deg);
+  }
+  100% {
+    transform: rotateZ(10deg);
+  }
+}
+
+JavaScript provides 3 events for Animations
+animationstart
+animationend
+animationiteration
+
+ctaButton.addEventListener("animationstart", function (event) {
+  console.log("Animation Started", event);
+});
+
+This gives us more control over animations.
+
+=========================================================================================================
+CSS Shapes
+
+If you have a div and want to make it a triangle
+
+select the div {
+   clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
+}
+
+If you want multiple lines connected together like a graph
+In the html file
+<svg>
+    <polyline points="40,130 90,70 150,90 210,70 260,115 310,125 360,85"></polyline>
+</svg>
+
+In the CSS file
+polyline {
+  fill: none;
+  stroke: red;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+=========================================================================================================
+SVG - Scalable Vector Graphics
+
+<svg width="100" height="100">
+  <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+</svg>
+
+The svg image begins with the <svg> tag. The width and height attributes of the svg are specified and are in px's.
+The <circle> element is used to draw a circle. The cx and cy attributes define the x and y coordinates of the center of the circle. 
+If cx and cy are not set, the circle's center is set to (0, 0).
+The r attribute defines the radius of the circle.
+The stroke and stroke-width define the colour and width of the stroke.
+The fill attribute determines the colour inside the circle.
+
+svg shapes
+
+Rectangle <rect>
+Circle <circle>
+Ellipse <ellipse>
+Line <line>
+Polyline <polyline>
+Polygon <polygon>
+Path <path>
+
+Attributes that can be used
+
+height="400"
+width="600"
+fill="blue"
+stroke="yellow"
+stroke-width="40"
+fill-opacity="0.1"
+stroke-opacity="0.9"
+x="50" ------------->the top left corner of our drawing will be 50px away from the svg elements left margin
+y="200" ------------>the top left corner of our drawing will be 200px away from the svg elements top margin.
+opacity="0.5"
+rx="20" ----------> rounds the corners
+ry="20"
+rx="100" ---------->horizontal radius for an ellipse
+ry="50" ----------->vertical radius for an ellipse
+
+<line>
+x1="0" --->start of the line along x axis
+y1="0" --->start of the line along y axis
+x2="200" --->end of the line on x axis
+y2="200" --->end of the line on y axis
+
+<polygon>
+points="200,10 250,190 160,210" ---->3 corner points of the polygon triangle
+
+<polyline points="20,20 40,25 60,40 80,120 120,140 200,180">
+
+

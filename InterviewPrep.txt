@@ -2,3 +2,80 @@ Interview Preparation
 Keeping JavaScript and its frameworks in mind.
 
 ==============================================================================================================================================
+What are closures in JavaScript?
+When you have a function nested inside another function, then the nested function becomes a closure.
+A closure is a combination of the function and the lexical environment within which that function was declared.
+The nested function will have access to all the variables declared within its lexical scope.
+
+function makeFunc() {
+  var name = 'Mozilla';
+  function displayName() {
+    alert(name);
+  }
+  return displayName;
+}
+
+var myFunc = makeFunc();
+myFunc();
+
+myFunc holds a reference to displayName, displayName holds a reference to the lexical environment which has the variable name.
+
+===============================================================================================================================================
+What are promises?
+A promise is an object representing the eventual completion or failure of an asynchronous operation.
+const func = () => {
+  return new Promise((resolve, reject) => {
+    const i = 0;
+    if (i === 1) {
+      setTimeout(() => {
+        const obj = {
+          name: "Antony",
+          age: 24,
+          email: "antonychiramel07@gmail.com",
+        };
+        resolve(obj);
+      }, 5000);
+    } else {
+      reject(new Error("This code was rejected"));
+    }
+  });
+};
+
+const gettingPromise = async () => {
+  try {
+    const response = await func();
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+gettingPromise();
+
+================================================================================================================================================
+The code we wrote above can be also written using callback function.
+Try to use promises as much as possible.
+
+const func = (callback) => {
+  let i = 0;
+  if (i === 1) {
+    const obj = {
+      name: "Antony",
+      age: 24,
+      email: "antonychiramel07@gmail.com",
+    };
+    setTimeout(() => callback(obj), 5000);
+  } else {
+    callback(new Error("This code was rejected"));
+  }
+};
+
+const gettingPromise = () => {
+  func((response) => {
+    console.log(response);
+  });
+};
+
+gettingPromise();
+
+===============================================================================================================================================

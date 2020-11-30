@@ -1,0 +1,129 @@
+React Hooks
+
+WE CANNOT USE HOOKS INSIDE CONDITIONAL BLOCKS
+if(value > 0) {
+   useEffect(() => {console.log('useEffect hook just ran')});
+}
+
+=======================================================================================================================================
+1: useState()
+useState() returns an array of two values.
+The first value is the state (it could be a string, number, array or an object), the second value is a function
+this is the function that set's the first value. As far as the naming convention goes
+
+const [text, setText] = useState("Random Value");
+
+The setText() method takes in the new state as its argument.
+Example: setText('Antony Chiramel');
+
+If your new state value depends on the previous state value, then we need to pass a function as an argument to the setValue function.
+
+setValue((prevState) => prevState + 1);
+
+This setup will ensure that the previous state is always available and the new state will refer to it to generate the new value.
+
+=======================================================================================================================================
+2: useEffect()
+Used to create side effects. For everything outside the component.
+By default it runs after every render/re-render of the component.
+
+Since we cannot place hooks inside conditionals we can have conditional loops inside the hooks
+
+useEffect(() => {
+  if(value > 1) {
+     console.log('State value is greater than 1!!!');
+  }
+}, [])
+
+The second argument to useEffect hook is the dependency list which is an array. If there is no second argument, then useEffect runs
+after the first render and consequently for every re-render.
+If the dependency list is empty ie an empty array, then the useEffect will only be called in the initial render.
+The dependency array takes in a list of values, useEffect will only run when any one of them gets updated.
+
+WE CAN HAVE MULTIPLE USEEFFECT WITH DIFFERENT DEPENDENCY LISTS!!!
+
+The first function we pass as argument to useEffect, we can return a function which does the cleanup work.
+Lets say we are handling an event listener in the useEffect block, we can return a function which then cleans up this event listener.
+
+useEffect(() => {
+  window.addEventListener('resize', checkSize);
+  return () => {                          --------------------> cleanup function getting returned
+     window.removeEventListener('resize', checkSize);
+  }
+})
+
+Why should I remove eventListeners?
+To avoid memory leaks.
+
+Please avoid state changes inside the useEffect hook, because when the state changes the component is re-rendered, when the component is
+re-rendered the useEffect hook gets called and if the useEffect hook updates the state then we have just created an infinite loop.
+Avoid it by using an empty dependency list as the second argument to your useEffect hook.
+
+We can use useEffect hook to fetch data from apis.
+
+=====================================================================================================================================
+Conditional Rendering
+Remember: Our component can have multiple returns based on various conditions.
+
+1: Our component has multiple returns with different JSX based on various if conditions.
+2: Short Circuiting, return (firstName || 'John Doe')
+   In short circuting we essentially choose firstName if its value is truthy or the second value if the first value is falsy.
+   return (showModal && <Modal />), in this case if showModal is true we display the Modal, else nothing is displed.
+3: Ternary operator, return(firstName ? firstName: 'John Doe');
+
+=====================================================================================================================================
+
+FOR ICONS USE REACT ICONS LIBRARY IS IS AWESOME!!!!
+
+=====================================================================================================================================
+Dynamically adding class name in React!!
+
+ className={`job-btn ${index === value && "active-btn"}`}
+
+job-btn is one class, if the index is equaly to some value then also active-btn will be added
+=====================================================================================================================================
+The slider project is an important project to understand useEffect clean up functions.
+
+======================================================================================================================================
+Form Handling in React
+
+Form can be submitted in two ways
+
+1: <form onSubmit={handleSubmit}>
+
+   </form>
+
+2: <form>
+  	<button type="submit" onClick={handleSubmit}>Submit</button>
+   </form>
+
+The handleSubmit function gets the event object as its parameter, so we can e.preventDefault()
+We also get all the state values here.
+
+Getting input values in React.
+We define state values for our inputs.
+
+const [firstName, setFirstName] = useState("");
+
+<form>
+  <label htmlFor="firstName">First Name : </label>
+  <input type="text" id="firstName" name="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+</form>
+
+When you have multiple input values it is not ideal to have so many state values for all the inputs.
+Hence keep it to one state which is set to an object.
+
+const [person, setPerson] = useState({name: "", email: "", age: ""});
+
+const handleChange = (e) => {
+   const name = e.target.name; ----------------------------->this is exactly were we use the name attribute to input tags
+   const value = e.target.value;
+   setPerson({...person, [name]: value}); ----------------------->dynamic object properties
+}
+
+<label htmlFor="name">Name: </label>
+<input type="text" id="name" name="name" value={person.name} onChange={handleChange} /> -----------------> notice how the handleChange is set, we do not 
+                                                                                                           need to send the event object, react does it for us
+                                                                                                           the label htmlFor should match the id in the input
+
+===============================================================================================================================================================
