@@ -1,0 +1,76 @@
+Full Stack Project Structure
+
+1: Create the project folder, create a sub-folder "server"
+In server sub-folder run "npm init"
+
+2: Once the package.json file is generated
+Install express
+npm install --save express
+
+3: Create the index.js file in the server folder and initiate your express server there
+
+4: const express = require('express');
+   const app = express();
+   app.get('/', (req, res) => {
+       res.send({
+           hi: 'there',
+       })
+   });
+   app.listen(5000);
+
+app - app object is the express server
+get - app registers the get route, get is a method in the app object which takes the route and a callback function
+      other methods post, put, delete, patch
+/ - route
+req - object representing the incoming request
+res - object representing the outgoing response
+res.send() - send whatever is inside send as response
+
+app.listen() - express tells node to listen to port 5000 for incoming requests
+
+===============================================================================================================================================================
+
+5: Deployment time
+Deployment Checklist
+ - Dynamic Port Binding - Heroku tells us which port our app will use, so we need to make sure we listen to the port they tell us to
+                          const PORT = process.env.PORT || 5000;
+ - Specify Node Environment - We need to use a specific version of node, so we need to tell Heroku which version we want, in package.json file
+                              "engines": {
+                                 "node": "12.15.0",
+                                 "npm": "6.13.4"
+                               },
+ - Specify Start Script - Instruct Heroku what command to run to start our server running
+                          "start": "node index.js"
+ - Create .gitignore file - We don't want to include dependencies, Heroku will do that for us
+
+6: First deployment
+   - Create Heroku account
+   - Commit our code to git
+   - Install Heroku CLI and Create App, 
+      heroku -v
+      heroku login
+      heroku create <name of your project you want to use in Heroku>
+   - Deploy App with git
+      git remote add heroku <the heroku git repo url>
+      git push heroku master
+   - Heroku deploys project
+      heroku open
+      heroku logs
+
+============================================================================================================================================================
+Google OAuth
+Passport.js is a helper library which helps with oAuth.
+
+npm install passport
+npm install passport-google-oauth
+
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+passport.use(new GoogleStrategy());
+
+Now go to 
+https://console.cloud.google.com
+Create a new project, set up OAuth credentials for that project
+
+

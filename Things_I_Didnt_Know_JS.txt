@@ -1,0 +1,178 @@
+1: When "use strict"; is located at the top of a script, the whole script works the mordern way.
+
+2: If you are in Chrome Developer Console and you have a multi-line program to execute, Shift + Enter will take you to the next line.
+
+3: JavaScript is case sensitive, apple and AppLe are two different variables.
+
+4: There are 8 data types in JavaScript - Number, BigInt, String, Boolean, "null" value, "undefined" value, object, typeof operator
+
+5: Number data type - Number values, floating point numbers, Infinity, -Infinity and NaN
+
+6: String(value)---> return the string form of value
+   Number(value)---> return the number form of value
+   Number(true) ---> return 1
+   Number(null) ---> return 0
+   Number(false)---> return 0
+   Boolean(value) --> returns either true or false
+                      falsey values - 0, "", null, undefined, NaN
+                      everything else is truthy
+
+7: Exponentiation **
+   2 ** 3 //8
+
+8: In string concatenation using binary +
+   If any one of the operand is a string the output will be a sting
+   1 + "2" //"12"
+   "2" + 1 //"21"
+   The other arithmitic operators work only with numbers and converts its operands to numbers if necessary
+   6 - "1" //5
+   "8"/"4" //2
+
+9: Number(value) is the same as +value
+
+10: The logical OR operator ||
+    Evaluates operands from left to right
+    For each operand, converts it to boolean. If the result is true, stops and returns the original value of that operand.
+    If all operands have been evaluated (i.e. all were false), returns the last operand.
+    alert(null || 1 || 0) //Output 1
+    alert(null || undefined || 0) //Output 0 last value because everything is falsy
+
+11: The logical AND operator &&
+    Evaluates operands from left to right.
+    For each operand, converts it to a boolean. If the result is false, stops and returns the original value of that operand.
+    If all operands have been evaluated (i.e. all were truthy), returns the last operand.
+    return (loading && <Loading />) //if loading is true the Loading component is returned
+
+12: Generating an array of arrays
+    Array.from({length: 5}); ------> [undefined, undefined, undefined, undefined, undefined]
+    Array.from({length: 5}, (_, index) => index); -------> [0, 1, 2, 3, 4]
+    Array.from({length: 5}, (_, index) => somearray.slice(index, index + 10)); -----> [[10 values], [10 values], [10 values]....]
+
+13: Destructuring nested objects
+    Example: 
+    let obj = {
+       urls: {
+          full: 'something.com',
+          regular: 'somethingelse.com'
+       }
+       alt: "this is some description",
+    }
+    
+    {urls: {regular}, alt} = obj; ---------------->this is how you destructure nested objects, here we destructured urls and took only regular
+
+14: :root {           --------------->this is the document html element
+      --clr-bg: #fff;
+    }
+
+    How can we access the html element?
+    document.documentElement will give you the html element
+    Now we can access this html element and change the css variables by adding various classes to this html element
+
+15: We can also pass functions as default parameters in a function
+    const someFunction = (to, message=getMessage()) {
+        console.log(to + message);
+    }
+   
+    In the above case, getMessage() is called everytime message parameter is not passed, the value of getMessage() then becomes the value of message.
+
+16: Array Map Method
+    <array>.map((element, index) => {
+       return <Component key={index} name={element.name} />
+    })
+
+    map method returns a new array with what gets returned from the callback function.
+
+17: Do not mutate arrays and objects in JavaScript, use the spread operator
+    const newArray = [...oldArray];
+    const newObj = {...oldObj};
+
+18: Adding new values to an array without mutating the old array
+    const newArray = oldArray.concat('newValue');
+
+    contact method returns a new array
+
+19: Array Filter Method
+    const newArray = oldArray.filter((oldValue, index) => {
+       return oldValue.length < 7 ? oldValue : null;
+    })
+    
+    The above code snippet generates a newArray with values of oldArray whose length is less than 7.
+    The best part about this approach is, oldArray will remain as it is(state is not mutated).
+
+20: Array Find Method
+    const value = array.find((element) => {
+	return element === "5";
+    });
+   
+    If it finds an array element where the function returns a true value, find() returns the value of that array element 
+    (and does not check the remaining values). Otherwise it returns undefined.
+
+21: Array Methods
+     
+    arr.push(...items) ---> adds items to the end
+    arr.pop() ---> extracts an item from the end
+    arr.shift() ---> extracts an item from the beginning
+    arr.unshift(...items) ---> adds items to the beginning
+
+    arr.splice(start, deleteCount, ...newValues)
+    arr.splice(0, 2) ---> start at index 0 and delete 2 items(start index included)
+    arr.splice(1, 1, "Antony") ---> start at index 1, delete 1 item(that is index 1 item) and replace it with "Antony"
+    arr.splice(0, 3, "Yolo", "Killer") ---> start at index 0, delete 3 items, replace those 3 items with "Yolo" and "Killer"
+    let removedArray = arr.splice(0, 2) ---> splice method returns an array of the removed items
+    arr.splice(2, 0, "Chiramel") ---> start at index 2, delete nothing, but add "Chiramel" right after index 2
+
+
+    arr.slice(1, 3) ---> returns a new array copying to it all items from index start to end (not including end).
+    arr.slice(-2) ---> returns a new array copying to it all the elements from -2 till the end of the array
+                       -2 is the second last element in the array 
+
+    arr.contact(item1, item2) --->  arr.concat creates a new array that includes values from other arrays and additional items.
+                                    newArray = [...arr, item1, item2]
+    arr.concat([3,4]) ---> newArray = [...arr, 3, 4]
+    arr.concat([3,4], [5,6]) ---> newArray = [...arr, 3, 4, 5, 6]
+    arr.concat([7,6], 3, 4) ---> newArray = [...arr, 7, 6, 3, 4]
+
+    Iterate an array
+    arr.forEach((item, index, array) => {
+        alert(item);
+    });
+    
+    If the callback function returns any value, it is discarded
+
+    arr.indexOf(item) ---> returns the first index of the item if found else returns -1
+    arr.lastIndexOf(item) ---> starts looking from right to left
+    arr.includes(item) ---> returns true if the array has item else false
+
+    arr.find((item, index, array) => {
+       return (item.id === 1)
+    });
+    If the callback function returns true, the function is stopped and the item is returned.
+    If nothing is found, undefined is returned.
+
+    arr.filter((item, index, array) => {
+       return item.id < 3;
+    })
+    filter method returns an array of matching elements.
+
+    arr.map((item, index, array) => {
+       return item * 2;
+    })
+    
+    The new array will be items that are multiplied by 2
+
+    arr.reverse() ---> reverses the order of elements
+
+    arr.sort()
+
+    
+
+22: async await slows your code
+    if we have multiple awaits one after another, remember the code starts behaving like synchornous code
+    the second asynchronous activity will wait until the first one is fulfilled.
+    
+    If we want to initaite all the async fetchs we need to use Promise.all() or Promise.allSettled([])
+    const result = await Promise.allSettled([axios(url1), axios(url2)]);
+
+23: 
+
+  

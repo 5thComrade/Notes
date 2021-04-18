@@ -1,0 +1,21 @@
+Income tax for Dummies
+
+Financial Year: 1st April - 31st March - the year in which you earn an income
+
+Assessment Year: Is the year that comes after FY. This is the time in which the income earned during FY is assessed and taxed.
+
+Income tax classifications
+1: Income from Salary
+2: Income from other sources - Income from savings bank account interest, fixed deposits, winning a lottery
+3: Income from house property - Rental income
+4: Income from capital gains - Income from sale of a capital assest such as mutal funds, shares, property
+5: Income from business and profession - Freelancer
+
+Tax slabs in India
+1: Income earners of up to 2.5 lakhs                ------------> No tax
+2: Income earners of between 2.5 lakhs and 5 lakhs  ------------> 5% of your taxable income
+3: Income earners of between 5 lakhs and 10 lakhs   ------------> 12500 + 20% of income above 5 lakhs
+4: Those earning more than 10 lakhs                 ------------> 1,12,500 + 30% of income above 10lakhs
+
+
+

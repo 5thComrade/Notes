@@ -80,7 +80,7 @@ Dynamically adding class name in React!!
 
  className={`job-btn ${index === value && "active-btn"}`}
 
-job-btn is one class, if the index is equaly to some value then also active-btn will be added
+job-btn is one class, if the index is equaly to some value then active-btn will also be added
 =====================================================================================================================================
 The slider project is an important project to understand useEffect clean up functions.
 
@@ -116,7 +116,7 @@ Hence keep it to one state which is set to an object.
 const [person, setPerson] = useState({name: "", email: "", age: ""});
 
 const handleChange = (e) => {
-   const name = e.target.name; ----------------------------->this is exactly were we use the name attribute to input tags
+   const name = e.target.name; ----------------------------->this is exactly where we use the name attribute to input tags
    const value = e.target.value;
    setPerson({...person, [name]: value}); ----------------------->dynamic object properties
 }
@@ -127,3 +127,271 @@ const handleChange = (e) => {
                                                                                                            the label htmlFor should match the id in the input
 
 ===============================================================================================================================================================
+Try to always remove setTimeout by getting it inside useEffect hook.
+Either use the useEffect in the currect component or in the original component.
+Use default values in your function, then in the setTimeout function, call the function without any values, the state will then be set 
+to the default values set in the function parameters. Once the setTimeout is complete, remove it using clearTimeout(timeout);
+
+===============================================================================================================================================================
+Passing functions as props
+
+const someFunction = (id) => {
+   //do something with id
+}
+
+<SomeComponent someFunc={someFunction} />
+
+Inside SomeComponent
+
+<button onClick={() => someFunc(id)}>Delete</button>
+
+===============================================================================================================================================================
+use the array find method to get the matching value out.
+
+if you want to update a value in an array
+then use the array map method to iterate the array, find the matching element, edit it and return it, but default return of the array should be all the items.
+
+You need not do all the logic inside the functional component.
+You can do some logic outside the component and use it inside the component.
+Like getting data from the local storage.
+
+If you want to animate your react components, then add or remove classes dynamically
+
+Dynamically get the height of an element, sum all the elements heights and then dynamically set the height to the container.
+We can use useRef...elementRef.current.getBoundingClientRect() to get the height of the referenced element.
+===============================================================================================================================================================
+3: useRef()
+-preservs values between renders, just like useState
+-however, useRef does not trigger re-render when its value changes
+-it targets DOM elements/nodes
+
+const inputRef = useRef(null);
+const divRef = useRef(null);
+
+const name = inputRef.current.value;
+divRef.current.style.backgroundColor = "blue";
+
+<input ref={inputRef} type="text"/>
+<div ref={divRef}>Hello World</div>
+
+The above example clearly shows how and when we can use the useRef hook.
+==============================================================================================================================================================
+4: useReducer()
+This is exactly how Redux works.
+
+useReducer takes two parameters, the reducer function and the default state.
+useReducer spits out an array with two values, the first value is the new and updated state and the second value is the dispatch function.
+
+const [state, dispatch] = useReducer(reducer, defaultState);
+
+The reducer function can be defined in a separate file or in the same file.
+The reducer function also takes two parameters, the old state and the action.
+
+Action is an object that must have the type property, and any other properties you want to pass as payload.
+When we dispatch an action, we are dispatching that action object which is caught by the reducer.
+
+dispatch({type: "ADD_ITEM", name: "Apple"});
+
+const reducer = (state, action) {
+  if(action.type === "ADD_ITEM") {
+     return {
+       ...state,
+       name: action.name,
+     }
+  }
+}
+
+Whatever that gets returned from the reducer is the new state.
+
+=============================================================================================================================================================
+5: useContext()
+First we need to create the context.
+
+const PersonContext = React.createContext();
+
+Create context returns two components Provider and Consumer
+
+We have to wrap our root component with the context provider and pass in the value prop to it
+
+<PersonContext.Provider value={{removePerson}}>
+   <OtherComponents />
+</PersonContext.Provider>
+
+In your other components you can use the useContext hook
+
+const {removePerson} = useContext(PersonContext);
+
+You can use multiple contexts if necessary.
+============================================================================================================================================================
+***IMPORTANT***
+We can chain methods
+
+items.map((item) => {}).filter((item) => {})
+
+The array.reduce function is cool
+
+array.reduce((output, eachItem) => {               ------------->output is either initial output or the return of the previous callback
+                 return {
+                     total: output.total + eachItem.price, 
+                     amount: output.total + eachItem.amount
+                 }
+             }, {total: 0, amount: 0}              ------------->Initial output
+           );
+
+array.sort() --------------------------> check this out too
+============================================================================================================================================================
+6: Custom Hooks
+Custom hooks should have a name that starts with use<Something>
+Ex: useFetch
+
+Only if the above naming convention is followed, we are allowed to use other hooks inside it.
+============================================================================================================================================================
+Prop types
+import PropTypes from "prop-types"; ----> prop-types is installed by default with create-react-app
+
+<Component_Name>.propTypes = {         ----------------> This is how you check the type of all the properties of your component.
+   image: PropTypes.object.isRequired,
+   price: PropTypes.number.isRequired,
+   name: PropTypes.string.isRequired,
+}
+
+<Component_Name>.defaultProps = {   --------------------> This is how we set default properties for our component
+   image: defaultImage,             --------------------> This is an image we imported as default image from the assests panel
+   name: "Some Name",
+   price: 5.99,
+}
+
+============================================================================================================================================================
+React Router
+We need 3 Components from the react-router-dom package.
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+
+We wrap our entire application with the BrowserRouter component.
+Then we build routes inside this component using the Route component
+
+<Router>
+   <Route exact path="/">  -------------->Since this path matches all other paths this component should have the exact prop set
+      <Home />
+   </Route>
+   <Route path="/about">
+      <About />
+   </Route>
+   <Route path="*">       --------------->This * matches every other route, so this component will be displayed in every page.
+      <Error />                           But that is not what we want, thats where the Switch component comes into play.
+   </Route>
+</Router>
+
+<Router>
+  <Switch>                   ------------->Switch essentailly ensures that the first path that matches will be rendered
+     <Route exact path="/">                If none of the top paths match the requested path then the Error component is rendered
+        <Home />
+     </Route>
+     <Route path="/about" >
+        <About />
+     </Route>
+     <Route path="*">
+        <Error />
+     </Route>
+  </Switch>
+</Router>
+
+
+We add the Navbar component inside our Router component but above our Switch component.
+In the Navbar component we do not use <a> tags
+We use another component we import from react-router-dom
+
+import {Link} from "react-router-dom";
+
+<Link to="/">Home</Link>
+<Link to="/about">About</Link>
+
+We can even get the parameters from a url using the useParams method from react-router-dom;
+import {useParams} from "react-router-dom";
+
+It returns an object with the parameter key and value when we invoke that method.
+
+==========================================================================================================================================================
+React Performance Optimization
+
+All these optimization techniques can be an overkill. Google useCallback by Kent C Dodds.
+
+React has a method called memo. 
+Lets see an example
+
+<Component A>
+  <Component B products={products}></Component B>
+</ComponentA>
+
+So in the example above, everytime Component A is rendered or re-rendered Component B will be re-rendered.
+
+Now lets use the memo method
+const B = React.memo(({products} => {Your component logic}));
+
+We just wrapped our entire Component B with React.memo.
+What React.memo does is it will check if the props change. 
+We know that if either props or state change the component renders. So memo checks if the props of that component changes or not.
+If it doesn't change the component is not re-rendered. Even if Component A is re-rendered Component B will not be re-rendered as long as 
+the products prop doesn't change.
+
+Now lets say we have a function in Component A which is a prop for Component B.
+Component B is wrapped in React.memo.
+But every time Component A is re-rendered, Component B is also re-rendered. But the function inside Component A did not change.
+This happens because everytime Component A is re-rendered, that function is created again.
+This tricks React making it think that the prop changed and will re-render Component B.
+
+That is when we can use the useCallback hook.
+Wrap that function in the useCallback hook.
+const func = useCallback(() => {function logic}, [dependency array])
+
+This will ensure that the function will only be created when a value in the dependency array changes.
+
+Now lets say everytime we re-render a component, we want to call a function that returns a value.
+
+<h2>{calcMostExpensive(products)}</h2>
+
+So calcMostExpensive() is a function that is called everytime this component is re-rendered.
+Now imagine if this component took a lot of time to calculate that value. It would be a pain to call it over and over again for every re-render
+if its value is basically the same.
+To overcome this issue we use useMemo hook.
+
+const mostExpensive = useMemo(() => calcMostExpensive(products), [products]);
+
+<h2>{mostExpensive}</h2>
+
+useMemo will ensure to run that time consuming function only when products change.
+
+useCallback and useMemo both expect a function and an array of dependencies.
+
+useCallback() ------> returns its function when the dependency changes
+useMemo() --------->calls the function and returns the result
+====================================================================================================================================================
+====================================================================================================================================================
+******A Complete React Project******
+
+The source folder has
+1: index.js
+2: App.js
+3: context.js
+4: components folder
+5: pages folder
+
+First we setup our context.js file, here we create our context, our AppProvider Higher order component and define our useGlobalContext custom hook
+Then we export all three of them from context.js file.
+
+We then navigate to our index.js file and import the AppProvider component from context.js file and wrap our App component inside it.
+
+Next we navigate to our App.js file to setup our react routes.
+We will import all our pages from the pages folder, we will import the navbar component and we will import BrowserRouter as Router, Route and Switch 
+from "react-router-dom"
+Our App component will then have all of these components.
+
+The next thing we do is navigate to the Navbar component and import the Link component from react-router-dom.
+Then we design our Navbar
+
+Then we go on with our other components and their logic.
+
+====================================================================================================================================================
+====================================================================================================================================================
+
+
+

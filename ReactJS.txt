@@ -55,7 +55,7 @@ export default App;
 ===============================================================================
 Understanding JSX
 
-<div className="App">
+<div className="App" >
    <h1>Hello World!!!</h1>
    <p>Antony Chiramel</p>
 </div>
@@ -737,7 +737,7 @@ When you return your JSX you have to wrap it in one element.
   All Your JSX goes here
 </div>
 
-React gives us another option to avoide the wrapping div, by using React.Fragment
+React gives us another option to avoid the wrapping div, by using React.Fragment
 Using React.Fragment instead of the wrapping div is also a performance boost.
 
 <React.Fragment>

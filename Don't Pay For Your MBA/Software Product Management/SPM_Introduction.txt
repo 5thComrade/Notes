@@ -1,0 +1,38 @@
+Software Product Management
+
+Three viewpoints in achieving better software
+1: The right product
+2: Done right
+3: Managed right
+
+How to measure project success?
+1: was the project delivered on schedule
+2: was the project within the budget
+3: was the project meeting the specifications
+4: developer satisfaction
+5: post-release bugs
+6: support needed after release
+7: customer rating
+8: revenue generated
+9: client satisfaction
+
+Four values of Agile
+1: Individuals and Interations > Processes and Tools
+   As a product manager, you need to facilitate communication between the people wanting the product 
+   and the people producing the product.
+2: Working Software > Comprehensive Documentation
+3: Customer Collaboration > Contract Negotiation
+   As a product manager, you need to foster a positive relationship with your customer that is more concerned with what 
+   they want and not as concerned with what is laid out in some contract.
+4: Responding to change > following a plan
+   
+
+12 Principles of Agile Grouped into 3 categories
+1st Category: Delivering Working Software
+              1: Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
+              2: Deliver working software frequently, from a couple of weeks to a couple of months with a preference to the shorter timescale.
+	      3: Working software is the primary measure of progress.
+
+2nd Category: Flexible Design and Adapting to Change
+3rd Category: Collaborative Communication and Organization
+

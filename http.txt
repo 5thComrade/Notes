@@ -251,3 +251,13 @@ the HTTP Protocol.
 The second part of the URL(www.joes-hardware.com) is the server location. This tells the web client where the resource is hosted.
 The third part of the URL(/seasonal/index-fall.html) is the resource path. The path tells what particular local resource on the server is being requested.
 
+URL Components
+
+https://site.com:8080/path/page?p1=v1&p2=v2#hash
+
+https - protocol
+site.com - host name
+8080 - port
+path/page - pathname
+p1=v1&p2=v2 - search
+#hash - hash
