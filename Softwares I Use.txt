@@ -1,0 +1,9 @@
+Softwares and Technologies I use
+
+1: Nodejs
+2: Visual Studio Code
+3: Postman
+4: Notion
+5: Git
+6: PostgreSQL
+7: 

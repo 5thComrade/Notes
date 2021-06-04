@@ -1,0 +1,311 @@
+1: CONNECTING TO A MONGODB ATLAS CLUSTER AND INSERTING A DOCUMENT USING MONGODB NATIVE DRIVER
+
+const mongodb = require("mongodb");
+const {MongoClient, ObjectId} = mongodb;
+
+const userName = "antony";
+const password = "password";
+const databaseName = "task-manager-api";
+const connectionURL = `mongodb+srv://${userName}:${password}@abl.3aejj.mongodb.net/${databaseName}?retryWrites=true&w=majority`;
+
+const id = new ObjectID();
+console.log(id);
+console.log(id.getTimestamp());
+
+MongoClient.connect(connectionURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(async (client) => {
+    const db = client.db(databaseName);
+    try {
+      const res = await db.collection("users").insertOne({
+        name: "Antony",
+        age: 24,
+      });
+      console.log(res.ops, res.insertedId);
+    } catch (err) {
+      console.log(err);
+    }
+  })
+  .catch((err) => console.log("Unable to connect to the database", err));
+
+
+
+======================================================================================================================================================
+
+2: using updateOne to update a document in mongodb
+
+  const res = await db.collection("orders").updateOne({
+     _id: new ObjectId("5ca61hhvausdf7qwfejasva")
+  }, {
+       $inc: {                           ---------------> Google mongodb update operators to view all the update operators, this operator is increment operator
+          orderNumber: 1                 ---------------> Increment orderNumber by 1
+       }
+  });
+
+
+=====================================================================================================================================================
+Mongoose Application
+
+3: index.js file
+
+   const express = require("express");
+   require("./db/mongoose");
+   const userRouter = require("./routers/user");
+   const taskRouter = require("./routers/task");
+
+   const app = express();
+   const port = process.env.PORT || 5000;
+
+   // app.use((req, res, next) => {
+   //   res.status(503).send("Site is currently under maintenance.");
+   // });
+
+   app.use(express.json());
+   app.use(userRouter);
+   app.use(taskRouter);
+
+   app.listen(port, () => {
+     console.log(`Server is up on PORT: ${port}`);
+   });
+
+=====================================================================================================================================================
+4: Mongoose User Schema and Model
+
+   const mongoose = require("mongoose");
+   const { isEmail } = require("validator");
+   const bcrypt = require("bcrypt");
+   const { Schema } = mongoose;
+   const jwt = require("jsonwebtoken");
+
+   const userSchema = new Schema({
+     name: {
+        type: String,
+        required: [true, "Your name is required!"],
+        trim: true,
+     },
+     email: {
+        type: String,
+        required: true,
+        unique: true,
+     validate: {
+        validator: (value) => {
+            return isEmail(value);
+         },
+        message: (props) => `${props.value} is not a valid email`,
+     },
+     trim: true,
+     lowercase: true,
+   },
+   password: {
+       type: String,
+       required: true,
+       minLength: 7,
+       trim: true,
+       validate: {
+         validator: (value) => !value.toLowerCase().includes("password"),
+         message: "Password should not contain the word password",
+       },
+    },
+   age: {
+       type: Number,
+       validate: {
+         validator: (v) => {
+            return v > 0;
+         },
+        message: (props) => `${props.value} is not a valid age.`,
+       },
+       max: [150, "I don't think you are that old!"],
+       min: [18, "Adults Only"],
+       default: 18,
+   },
+   tokens: [
+     {
+       token: {
+         type: String,
+         required: true,
+       },
+     },
+   ],
+ });
+
+  userSchema.methods.generateAuthToken = async function () {
+    const user = this;
+    const token = jwt.sign(
+      { _id: user._id.toString() },
+      "thisisasecretsignature"
+    );
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+    return token;
+   };
+
+  userSchema.statics.findByCredentials = async (email, password) => {
+     const user = await User.findOne({ email: email });
+     if (!user) {
+       throw new Error("Unable to Login");
+   }
+
+   const isMatch = await bcrypt.compare(password, user.password);
+   if (!isMatch) {
+     throw new Error("Unable to Login");
+   }
+   return user;
+  };
+
+  userSchema.pre("save", async function (next) {
+     const user = this;
+     if (user.isModified("password")) {
+      user.password = await bcrypt.hash(user.password, 8);
+     }
+     next();
+  });
+
+   const User = mongoose.model("User", userSchema);
+
+   module.exports = User;
+
+
+========================================================================================================================================
+5: User Router
+
+const express = require("express");
+const User = require("../models/user");
+const auth = require("../middleware/auth");
+
+const router = new express.Router();
+
+router.post("/users", async (req, res) => {
+  try {
+    const user = new User(req.body);
+    const savedUser = await user.save();
+    const token = await user.generateAuthToken();
+    res.status(201).send({ savedUser, token });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.post("/users/login", async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await user.generateAuthToken();
+    res.status(200).send({ user, token });
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+router.get("/users/me", auth, (req, res) => {
+  res.status(200).send(req.user);
+});
+
+router.get("/users/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.findById(_id);
+    if (!user) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
+router.patch("/users/:id", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["name", "email", "password", "age"];
+
+  const isValidUpdate = updates.every((update) => {
+    return allowedUpdates.includes(update);
+  });
+
+  if (!isValidUpdate) {
+    return res.status(400).send({ error: "Invalid Updates!" });
+  }
+
+  try {
+    const _id = req.params.id;
+    const user = await User.findById(_id);
+    updates.forEach((update) => (user[update] = req.body[update]));
+    await user.save();
+    if (!user) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+router.delete("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
+module.exports = router;
+
+
+=============================================================================================================================================
+6: Auth JS
+
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+
+const auth = async (req, res, next) => {
+  try {
+    const token = req.header("authorization").replace("Bearer ", "");
+    const decoded = jwt.verify(token, "thisisasecretsignature");
+    const user = await User.findOne({
+      _id: decoded._id,
+      "tokens.token": token,
+    });
+
+    if (!user) {
+      throw new Error();
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).send({ error: "Please authenticate" });
+  }
+};
+
+module.exports = auth;
+
+=========================================================================================================================================
+7: Mongoose Connection file
+
+const mongoose = require("mongoose");
+
+const userName = "antony";
+const password = "password";
+const databaseName = "task-manager-api";
+const connectionURL = `mongodb+srv://${userName}:${password}@abl.3aejj.mongodb.net/${databaseName}?retryWrites=true&w=majority`;
+
+mongoose.connect(connectionURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+========================================================================================================================================
+
+
+

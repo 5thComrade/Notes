@@ -164,6 +164,12 @@
 
     arr.sort()
 
+    users.every((user) => {    ---------------> every() method checks if all elements in an array pass a test, if any one item is false every returns false
+	return user.age > 18
+    })
+
+    arr.includes(item) -----> returns boolean value
+
     
 
 22: async await slows your code

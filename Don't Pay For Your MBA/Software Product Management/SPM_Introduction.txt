@@ -22,7 +22,7 @@ Four values of Agile
    and the people producing the product.
 2: Working Software > Comprehensive Documentation
 3: Customer Collaboration > Contract Negotiation
-   As a product manager, you need to foster a positive relationship with your customer that is more concerned with what 
+   As a product manager, you need to foster a positive relationship with your customer; that is being more concerned with what 
    they want and not as concerned with what is laid out in some contract.
 4: Responding to change > following a plan
    
@@ -34,5 +34,22 @@ Four values of Agile
 	      3: Working software is the primary measure of progress.
 
 2nd Category: Flexible Design and Adapting to Change
+              4: Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitve advantage.
+              5: Continuous attention to technical excellence and good design enhances agility.
+              6: Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.
+              7: Simplicity, the art of maximizing the amount of work not done, is essential.
+                 This means, Agile is about delivering what is essential and reducing unnecessary work.
+
 3rd Category: Collaborative Communication and Organization
+              8: Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.
+                 General George S Patton once said, "Tell people where to go, but not how to get there, and you'll be amazed by the results"
+              9: The best architectures, requirements, and designs emerge from self-organizing teams
+             10: Business people and developers must work together daily throughout the project.
+             11: The most efficient and effective method for conveying information to and within a development team is face-to-face conversation.
+             12: At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.
+
+Phases in Software Development
+1: Specification: is where the idea for the product is conceived.
+2: Design & Implementation: is figuring out the optimal way to structure the software which allows effective design and coding to begin.
+3: Verification & Validation: is where you test the software for bugs and ensure that the system is delivering what the client needs.
 

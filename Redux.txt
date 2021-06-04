@@ -1,0 +1,125 @@
+Redux
+
+- Redux is a state-management system for cross-component or app-wide state.
+
+                dispatch actions
+- Component -----------------------> Reducer Function --------------->
+     |                                                               |
+     |                                                               |
+     |   Subscription                                                | 
+     <------------------ Central Data Store -----------<--------------           
+
+- Reducer is a function, it takes 2 values as its arguments
+  1: Old State Object
+  2: Dispatched Action
+  Reducer always outputs a New State Object   
+
+- We can create a store using the createStore() method from the redux package
+  createStore() takes the reducer as its argument.
+  
+  const store = redux.createStore(counterReducer);
+
+- We need to wrap our entire App component with the Provider component we import from react-redux package.
+
+  <Provider store={store}>
+     <App />
+  </Provider>
+
+- Now inside our component where we need the state, we will need the useSelector() method from react-redux;
+  We can use useSelector() multiple times in our component to access various parts of our store.
+  const counter = useSelector(state => state.counter);
+  const show = useSelector(state => state.showCounter);
+
+  We can now use the counter value in our component.
+
+- To dispatch actions we need another method from react-redux package, useDispatch();
+  useDispatch() method returns a function, we will save it in a dispatch constant.
+  const dispatch = useDispatch();
+
+  const incrementHandler = () => {
+     dispatch({ type: "INCREMENT" });
+  }                                  
+
+==========================================================================================================================================
+We will use @reduxjs/toolkit and react-redux for our state management.
+@reduxjs/toolkit also installs redux, so we need not separately install redux.
+
+import { createSlice, configureStore } from "@reduxjs/toolkit";
+
+const initialCounterState = { value: 0, showCounter: true };
+const initialAuthState = { isAuthenticated: false };
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: initialCounterState,
+  reducers: {
+	increment(state) {
+      	   state.value++
+        },
+        decrement(state) {
+	   state.value--
+        },
+        increase(state, action) {
+  	   state.value = state.value + action.payload
+        },
+        toggleCounter(state) {
+	   state.showCounter = !state.showCounter
+        },
+  }
+});
+
+const authSlice = createSlice({
+   name: 'auth',
+   initialState: initialAuthState,
+   reducers: {
+   	login(state) {
+          state.isAuthenticated = true;
+        },
+        logout(state) {
+	  state.isAuthenticated = false;
+        },
+   }
+})
+
+const store = configureStore({
+   reducer: {
+     counter: counterSlice.reducer,
+     auth: authSlice.reducer,
+   }
+});
+
+export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
+
+export default store;
+
+
+- We now need to wrap our entire App component with the Provider component that we imported from react-redux, with the store prop.
+- We will import counterActions and authActions in the component where we will dispatch actions.
+- We will still use the useDispatch() method we imported from react-redux to dispatch actions
+  const dispatch = useDispatch();
+  const incrementHandler = () => {
+    dispatch(counterActions.increment()) //when you execute the increment method it will return the dispatch object
+  }
+  const increaseHandler = () => {
+    dispatch(counterActions.increase(5)) //when you have payload, the object returned by increase method will be { type: increase, payload: 5 }
+  }
+  const loginHandler = () => {
+    dispatch(authActions.login())
+  }
+  const logoutHandler = () => {
+    dispatch(authActions.logout())
+  }
+
+- If we want to use some state value in our component we will still need useSelector() we import from react-redux
+
+  const counterValue = useSelector(state => state.counter.value) //counter is the reducer we set in the configureStore()
+  const show = useSelector(state => state.counter.showCounter)
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+
+========================================================================================================================================================
+Advanced Redux
+There are two ways to perform async activities in redux
+1: Complete the async activities in the component(eg useEffect);
+2: Inside our action creators
+
