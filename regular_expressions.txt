@@ -69,3 +69,20 @@ re = /^[0-9]{10}$/; //a 10 digit number only, useful to validate Indian phone nu
 Parenthesis - Grouping
 
 re = /([0-9]x){3}/i; //a number followed by x 3 times ie: 9x4x6x is a match
+
+Shorthand Character Classes
+
+re = /\w/; //Word character - matches alphanumerals and _
+re = /\W/; //Non-word character - matches anything other than alphanumerals and _
+re = /\d/; //Matches any digit
+re = /\D/; //Matches any non-digit
+re = /\s/; //matches any whitespace character
+re = /\S/; //matches any non-whitespace character
+re = /Hell\b/i; // \b is word boundary, means it looks for the exact word hell and not Hell in Hello
+
+Assertions
+
+re = /x(?=y)/; //matches only when x is followed by character y ie xy matches, uvwxyz matches
+re = /x(?!y)/; //matches only when x is NOT followed by y ie xz matches, xyz fails
+re = /\.(?=com)/; //matches only if . is followed by com
+re = /^([A-Za-z0-9_\-\.])+\@(?=gmail\.com)/; //gmail id validation
