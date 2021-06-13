@@ -59,6 +59,7 @@ re = /[A-Za-z]ray/; //the first character can be any letter in any case
 re = /[0-9]108/; //first character can be any number from 0 to 9
 re = /[0-9]+/; //+ means one or more characters, no limit ie 9 is a match, 96127511736127361231523 is a match
 
+========================================================================================================================================================
 Braces {} - Quantifiers
 
 re = /Hel{2}o/i; //looks for 2 l's in the string being matched
@@ -66,10 +67,12 @@ re = /Hel{2,4}o/i //minimum 2 l's and maximum of 4 l's, nothing more nothing les
 re = /Hel{2,}o/i //atleast 2 l's and there's no maximum limit
 re = /^[0-9]{10}$/; //a 10 digit number only, useful to validate Indian phone numbers
 
+=========================================================================================================================================================
 Parenthesis - Grouping
 
 re = /([0-9]x){3}/i; //a number followed by x 3 times ie: 9x4x6x is a match
 
+=========================================================================================================================================================
 Shorthand Character Classes
 
 re = /\w/; //Word character - matches alphanumerals and _
@@ -80,9 +83,17 @@ re = /\s/; //matches any whitespace character
 re = /\S/; //matches any non-whitespace character
 re = /Hell\b/i; // \b is word boundary, means it looks for the exact word hell and not Hell in Hello
 
+=========================================================================================================================================================
 Assertions
 
 re = /x(?=y)/; //matches only when x is followed by character y ie xy matches, uvwxyz matches
 re = /x(?!y)/; //matches only when x is NOT followed by y ie xz matches, xyz fails
 re = /\.(?=com)/; //matches only if . is followed by com
 re = /^([A-Za-z0-9_\-\.])+\@(?=gmail\.com)/; //gmail id validation
+
+=========================================================================================================================================================
+Email id validation pattern
+
+re = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+==========================================================================================================================================================
