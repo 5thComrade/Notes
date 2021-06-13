@@ -31,6 +31,13 @@ Regex and String Methods
    console.log(str.replace(re, "Hi")); // "Hi world!"
    
 =======================================================================================================================================================
+Flags
+
+i - case insensitive search
+g - global search
+m - multiline search
+   
+=======================================================================================================================================================
 Metacharacters
 
 re = /^h/i; //must start with h and it can be case insensitive
@@ -43,3 +50,21 @@ re = /gre?a?y/; //e and a are optional
 re = /gra?e?y\?/; //\ is escaping character, we want to add ? to the pattern hence we prefix it with \
 
 =======================================================================================================================================================
+Brackets [] - Character Sets
+
+re = /gr[ae]y/i; //third character must be an a or an e, nothing else
+re = /[^GF]ray/; //it can start with anything other than G or F, ie Xray passes but Gray fails
+re = /[A-Z]ray/; //the first character should be any uppercase letter
+re = /[A-Za-z]ray/; //the first character can be any letter in any case
+re = /[0-9]108/; //first character can be any number from 0 to 9
+
+Braces {} - Quantifiers
+
+re = /Hel{2}o/i; //looks for 2 l's in the string being matched
+re = /Hel{2,4}o/i //minimum 2 l's and maximum of 4 l's, nothing more nothing less
+re = /Hel{2,}o/i //atleast 2 l's and there's no maximum limit
+re = /^[0-9]{10}$/; //a 10 digit number only, useful to validate Indian phone numbers
+
+Parenthesis - Grouping
+
+re = /([0-9]x){3}/i; //a number followed by x 3 times ie: 9x4x6x is a match
