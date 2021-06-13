@@ -31,3 +31,15 @@ Regex and String Methods
    console.log(str.replace(re, "Hi")); // "Hi world!"
    
 =======================================================================================================================================================
+Metacharacters
+
+re = /^h/i; //must start with h and it can be case insensitive
+re = /D$/i; //must end with D and it can be case insensitive
+re = /wOrLd$/i; //must end with wOrLd and it can be cae insensitive
+re = /^hello$/i; //string must be the word hello and nothing else and it case be case insensitive
+re = /h.llo/i; //only the second character can be anything and it is case insensitive
+re = /h*llo/i; //the second character set can be anything from 0 to n length
+re = /gre?a?y/; //e and a are optional
+re = /gra?e?y\?/; //\ is escaping character, we want to add ? to the pattern hence we prefix it with \
+
+=======================================================================================================================================================
