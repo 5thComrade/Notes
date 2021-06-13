@@ -57,6 +57,7 @@ re = /[^GF]ray/; //it can start with anything other than G or F, ie Xray passes 
 re = /[A-Z]ray/; //the first character should be any uppercase letter
 re = /[A-Za-z]ray/; //the first character can be any letter in any case
 re = /[0-9]108/; //first character can be any number from 0 to 9
+re = /[0-9]+/; //+ means one or more characters, no limit ie 9 is a match, 96127511736127361231523 is a match
 
 Braces {} - Quantifiers
 
