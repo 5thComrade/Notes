@@ -1,1 +1,33 @@
 Regular Expressions in JavaScript
+
+Defining Regular Expression
+const pattern = /pattern/attribute;
+
+Regex and String Methods
+1: exec() - returns result in an object if the match is found else returns null
+
+   let re = /hello/;
+   const str = "hello world!";
+   console.log(re.exec(str)); //['hello', index: 0, input: "hello world!"]
+   
+2: test() - returns true if the match is found else returns false
+   let re = /hello/;
+   const str = "Hello World!";
+   console.log(re.test(str)); //false
+
+3: match() - returns an object of pattern macthes if matched else null
+   let re = /hello/;
+   const str = "hello hello world";
+   console.log(str.match(re)); //['hello', index: 0, input: "hello hello world"]
+   
+4: search() - returns the start index of the first match if match found else returns -1
+   let re = /hello/;
+   const str = "Hello hello world!";
+   console.log(str.search(re)); // 7
+   
+5: replace() - returns the string with the match replaced by the new word
+   let re = /hello/;
+   const str = "hello world!";
+   console.log(str.replace(re, "Hi")); // "Hi world!"
+   
+=======================================================================================================================================================
