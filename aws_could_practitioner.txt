@@ -20,7 +20,7 @@ Cloud Computing
 - On-demand self-service
 - Broad network access
 - Multi-tenancy and resource pooling
-- Rapid elsticity and scalability
+- Rapid elasticity and scalability
 - Measured service
 
 6 advantages of cloud computing
@@ -53,3 +53,15 @@ A region is comprised of multiple availability zones
 Shared Responsibility Model
 - Customer is responsible for - Security in the cloud, it's customer data, platform, IAM, OS, Network and Firewall configuration
 - AWS is responsible for - Security of the cloud, hardware, regions etc
+
+===========================================================================================================================
+IAM - Identity and Access Management
+
+When you create an AWS account, you are actually creating a root account. One should never use the root account.
+Create users/groups within IAM with restricted access. Users/groups can be assigned IAM policies. These policies define the permissions
+of the users. In AWS you apply the least privilage principle, don't give more permissions than a user needs.
+
+To login as an IAM user, you need the AWS account id/AWS account alias, user-id, and password. If MFA is enabled, even MFA key.
+
+
+
