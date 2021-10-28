@@ -63,5 +63,13 @@ of the users. In AWS you apply the least privilage principle, don't give more pe
 
 To login as an IAM user, you need the AWS account id/AWS account alias, user-id, and password. If MFA is enabled, even MFA key.
 
+Always set a Password Policy for all IAM users to ensure good security.
 
+MFA - Multi Factor Authentication
+MFA device options
+1: Virtual MFA device(Google Authenticator, Authy)
+2: Universal 2nd Factor(U2F) Security device (YubiKey by Yubico) - this is a physical key
+3: Hardware Key Fob MFA device
+4: Hardware Key Fob MFA device for AWS GovCloud(US)
 
+MFA can be set under "My Security Credentials" page
