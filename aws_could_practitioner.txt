@@ -73,3 +73,16 @@ MFA device options
 4: Hardware Key Fob MFA device for AWS GovCloud(US)
 
 MFA can be set under "My Security Credentials" page
+
+How to access your AWS?
+1: AWS Management Console (protected by password + MFA)
+2: AWS Command Line Interface: CLI (protected by access keys)
+3: AWS Software Development Kit: SDK - for code (protected by access keys)
+
+You could install AWS CLI from aws on your system, open command prompt and run the following command to verify the installation.
+aws --version
+
+If you have permission issues (like I have on my company laptop), you can use AWS CloudShell 
+This is a browser simulation of a command prompt which has aws cli, node and other things pre-installed.
+You can practice your cli skills on it.
+
