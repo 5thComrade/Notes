@@ -86,3 +86,7 @@ If you have permission issues (like I have on my company laptop), you can use AW
 This is a browser simulation of a command prompt which has aws cli, node and other things pre-installed.
 You can practice your cli skills on it.
 
+- IAM Roles
+Some AWS service will need to perform actions on your behalf.
+Ex: If Lambda needs to reach out to S3, lambda needs permissions, these permissions are called IAM Roles
+
