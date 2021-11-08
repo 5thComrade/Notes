@@ -90,3 +90,22 @@ You can practice your cli skills on it.
 Some AWS service will need to perform actions on your behalf.
 Ex: If Lambda needs to reach out to S3, lambda needs permissions, these permissions are called IAM Roles
 
+- IAM Security tools
+1: IAM Credentials Report (account-level)
+2: IAM Access Advisor (user-level)
+
+-IAM Best Practices
+1: Do not use the root account, except for AWS account setup
+2: One Physical user = One AWS user
+3: Assign users to groups and assign permissions to groups
+4: Create a strong password policy
+5: Use and enforce MFA
+6: Create and use Roles for giving permissions to AWS services
+7: Use Access Keys for Programmatic Access (CLI/SDK)
+8: Audit permissions of your account with IAM Credentials Report
+
+- IAM Shared Responsibility Model
+AWS - Infrastructure, Configuration and Vulnerability analysis, compliance validation
+YOU - Users, Groups, Roles, Policies and monitoring
+
+
