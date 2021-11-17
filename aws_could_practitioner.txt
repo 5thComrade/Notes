@@ -132,3 +132,12 @@ EC2 User Data
 It is possible to bootstrap our instances using an EC2 User Data script.
 The script is only run once at the instance first start.
 EC2 user data is used to automate boot tasks such as installing updates, installing software etc
+
+To launch an EC2 instance
+1: Choose an Amazon Machine Image (AMI)
+2: Choose an Instance Type
+3: Configure instance details (user data, iam roles)
+4: Add storage
+5: Add tags
+6: Configure Security Group (adding http rule to your instance)
+
