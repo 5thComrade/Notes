@@ -141,3 +141,25 @@ To launch an EC2 instance
 5: Add tags
 6: Configure Security Group (adding http rule to your instance)
 
+EC2 Instance Types
+1: General Purpose 
+   Example: t2.micro
+   Great for a diversity of workloads such as web servers or code repositories
+   Balance between compute, memory, and networking
+2: Compute Optimized
+   Example: c5.xlarge
+   Great for compute-intensive tasks that require high performance processors: batch processing workloads, media transcoding, high performance web servers,
+   high performance computing, scientific modeling, machine learning, dedicated gaming servers
+3: Memory Optimized
+   Example: r5a.4xlarge
+   Fast performance for workloads that process large data sets in memory
+   Use Cases: High performance relational/non-relational databases, distributed web scale cache stores, in-memory databases optimized for BI(business intelligence)
+   applications performing real-time processing of big unstructured data
+4: Storage Optimized
+   Example: d3.8xlarge
+   Great for storage-intensive tasks that require high, sequenial read and write access to large data sets on local storage.
+   Use cases: High freguency online transaction processing (OLTP) systems, Relational and NoSQL databases, cache for in-memory databases(redis), data warehousing
+   applications, distributed file systems
+   
+
+
