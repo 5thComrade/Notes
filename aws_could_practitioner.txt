@@ -161,5 +161,16 @@ EC2 Instance Types
    Use cases: High freguency online transaction processing (OLTP) systems, Relational and NoSQL databases, cache for in-memory databases(redis), data warehousing
    applications, distributed file systems
    
+- EC2 Security Groups
+Security groups control how the traffic is allowed into or out of your EC2 instances.
+Security groups are acting as a firewall on EC2 instances
+They regulate access to ports, authorised IP ranges IPv4 and IPv6, control the inbound and outbound network
 
+Classic Ports to know
+Port 22 = SSH (Secure Shell) log into a linux instance
+Port 21 = FTP (File Transfer Protocol) upload files into a file share
+Port 22 = SFTP (Secure File Transfer Protocol) upload files using SSH
+Port 80 = HTTP access unsecured websites
+Port 443 = HTTPS access secured websites
+Port 3389 = RDP (Remote Desktop Protocol) log into a Windows instance
 
