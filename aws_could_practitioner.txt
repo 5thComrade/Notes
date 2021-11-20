@@ -174,3 +174,33 @@ Port 80 = HTTP access unsecured websites
 Port 443 = HTTPS access secured websites
 Port 3389 = RDP (Remote Desktop Protocol) log into a Windows instance
 
+The easiest way to connect to your linux instance is EC2 Instance Connect using the web browser.
+Instance connect uses the SSH protocol to connect to your EC2 instance and opens a terminal in your browser(very cool!).
+One could also ssh from their windows systems directly using the following command
+
+ssh -i {PATH_TO_PEM_FILE} ec2-user@{PUBLIC_IP_OF_INSTANCE}
+
+pem file is generated when you create a key pair.
+
+DO NOT RUN aws configure command in your ec2 instance and enter your IAM credentials, instead attach an IAM Role to the EC2 instance.
+
+- EC2 Instance Purchasing Options
+1: On-Demand Instances: short workload, predictable pricing
+   - Pay for what you use
+   - Has the highest cost but no upfront payment
+   - No long-term commitment
+   - Recommended for short-term and un-interrupted workloads, where you can't predict how the application will behave
+2: Reserved Instances: Minimum 1 year, upto 75% discount compared to On-demand
+   - Reserved Instances: long workloads, cannot change instance type for the commited period.
+   - Convertible Reserved Instances: long workloads with flexible instances types, can change the instance type if you want to. Up-to 54% discount.
+   - Scheduled Reserved Instances: every Thursday between 3 and 6pm
+3: Spot Instances: short workloads, cheap, can lose instances (less reliable), upto 90% discount. Useful for workloads that are resilient to failure. Ex: batch jobs, data      analysis, image processing, any distributed workloads.
+4: Dedicated Hosts: book an entire physical server, control instance placement. compliance requirements and use your existing server-bound software licenses. Most expensive.
+
+- EC2 Shared Responsibility Model
+AWS is responsible for infrastructure, replacing faulty hardware, compliance validation
+User is responsible for security groups rules, operating-system patches and updates, software and utilities installed on the EC2 instance, IAM roles assigned to the ec2 instance, data security on your instance.
+
+=============================================================================================================================================================================
+
+
