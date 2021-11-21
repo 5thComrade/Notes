@@ -202,5 +202,19 @@ AWS is responsible for infrastructure, replacing faulty hardware, compliance val
 User is responsible for security groups rules, operating-system patches and updates, software and utilities installed on the EC2 instance, IAM roles assigned to the ec2 instance, data security on your instance.
 
 =============================================================================================================================================================================
+EC2 Instance Storage
+
+An EBS(Elastic Block Store) Volume is a network drive you can attach to your instances while they run.
+It allows your instances to persist data, even after their termination.
+They can only be mounted to one instance at a time.
+It uses the network to communicate with the instance, which means there might be a bit of latency.
+It can be detached from an EC2 instance and attached to another one quickly
+Its locked to an Availability Zone, to move a volume you need to take a snapshot of it
+One needs to provision the EBS Volume beforehand by telling how many Gbs and IOPS(Input Output per second) one needs.
+
+When an EC2 instance is created, the user is prompted with a choice related to the EBS Volume
+"Delete on Termination" if one checks this box, the EBS Volume attached to the EC2 instance will get deleted once the instance is terminated.
+The root volume attached to the instance has the delete on termination selected by default, however if you attach additional ebs volumes apart from 
+the root volume, they are not deleted when the instance is terminated.
 
 
