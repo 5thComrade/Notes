@@ -239,4 +239,29 @@ Used to automate the creation of Virtual Machines or Container Images
 ie: automate the creation, maintain, validated and test EC2 AMI's
 EC2 image builder launches a Builder EC2 Instance, create a new AMI, launches a Test EC2 Instance and test the AMI, AMI is distributed to multiple regions.
 
+EC2 Instance Store
+EBS volumes are network drives with good but "limited" performance
+If you need a high-performance hardware disk, use EC2 Instance Store.
+EC2 Instance Store loses its storage once the instance is terminated.
 
+EFS - Elastic File System
+This is a Network File System(NFS) that can be mounted on 100s of EC2 instances.
+EFS works with Linux EC2 instances in multi-AZ
+EFS drives can be mounted to multiple instances in various availability zones.
+
+EFS Infrequent Access (EFS-IA)
+Storage class that is cost-optimized for files not accessed every day.
+Upto 92% lower cost compared to EFS Standard
+EFS will automatically move your files to EFS-IA based on the last time the file was accessed if you enable EFS-IA with a lifecycle policy.
+
+Shared Responsibility Model for EC2 Storage
+AWS: infrastructure, replacing faulty hardware, ensuring their employees cannot access your data.
+User: Setting up backup/snapshot procedures, setting up data encryption, responsibility of any data on the drives, understanding the risk of using ec2 instance store.
+
+Amazon FSx
+Launch 3rd party high-performance file systems on AWS
+Fully Managed Service
+3 options
+1: FSx for Lustre, a fully managed, high-performance, scalable file storage for High Performance Computing (HPC)
+2: FSx for Windows File Server, supports SMB protocol and Windows NTFS
+3: FSx for NetApp ONTAP
