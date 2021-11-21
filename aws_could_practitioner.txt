@@ -217,4 +217,26 @@ When an EC2 instance is created, the user is prompted with a choice related to t
 The root volume attached to the instance has the delete on termination selected by default, however if you attach additional ebs volumes apart from 
 the root volume, they are not deleted when the instance is terminated.
 
+EBS Snapshots
+Take a backup of your EBS volume at any point in time.
+Not necessary to detach volume to do snapshot, but recommended.
+Once the snapshot is created, you must copy the snapshot to a desired region/Availability Zone(AZ)
+
+AMI Overview
+Amazon Machine Image is the customization of an EC2 instance. You add your own software, configuration, operating system, monitoring.
+AMI's are built for a specific region
+AMI is also referred to as Image in AWS world
+You can launch EC2 instances from:
+- A public AMI: AWS Provided
+- Your own AMI: you make and maintain them yourself
+- An AWS Marketplace AMI: an AMI someone else made
+
+You could launch an EC2 instance using an AMI, customize it even further, create a customized AMI from that instance and launch another instance using the 
+customized AMI. This helps the user avoide doing the same customizations multiple times in multiple instances.
+ 
+EC2 Image Builder
+Used to automate the creation of Virtual Machines or Container Images
+ie: automate the creation, maintain, validated and test EC2 AMI's
+EC2 image builder launches a Builder EC2 Instance, create a new AMI, launches a Test EC2 Instance and test the AMI, AMI is distributed to multiple regions.
+
 
