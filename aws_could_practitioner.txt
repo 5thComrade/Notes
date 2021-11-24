@@ -265,3 +265,27 @@ Fully Managed Service
 1: FSx for Lustre, a fully managed, high-performance, scalable file storage for High Performance Computing (HPC)
 2: FSx for Windows File Server, supports SMB protocol and Windows NTFS
 3: FSx for NetApp ONTAP
+
+=================================================================================================================================================
+ELB (Elastic Load Balancing) and ASG (Auto Scaling Group)
+
+There are two kinds of scalability
+1: Vertical Scalability - Vertical Scalability means increasing the size of the instance, ex: t2.micro to t2.large, use case: database
+2: Horizontal Scalability - Horizontal Scalability means increasing the number of instances / systems for your application use case: web application
+
+High Availability means running your application/system in atleast 2 availibility zones.
+
+Scalability: ability to accommodate a larger load by making the hardware stronger(scale up) or by adding nodes(scale out)
+Elasticity: once a system is scalable, elasticity means that there will be some "auto-scaling" so that the system can scale based on the load. This is 
+            cloud-frindly: pay-per-use, match demand and optimize costs
+            
+Load Balancing
+Load Balancers are servers that forward internet traffic to multiple servers(EC2 Instances) downstream.
+Use Cases: Expose a single point of access (DNS) to your application, seamlessly handle failures of downstream instances
+
+4 kinds of load balancers offered by AWS
+- Application Load Balancer (HTTP/HTTPS only) - Layer 7
+- Network Load Balancer (ultra-high performance, allows for TCP) - Layer 4
+- Classic Load Balancer (slowly retiring) - Layer 4 & 7
+- Gateway Load Balancer 
+
