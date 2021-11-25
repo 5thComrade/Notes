@@ -289,3 +289,21 @@ Use Cases: Expose a single point of access (DNS) to your application, seamlessly
 - Classic Load Balancer (slowly retiring) - Layer 4 & 7
 - Gateway Load Balancer 
 
+Auto Scaling Group
+The goal of Auto Scaling Group(ASG) is to scale out (add EC2 instances) to match an increased load or scale in (remove EC2 instances) to match
+a decreased load. This ensures we have a minimum and maximum number of machines running. Automatically register these new instances to a load balancer.
+It also replaces unhealthy instances.
+It is cost saving too, because it ensures to only run at an optimal capacity.
+
+In ASG we set the following
+- minimum size
+- actual size / desired capacity
+- maximum size
+
+ASG Strategies
+- Manual Scaling: Update the size of an ASG manually
+- Dynamic Scaling: 
+   - Simple / Step Scaling: When a CloudWatch alarm is triggered (example: CPU > 70%) then add 2 units or when CPU < 30% remove 1 unit
+   - Target Tracking Scaling: I want the average ASG CPU to stay at around 40%
+   - Scheduled Scaling: Anticipate a scaling based on known usage patterns, ex: increase min capacity to 10 at 5pm on Fridays
+   - Predictive Scaling: Uses Machine Learning to predict future traffic ahead of time.
