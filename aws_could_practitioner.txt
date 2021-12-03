@@ -458,5 +458,3 @@ Snowball Edge - Storage Optimized: Upto 40vCPUs, 80GB of RAM
 AWS OpsHub is a software you install to your computer to manage your snow family device
 - Transferring files
 - Launching and managing instances running on snow family devices
-
-   
