@@ -399,3 +399,64 @@ S3 Storage Classes
 
 S3 Durability: If you store 10,000,000 objects with Amazon S3, you can on an average expect to incur a loss of a single object once every 10,000 years
 S3 Availability: S3 standard has 99.99% availability, which means it will not be available 53 minutes a year
+
+S3 Object Lock and Glacier Vault Lock
+WORM Model (Write Once Read Many): Block an object version deletion for a specified amount of time
+
+S3 Encryption
+- No Encryption
+- Server-side Encryption: S3 will encrypt the file
+- Client-side Encryption: User encrypts the file before uploading it
+
+Shared Responsibility Model of S3
+AWS: Infrastructure (global security, durability, availability, sustain concurrent loss of data in two facilities), configuration, compliance validation
+User: S3 Versioning, S3 Bucket Policy, S3 Replication Setup, S3 Storage Class, Data encryption
+
+AWS Snow Family
+Highly-secure, portable devices to collect and process data at the edge, and migrate data into and out of AWS
+Data Migration: 
+    - Snowcone
+    - Snowball Edge
+    - Snowmobile
+Edge Computing: 
+    - Snowcone
+    - Snowball Edge
+    
+AWS Snow Family: offline devices to perform data migrations
+If it takes more than a week to transfer over the network, use Snowball devices.
+Load the data to these devices and ship it back to AWS.
+
+Snowball Edge
+   - Snowball Edge Storage Optimized: 80TB of HDD capacity for block volume and S3 compatible object storage
+   - Snowball Edge Compute Optimized: 42TB of HDD capacity for block volume and S3 compatible object storage
+   Migration Size: Up to petabytes
+
+Snowcone: Small, portable, rugged and secured, withstands harsh environments. 8TB of usable storage
+Can be sent back to AWS offline or connect it to internet and use AWS DataSync to send data
+Migration size: Up to 24TB
+
+Snowmobile: Transfer exabytes of data (1EB = 1000PB = 10,00,000TB)
+Each Snowmobile has 100PB of capacity
+Migration Size: up to exabytes
+
+Snow Family - Usage Process
+- Request Snowball devices from the AWS console for delivery
+- Install the snowball client / AWS OpsHub on your servers
+- Connect the snowball to your servers and copy files using the client
+- Ship back the device when you're done
+- Data will be loaded into an S3
+- Snowball is completely wiped
+
+Edge Computing
+Process data while its being created on an edge location (anything that doesn't have internet or far from cloud ex a ship on the sea)
+Snowball Edge / Snowcone can be used for edge computing
+You process the data at the place where its being created.
+Snowcone: 2CPU's, 4GB of memory, wired or wireless access. USB-C power using a cord or the optional battery
+Snowball Edge - Compute Optimized: 52vCPU's, 208GB RAM, Optional GPU, 42TB usable storage
+Snowball Edge - Storage Optimized: Upto 40vCPUs, 80GB of RAM
+
+AWS OpsHub is a software you install to your computer to manage your snow family device
+- Transferring files
+- Launching and managing instances running on snow family devices
+
+   
