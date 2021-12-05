@@ -470,3 +470,18 @@ Types of Storage Gateway:
 - File Gateway
 - Volume Gateway
 - Tape Gateway
+
+============================================================================================================================
+Databases in AWS
+If you want to structure your data, you need to use databases
+You can build indexes to efficiently query/search through the data
+
+Relational Databases: Use SQL language to perform queries/lookups
+NoSQL Databases
+
+Benifits of using a managed database on AWS
+- Quick provisioning, High Availability, Vertical and Horizontal Scaling
+- Automated Backup and Restore, Operations, Upgrades
+- Operating System Patching is handled by AWS
+- Monitoring, alerting
+
