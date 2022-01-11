@@ -179,6 +179,20 @@
     If we want to initaite all the async fetchs we need to use Promise.all() or Promise.allSettled([])
     const result = await Promise.allSettled([axios(url1), axios(url2)]);
 
-23: 
+23: A JavaScript Engine consists of two main components
+	1: Memory Heap - this is where the memory allocation happens
+	2: Call Stack - this is where your stack frames are as your code executes
+	
+24: There are various API's the browser or NodeJS runtime gives(ex: setTimeout, https.get). These API's, however, are not provided by the JS Engine
+    A JS Runtime hence comprises of JS Engine + API's + Callback Queue + Event loop
+    
+25: Javascript is a single-threaded programming language, which means it has a single Call Stack. Therefore it can do one thing at a time.
+    Call Stack is a data structure which records basically where in the program we are.
+    If we step into a function, we put it on the top of the stack. If we return from a function, we pop off the top of the stack. That's all the stack can do.
+    Each entry in the call stack is called a Stack Frame.
+ 
+26: Blowing the stack: this happens when you reach the maximum Call Stack size.
+
+
 
   
