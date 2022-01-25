@@ -193,6 +193,31 @@
  
 26: Blowing the stack: this happens when you reach the maximum Call Stack size.
 
-
-
-  
+27: V8 behind the scenes
+	- Parsing the code
+		During the parsing phase, the code is broken down into its respective tokens.
+		const sum = 5 + 7
+		Here const is a token, sum is a token, 5 is a token, ‘+’ is a token, and 7 is a token. 
+		After the code is broken down into tokens, it is given to the syntax parser which converts 
+		the code into an Abstract Syntax Tree (AST).
+		
+	- Compiling the code
+		Compilation is the process of converting human-readable code to machine code. 
+		There are two ways to compile the code: 
+			- Using an Interpreter: The interpreter scans the code line by line and converts it into byte code. Example: Python
+			- Using a Compiler: The Compiler scans the entire document and compiles it into highly optimized byte code. Example: Java
+			
+		Unlike other languages, The V8 engine uses both a compiler and an interpreter and follows Just in Time(JIT) 
+		Compilation for improved performance. 
+		Just in Time(JIT) Compilation: The V8 engine initially uses an interpreter, to interpret the code. 
+		On further executions, the V8 engine finds patterns such as frequently executed functions, 
+		frequently used variables, and compiles them to improve performance.
+		The V8 engine uses the Ignition interpreter, which takes in the Abstract Syntax Tree as the input and gives the byte code as the output,
+		which further proceeds to the execution phase. When the code is being interpreted, the compiler tries to talk with the 
+		interpreter to optimize the code. The V8 engine uses the Turbofan compiler, which takes the byte code from the interpreter 
+		and feedback(from the interpreter) as the input and gives the optimized machine code as the output.
+		
+	- Executing the code
+		The byte code is executed by using the Memory heap and the Call Stack of the V8 engine’s runtime environment. 
+		Memory Heap is the place where all the variables and functions are assigned memory. Call Stack is the place 
+		where each individual functions, when called are pushed to the stack, and popped out after their execution.
