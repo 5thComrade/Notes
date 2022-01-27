@@ -477,7 +477,7 @@ If you want to structure your data, you need to use databases
 You can build indexes to efficiently query/search through the data
 
 Relational Databases: Use SQL language to perform queries/lookups
-NoSQL Databases
+NoSQL Databases: More like documents (JSON)
 
 Benifits of using a managed database on AWS
 - Quick provisioning, High Availability, Vertical and Horizontal Scaling
@@ -504,3 +504,5 @@ PostgreSQL and MySQL are both supported as Aurora DB
 Aurora is "AWS Cloud Optimized" and claims 5x performance improvement over MySQL on RDS, over 3x the performance of Postgres on RDS
 Aurora storage automatically grows in increments of 10GB, upto 64TB
 Aurora costs more than RDS (20% more)
+
+RDS and Aurora are the two ways to set-up managed relational databases in AWS.
