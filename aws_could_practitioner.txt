@@ -573,3 +573,19 @@ Aurora is an AWS implementation of PostgreSQL/MySQL
 DocumentDB is the same implementation for MongoDB(NoSQL Database)
 MongoDB is used to store, query and index JSON data
 Fully managed, highly available with replication across 3 AZ's
+DocumentDB storage automatically grows in increments of 10GB, upto 64TB
+Automatically scales to workloads with millions of requests per second.
+
+Amazon Neptune
+Fully managed graph database
+A popular graph dataset would be a social network
+Highly available across 3 AZ's, with upto 15 read replicas
+Build and run applications working with highly connected datasets - optimized for complex and hard queries
+Great for knowledge graphs (Wikipedia), fraud detection, recommendation engines, social networking
+
+Amazon QLDB
+QLDB stands for Quantum Ledger Database
+A ledger is a book recording financial transactions
+Used to review history of all the changes made to your application data over time.
+Immutable system: no entry can be removed or modified, cryptographically verifiable
+QLDB is not decentralized, this is in accordance with financial regulation rules
