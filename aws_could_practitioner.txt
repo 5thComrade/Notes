@@ -555,3 +555,21 @@ Also supports Apache Spark, HBase, Presto etc
 EMR takes care of all the provisioning and configuration of the EC2 instances
 Auto-scaling and integrated with Spot Instances
 Use Cases: data processing, machine learning, web indexing, big data
+
+Amazon Athena
+Serverless query service to perform analytics against S3 objects
+Analyse data in S3 using serverless SQL, use Athena
+Uses standard SQL language to query the files
+Supports CSV, JSON etc
+Pricing: $5.00 per TB of data scanned, use compressed or columnar data for cost-savings
+
+Amazon QuickSight
+Serverless machine learning powered business intelligence service to create interactive dashboards
+Fast, automatically scalable, embeddable, with per-session pricing
+Integrated with RDS, Aurora, Athena, Redshift, S3
+
+DocumentDB
+Aurora is an AWS implementation of PostgreSQL/MySQL
+DocumentDB is the same implementation for MongoDB(NoSQL Database)
+MongoDB is used to store, query and index JSON data
+Fully managed, highly available with replication across 3 AZ's
