@@ -536,3 +536,22 @@ DAX is only used for and is integrated with DynamoDB, while ElastiCache can be u
 
 DynamoDB - Global Tables
 Make a DynamoDB table accessible with low latency in multiple-regions.
+
+Redshift
+Redshift is based on PostgreSQL but its not used for OLTP(online transaction processing)
+Its used for OLAP(online analytical processing) analytics and data warehousing
+Load data once every hour, not every second
+10x better performance than other data warehouses, scale to PBs of data
+Columnar storage of data (instead of row based)
+Massively Parallel Query Execution(MPP), highly available
+Pay as you go based on the instances provisioned
+Has a SQL interface for performing the queries
+BI tools such as AWS Quicksight or Tableau integrate with it
+
+Amazon EMR - Elastic MapReduce
+EMR helps creating Hadoop clusters (Big Data) to analyze and process vast amount of data
+The clusters can be made of hundreds of EC2 instances
+Also supports Apache Spark, HBase, Presto etc
+EMR takes care of all the provisioning and configuration of the EC2 instances
+Auto-scaling and integrated with Spot Instances
+Use Cases: data processing, machine learning, web indexing, big data
