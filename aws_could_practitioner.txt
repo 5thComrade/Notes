@@ -506,3 +506,30 @@ Aurora storage automatically grows in increments of 10GB, upto 64TB
 Aurora costs more than RDS (20% more)
 
 RDS and Aurora are the two ways to set-up managed relational databases in AWS.
+
+RDS Deployment
+- Read Replicas: Scale the read workload of your DB, you can create upto 5 read replicas. Data is only written to the main db
+- Multi-AZ: High availabilty. One creates a failover db in another AZ
+- Multi-Region: Main db in asia, read replicas across US regions. Disaster reovery in case of region issue. Local performance for global reads.
+
+
+Amazon ElastiCache
+ElastiCache is to get managed Redis or Memcached
+Caches are in-memory databases with high performance, low latency
+Helps reduce load off databases for read intensive workloads
+AWS takes care of OS maintenance/patching, optimizations, setup, configuration, monitoring, failure recovery and backups
+
+DynamoDB
+Is a fully managed, highly available NoSQL database with replication across 3 AZ's
+Scales to massive workloads, distributed "serverless" database
+Millions of requests per second, trillions of row, 100s of TB of storage.
+Fast and consistent in performance
+Single-digit millisecond latency - low latency retrieval
+Integrated with IAM for security, authorization and administration
+Low cost and auto scaling capabilities
+
+DynamoDB Accelerator - DAX
+Fully managed in-memory cache for DynamoDB
+10x performance improvement
+Secure, highly scalable and highly available
+DAX is only used for and is integrated with DynamoDB, while ElastiCache can be used for other databases
