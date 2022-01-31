@@ -589,3 +589,27 @@ A ledger is a book recording financial transactions
 Used to review history of all the changes made to your application data over time.
 Immutable system: no entry can be removed or modified, cryptographically verifiable
 QLDB is not decentralized, this is in accordance with financial regulation rules
+
+Amazon Managed Blockchain
+Blockchain makes it possible to build applications where multiple parties can execute transactions without the need for
+a trusted, central authority.
+Used to
+   - Join public blockchain networks
+   - Create your own scalable private network
+Compatible with frameworks: Hyperledger Fabric and Ethereum
+
+DMS - Database Migration Service
+Quickly and securely migrate databases to AWS
+The source database remains available during the migration
+Supports: 
+   - Homogeneous migrations: Ex: Oracle to Oracle
+   - Heterogeneous migrations: Ex: Microsoft SQL Server to Aurora
+   
+AWS Glue
+Managed extract, transform, and load (ETL) service
+Useful to prepare and transform data for analytics
+Fully serverless service
+
+S3 ---------->
+               ---- Extract ----> AWS Glue -----> Transforms -------> Loads ------> Redshift
+Amazon RDS--->
