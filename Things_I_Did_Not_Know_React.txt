@@ -1,1 +1,21 @@
 useEffect
+      When a component unmounts, the callback inside the useEffect is not triggered. 
+      Then how do we create something equivalent to componentWillUnmount?
+      Answer: Cleanup Function
+      
+      useEffect(() => {
+        console.log("render")
+        return () => {
+           console.log("unmount")
+        }
+      })
+      
+      How do you make a side effect that runs only at the beginning and at the end of components lifecycle?
+      Answer: Empty dependency array and Cleanup Function
+      
+      useEffect(() => {
+        console.log("render")
+        return () => {
+           console.log("unmount")
+        }
+      }, [])
