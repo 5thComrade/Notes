@@ -10,6 +10,8 @@ useEffect
         }
       })
       
+      =====================================================================================================================
+      
       How do you make a side effect that runs only at the beginning and at the end of components lifecycle?
       Answer: Empty dependency array and Cleanup Function
       
@@ -19,3 +21,15 @@ useEffect
            console.log("unmount")
         }
       }, [])
+
+      ====================================================================================================================
+      
+      When a component renders the state is simply a const within its scope.
+      The event handlers see the state from the render they belong to because the state is a variable in their scope.
+      Even the useEffect callback function refers to the props and state of its render.
+      Just imagine, everytime a component re-renders, it creates its own scope, every function inside this scope can access the props and state 
+      within the scope of the component.
+      Every function inside the component render (including event handlers, effects, timeouts or API calls inside them) captures the props 
+      and state of the render call that defined it.
+      Reason: Closures 
+     
