@@ -690,3 +690,35 @@ Virtual servers, storage, databases and networking
 Simpler alternative to using EC2, RDS, ELB, EBS, Route 53
 Great for people with little cloud experience
 Has high availability but no auto-scaling, limited AWS integrations
+
+===================================================================================================================
+Deploying and Managing Infrastructure at Scale Section
+
+CloudFormation
+CloudFormation is a declarative way of outlining your AWS Infrastructure, for any resources
+Example: within the CloudFormation template, you say
+         - I want a security group
+         - I want two EC2 instances using this security group
+         - I want an S3 bucket
+         - I want a load balancer in front of these machines
+         
+Then CloudFormation creates those for you, in the right order, with the exact configuration that you specify
+Benefits of AWS CloudFormation
+ - Infrastructure as Code
+   No resources are manually created, which is excellent for control
+   Changes to the infrastructure are reviewed through code
+ - Cost
+   Each resources within the stack is tagged with an identifier so you can easily see how much a stack costs you
+   You can estimate the costs of your resources using the CloudFormation template
+   Savings Strategy: In Dev, you could automatically delete the templates at 5PM and recreated at 8AM safely
+ - Productivity
+   Ability to destroy and re-create an infrastructure on the cloud on the fly
+   Declarative programming
+ - Don't re-invent the wheel
+   Leverage existing templates on the web
+ - Supports (almost) all AWS resources
+ 
+ AWS CDK (Cloud Development Kit)
+ Define your cloud infrastructure using a familiar language: Ex JavaScript, .NET, Python
+ The code is complied into a CloudFormation template
+ You can thereforce deploy infrastructure and application runtime code together
