@@ -1,1 +1,9 @@
+The shell is a program that takes keyboard commands and passes them to the OS to carry out.
+Almost all Linux distributions supply a shell program from the GNU Project called bash (Bourne Again Shell).
+We need another program called a terminal emulator (or simply the terminal) to interact with the shell.
 
+If the last character of the shell prompt is # it either means root user or the user has admin privilages. If the last characer is $ then its not root user.
+
+Simple commands
+- date: to display the current date and time
+- cal: displays the calendar of the current month
