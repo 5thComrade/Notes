@@ -722,3 +722,49 @@ Benefits of AWS CloudFormation
  Define your cloud infrastructure using a familiar language: Ex JavaScript, .NET, Python
  The code is complied into a CloudFormation template
  You can thereforce deploy infrastructure and application runtime code together
+
+AWS Elastic Beanstalk
+- Elastic Beanstalk is a developer centric view of deploying an application on AWS
+- It uses all the components we've seen before EC2, ASG, ELB, RDS etc but its all in one view that's easy to make sense of
+- We still have full control over the configuration
+- Beanstalk = Platform as a Service (PaaS)
+Responsibilty of the user: Just the application code is the responsibility of the developer
+Three Architecture models
+   - Single Instance deployment: good for dev
+   - LB + ASG: great for production or pre-prodction web applications
+   - ASG only: great for non-web apps in production (workers etc)
+Beanstalk also has a dashboard to monitor the health of the applications
+
+AWS CodeDeploy
+- We want to deploy our application automatically
+- Works with EC2 instances and On-Premises Servers (Hybrid service)
+
+AWS CodeCommit
+Developers usually store code in a repository, using the Git technology
+A famous public offering is GitHub, AWS's competing product is CodeCommit
+Source-control service that hosts Git-based repositories
+The code changes are automatically versioned
+Private, secured and integrated with AWS
+Fully managed
+
+AWS CloudBuild
+Code building service in the cloud.
+Compiles source code, run tests, and produces packages that are ready to be deployed (by CodeDeploy for example)
+Fully managed, serverless
+Continuously scalable and highly available
+Secure
+Pay-as-you-go pricing - only pay for the build time
+
+AWS CodePipeline
+Orchestrate the different steps to have the code automatically pushed to production
+Code -> Build -> Test -> Provision -> Deploy
+Basis for CICD (Continuous Integration & Continuous Delivery)
+Ex: CodeCommit -> CodeBuild -> CodeDeploy -> Elastic Beanstalk
+
+AWS CodeArtifact
+Software packages have code dependencies.
+Storing and retrieving these dependencies is called artifact management.
+CodeArtifact is a secure, scalable, cost-effective artifact management for software development
+Works with common dependency management tools such as Maven, Gradle, npm, yarn etc
+
+
