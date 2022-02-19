@@ -7,3 +7,32 @@ If the last character of the shell prompt is # it either means root user or the 
 Simple commands
 - date: to display the current date and time
 - cal: displays the calendar of the current month
+
+==============================================================================================================================================================
+Navigation
+- pwd: print name of current working directory
+- cd: change directory
+
+Unlike Windows, which has separate file system tree for each storage device, Unix-like systems such as Linux always have single file system tree, originating 
+from the root directory
+
+Changing directories
+cd /usr/bin  ---> absolute path name, starting from the root go to bin
+cd .. ----------> relative path name, starting from the current dir go back to its parent
+cd ./src -------> relative path name, starting from the current dir go to src folder
+cd / -----------> will take you to the root directory
+cd -----------> will take you to the home directory
+
+==============================================================================================================================================================
+Exploring the System
+- ls: list directory contents
+- file: determine file type
+- less: view file contents
+
+ls -a ---> all files
+ls -l ---> long format
+ls -t ---> sort the result by the files modification time
+ls -h ---> in long format listing, but size displayed in human readable format
+ls -S ---> Sort results by file size
+ls -r ---> display the results in reverse order
+ls -alhS ---> combines some options together
