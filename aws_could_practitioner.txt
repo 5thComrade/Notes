@@ -794,3 +794,24 @@ AWS OpsWorks
 Chef and Puppet help you perform server configuration automatically, or repetitive actions.
 They work great with EC2 and On-premises VM
 AWS OpsWorks = Managed Chef and Puppet
+
+=====================================================================================================================
+AWS Route 53
+Route 53 is a managed DNS(Domain Name System)
+Most common records
+- www.google.com => 12.34.56.78 == A record (IPv4)
+- www.google.com => 2001:0db8:t34d:agaf:87ed:hy12: == AAAA (IPv6)
+- search.google.com => www.google.com == CNAME:hostname to hostname
+- example.com => AWS resource == Alias (ex: ELB, CloudFront, S3 etc)
+
+Route 53 Routing Policies
+- Simple Routing Policy (No Health Check)
+- Weighted Routing Policy
+- Latency Routing Policy
+- Falover Routing Policy (Diaster Recovery)
+
+AWS CloudFront
+CloudFront is a CDN (Content Delivery Network)
+Improves read performance, by caching content in various edge locations(points of presence)
+The CloudFront origin will be protected by OAI (Origin Access Identity)
+
