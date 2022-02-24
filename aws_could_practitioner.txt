@@ -815,3 +815,24 @@ CloudFront is a CDN (Content Delivery Network)
 Improves read performance, by caching content in various edge locations(points of presence)
 The CloudFront origin will be protected by OAI (Origin Access Identity)
 
+S3 Transfer Acceleration
+Increase transfer speed by transferring file to an AWS edge location which will forward the data to the S3 bucket in the target region
+
+AWS Global Accelerator
+Improve global application availability and performance using the AWS global network
+Leverage the AWS internal network to optimize the route to your application (60% improvement)
+2 Anycast IP are created for your application and traffic is sent through Edge Locations
+The Edge locations send the traffic to your application
+
+AWS Outposts
+AWS Outposts are server racks that offers the same AWS infrastructure, services, API's and tools to build your own applications on-premises just as in
+the cloud. AWS will setup and manage Outposts racks within your on-premises infrastructure and you can start leveraging AWS services on-premises.
+
+AWS WaveLength
+WaveLength Zones are infrastructure deployments embedded within the telecommunications providers' datacenters at the edge of 5G networks
+Ultra-low latency applications through 5G networks
+
+AWS Local Zones
+Places AWS compute, storage, database, and other selected AWS services closer to end users to run latency-sensitive applications
+Extend your VPC to more locations - "Extension of an AWS Region"
+
