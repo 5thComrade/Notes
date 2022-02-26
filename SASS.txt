@@ -1,1 +1,37 @@
+Variables
 
+$primary-color: #326dee;
+$seconary-color: #1ac886;
+
+===========================================================================================================================
+Partials
+A file that holds all the sass variables we decalre.
+The file name should start with an underscore
+_palette.scss
+
+In the destination scss file you can import this partial and use the variables
+@import "../assets/palette";
+
+How do we export sass variables from partials to be used inside javascript?
+Ans: $primary: #326dee;
+
+     :export {
+        primary: $primary
+     }
+============================================================================================================================
+Nested Rules
+
+.card {
+   padding: 1rem;
+   color: $primary;
+   .title {
+      font-size: 1rem;
+   }
+   .img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
+}
+
+===========================================================================================================================
