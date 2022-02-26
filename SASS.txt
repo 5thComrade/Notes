@@ -1,10 +1,10 @@
-Variables
+*** Variables ***
 
 $primary-color: #326dee;
 $seconary-color: #1ac886;
 
 ===========================================================================================================================
-Partials
+*** Partials ***
 A file that holds all the sass variables we decalre.
 The file name should start with an underscore
 _palette.scss
@@ -19,7 +19,7 @@ Ans: $primary: #326dee;
         primary: $primary
      }
 ============================================================================================================================
-Nested Rules
+*** Nested Rules ***
 
 .card {
    padding: 1rem;
@@ -35,3 +35,46 @@ Nested Rules
 }
 
 ===========================================================================================================================
+*** Using Math ***
+
+$base-font-size: 1rem;
+$font-size-sm: $base-font-size * 0.75;
+$font-size-lg: $base-font-size * 1.5;
+
+In order to do division, we need to use the "math" module
+@use 'sass:math';
+
+.card {
+   border-radius: math.div($base-border-radius, 4);
+}
+
+If you want to console log something from sass file, use the the debug module
+@debug "Hello World!"
+@debug math.div(10, 3)
+@debug math.max(1px, 20px, 12px, 5px)
+===========================================================================================================================
+*** Maps ***
+
+$colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "error": $error,
+    "success:": $success,
+    "white": #ffffff,
+    "black": #000000,
+)
+
+A map is defined as above.
+
+.text {
+    color: map-get($colors, "white")
+}
+
+@debug map-has-key($colors, "purple") // will return false
+@debug map-has-key($colors, "black") // will return true
+@debug map-remove($colors, "primary") // will log the map after removing the primary key
+@debug map-merge($colors, ("pink": #ffc0cb)) // will log the map after merging the colors map with the new map
+
+==========================================================================================================================
+*** Loops ***
+
