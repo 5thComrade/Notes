@@ -59,7 +59,7 @@ $colors: (
     "primary": $primary,
     "secondary": $secondary,
     "error": $error,
-    "success:": $success,
+    "success": $success,
     "white": #ffffff,
     "black": #000000,
 )
@@ -78,3 +78,42 @@ A map is defined as above.
 ==========================================================================================================================
 *** Loops ***
 
+We loop through the map, get the key and value from it and use these keys and values to define more classes.
+We then use the for loop inside the each loop to make the light and dark varients of the classes
+
+@each $key, $val in $colors {
+    .text-#{$key} {
+        color: $val;
+    }
+    .bg-#{$key} {
+        background-color: $val;
+    }
+    
+    @for $i from 1 through 9 {
+        .text-#{$key}-light-#{$i} {
+             color: mix(white, $val, $i * 10)
+        }
+    }
+}
+
+
+The sass compiles the above code to following
+.text-primary {
+    color: #d32752;
+}
+.bg-primary {
+    background-color: #d32752;
+}
+.text-primary-light-1 {
+    color: #eda9ba
+}
+
+if you want to export your colors map so you can use it in Javascript
+
+:export {
+   @each $key, $val in $colors {
+      #{unquote($key)}: $val;
+   }
+}
+
+========================================================================================================================
