@@ -181,5 +181,18 @@ Mixins can also take variables are arguments and use these variables in the mixi
 }
 
 ==============================================================================================================================
+*** Functions ***
 
+@function light-comp($color) {
+    $complement: complement($color);
+    $light-complement: lighten($complement, 30%);
+    
+    @return $light-complement
+}
 
+.text {
+    color: light-comp(#e2e2e2);
+}
+
+==============================================================================================================================
+*** Making Utility Classes ***
