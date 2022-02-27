@@ -117,3 +117,33 @@ if you want to export your colors map so you can use it in Javascript
 }
 
 ========================================================================================================================
+*** if ***
+
+@if ($val != $black and $val != white){
+     ...rest of the code
+} @else {
+     ...rest of the code
+}
+
+========================================================================================================================
+*** Parent Selectors ***
+
+& is the parent selector
+
+.parent {
+    color: $primary;
+    
+    &:hover {
+        color: $info;
+    }
+    
+    &:last-child {
+        color: $error;
+    }
+    
+    &:nth-child(2) {
+        color: $black;
+    }
+}
+
+==========================================================================================================================
