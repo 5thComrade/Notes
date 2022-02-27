@@ -147,3 +147,39 @@ if you want to export your colors map so you can use it in Javascript
 }
 
 ==========================================================================================================================
+*** Mixins and @include ***
+
+Mixins allow you to create css rules once and use it in various places.
+Mixins can also take variables are arguments and use these variables in the mixin definition
+
+@mixin btn($bg-color: #e2e2e2) {
+   text-decoration: none;
+   cursor: pointer;
+   display: inline-block;
+   border: 0;
+   padding: $base-padding $base-padding*2;
+   border-radius: $base-border-radius;
+   background-color: $bg-color;
+}
+
+.btn {
+    @include btn; ------------------------> notice how we haven't provided the parenthesis or any arguments, hence $bg-color will take the default value ie: #e2e2e2
+}
+
+@each $key, $val in $colors {
+    .btn-#{$key} {
+         @include btn($val);
+         
+         &:hover {
+              background-color: lighten($val, 5);
+         }
+    }
+    .btn-outlined-#{$key} {
+         @include btn($white);
+         border: $base-border-thickness solid $val;
+    }
+}
+
+==============================================================================================================================
+
+
