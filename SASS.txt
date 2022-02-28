@@ -70,6 +70,19 @@ A map is defined as above.
     color: map-get($colors, "white")
 }
 
+A map can have other maps defined inside it
+
+$utilities: (
+    "padding": (
+         "prefix": "p",
+         "values": (
+              "0": 0,
+              "1": $base-padding,
+              "2": $base-padding * 2,
+         )
+    )
+)
+
 @debug map-has-key($colors, "purple") // will return false
 @debug map-has-key($colors, "black") // will return true
 @debug map-remove($colors, "primary") // will log the map after removing the primary key
@@ -196,3 +209,42 @@ Mixins can also take variables are arguments and use these variables in the mixi
 
 ==============================================================================================================================
 *** Making Utility Classes ***
+
+$utilities: (
+    "padding": (
+         "prefix": "p",
+         "values": (
+              "0": 0,
+              "1": $base-padding,
+              "2": $base-padding * 2,
+         )
+    )
+    "font-size": (
+         "prefix": "f",
+         "values": (
+              "sm": $font-size-sm,
+              "md": $base-font-size,
+              "lg": $font-size-lg,
+         )
+    )
+)
+
+@each $property, $map in $utilities {
+    $prefix: map-get($map, "prefix");
+    $values: map-get($map, "values");
+    
+    @each $k, $v in $values {
+         @if($k == "default") {
+              .#{$prefix} {
+                   #{$property}: $v
+              }
+         } @else {
+              .#{$prefix}-#{$k}{
+                   #{$property}: $v
+              }
+         }
+    }
+}
+
+=================================================================================================================================
+*** Media Queries ***
