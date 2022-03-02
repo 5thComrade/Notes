@@ -173,10 +173,17 @@ Mixins can also take variables are arguments and use these variables in the mixi
    padding: $base-padding $base-padding*2;
    border-radius: $base-border-radius;
    background-color: $bg-color;
+   @content; -----------------------------> notice how we add @content, this will help us add any extra content from wherever this mixin is invoked
 }
 
 .btn {
     @include btn; ------------------------> notice how we haven't provided the parenthesis or any arguments, hence $bg-color will take the default value ie: #e2e2e2
+}
+
+.another-btn {
+    @include btn {
+         color: red; ----------------------> this becomes the extra content, this button will have all the styles the btn mixin has + color: red; because we added @content
+    }
 }
 
 @each $key, $val in $colors {
@@ -248,3 +255,37 @@ $utilities: (
 
 =================================================================================================================================
 *** Media Queries ***
+
+$breakpoints: (
+    "xs": 0,
+    "sm": 480px,
+    "md": 720px,
+    "lg": 960px,
+    "xl": 1200px,
+)
+
+@mixin xs {
+    @media (min-width: map-get($breakpoints, "xs")) {
+         @content;
+    }
+}
+
+
+@mixin md {
+    @media (min-width: map-get($breakpoints, "md")) {
+         @content;
+    }
+}
+
+.responsive-text {
+    @include xs {
+         color: red;
+         font-size: 8px;
+    }
+    @include md {
+         color: blue;
+         font-size: 14px;
+    }
+}
+
+===========================================================================================================================
