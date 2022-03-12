@@ -836,3 +836,30 @@ AWS Local Zones
 Places AWS compute, storage, database, and other selected AWS services closer to end users to run latency-sensitive applications
 Extend your VPC to more locations - "Extension of an AWS Region"
 
+==========================================================================================================================================================
+- Amazon SQS - Simple Queue Service
+
+Fully managed service, used to decouple applications
+Scales from 1 message per second to 10000s per second
+Messages are deleted after they're read by consumers
+Consumers share the work to read messages and scale horizontally
+
+Requests ----> Web Servers ----> SQS Queue ----> Video Processing
+
+Now the web servers service and the video processing service are decoupled and the important thing here is the EC2 instances for Video Processing
+can be independently scaled without touching the Web Servers EC2 instances.
+
+- Amazon SNS - Simple Notification Service
+The "event publishers" only sends message to one SNS topic while we can have as many "event subscribers" as we want to listen to the SNS topic notifications
+Each subscriber to the topic will get all the messages.
+
+- Amazon Kinesis
+Real-time big data streaming
+Managed service to collect, process, and analyze real-time streaming data at any scale.
+
+- Amazon MQ = managed Apache ActiveMQ
+SQS and SNS are cloud-native services using proprietary protocols from AWS.
+Traditional applications running from on-premise may use open protocols such as MQTT, AMQP etc
+When migrating to the cloud, instead of re-engineering the application to use SQS and SNS, one can use Amazon MQ
+
+===============================================================================================================================================================
