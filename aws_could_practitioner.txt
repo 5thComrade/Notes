@@ -863,3 +863,22 @@ Traditional applications running from on-premise may use open protocols such as 
 When migrating to the cloud, instead of re-engineering the application to use SQS and SNS, one can use Amazon MQ
 
 ===============================================================================================================================================================
+Cloud Monitoring
+
+- Amazon CloudWatch Metrics
+CloudWatch provides metrics for every service in AWS
+Metric is a variable to monitor (CPU Utilization, NetworkIn etc)
+Metrics have timestamps
+
+- Amazon CloudWatch Alarms
+Alarms are used to trigger notifications for any metric
+Alarm actions - Auto Scaling, EC2 Actions, SNS notifications
+Billing alarm is available only in us-east-1
+
+- Amazon CloudWatch Logs
+Collects logs from elastic beanstalk, ecs, Lambda, CloudTrail, Route53 etc
+Enables real-time monitoring of logs
+Adjustable CloudWatch Logs retention
+By default, no logs from your EC2 instance will go to CloudWatch. You need to run a CloudWatch agent on EC2 to push the log files you want.
+The CloudWatch log agent can be setup on-premises too
+
