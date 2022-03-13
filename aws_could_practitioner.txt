@@ -913,3 +913,25 @@ CloudTrail Events
   - Gaps in periodic maintenance activity
   Continuously analyzes write events to detect unusual patterns
   
+- AWS X-Ray
+Visual analysis of applications
+Advantages of X-Ray
+   - Troubleshooting performance
+   - Understand dependencies in a microservice architecture
+   - Pinpoint service issues
+   - Review request behavior
+   - Find error and exceptions
+   - Are we meeting the Service Level Agreement
+   - Identify users that are impacted
+   
+- Amazon CodeGuru
+An ML-powered service for automated code reviews and application performance recommendations
+Provides 2 functionalities:
+  - CodeGuru Reviewer: automated code review for static code analysis
+  - CodeGuru Profiler: visibility/recommendations about application performance during runtime
+  
+- AWS Health Dashboard
+Shows all regions, all services health. This is a general overview of the services on AWS.
+There is Personal Health Dashboard(phd) to stay informed of important events affecting your AWS resources.
+The Personal Health Dashboard provides alerts and remediation guidance when AWS is experiencing events that may impact you.
+Shows historical information for each day
