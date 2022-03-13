@@ -882,3 +882,34 @@ Adjustable CloudWatch Logs retention
 By default, no logs from your EC2 instance will go to CloudWatch. You need to run a CloudWatch agent on EC2 to push the log files you want.
 The CloudWatch log agent can be setup on-premises too
 
+- Amazon CloudWatch Events / EventBridge
+Schedule: Cron Jobs (scheduled scripts)
+Event Patterns: Event rules to react to a service doing something
+
+EventBridge is the next evolution of CloudWatch Events
+
+- AWS CloudTrail
+Provides governance, compliance and audit for your AWS Account
+CloudTrail is enabled by default
+Get an history of events/API calls made within your AWS Account by
+  - console
+  - SDK
+  - CLI
+  - AWS services
+If a resource is deleted in AWS, investigate CloudTrail first!
+
+CloudTrail Events
+- Management Events: Operations that are performed on aws resources in your aws account
+  Ex: SNS rule deleted, IAM policy created etc
+  By default, trails are configured to log management events
+- Data Events
+  By default, data events are not logged(because its a high volume operation)
+  Ex: S3 object level activity , Lambda function execution activity
+- CloudTrail Insights Events
+  Enable CloudTrail Insights to detect unusual activity in your account
+  - inaccurate resource provisioning
+  - hitting service limits
+  - Bursts of AWS IAM actions
+  - Gaps in periodic maintenance activity
+  Continuously analyzes write events to detect unusual patterns
+  
