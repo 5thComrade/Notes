@@ -935,3 +935,62 @@ Shows all regions, all services health. This is a general overview of the servic
 There is Personal Health Dashboard(phd) to stay informed of important events affecting your AWS resources.
 The Personal Health Dashboard provides alerts and remediation guidance when AWS is experiencing events that may impact you.
 Shows historical information for each day
+
+======================================================================================================================================
+Virtual Private Cloud (VPC)
+
+VPC is a private network to deploy your resources (regional resource)
+Subnets allow you to partition your network inside your VPC (Availability Zone resource)
+A public subnet is a subnet that is accessible from the internet
+A private subnet is a subnet that is not accessible from the internet
+To define access to the internet and between subnets we use Route Tables
+
+Internet Gateways helps our VPC instances connect with the internet.
+Public Subnets have a route to the internet gateway.
+
+NAT Gateways (AWS managed) & NAT Instances (self-managed) allow your instances in your Private Subnets to access
+the internet while remining private.
+
+- Network ACL & Security Groups
+Network ACL: 
+Is a firewall which controls traffic from and to the subnet.
+Subnet level security.
+Can have ALLOW or DENY rules and rules only include IP addresses
+
+Security Groups
+A firewall that controls traffic to and from an ENI / EC2 instance
+Can have only ALLOW rules
+Rules include IP addresses and other security groups
+
+- VPC Flow Logs
+Capture information about IP traffic going into your interfaces
+   - VPC Flow Log
+   - Subnet Flow Log
+   - Elastic Network Interface Flow Logs
+
+- VPC Peering
+Connect two VPC's privately using AWS' network. Make them behave as if they were in the same network
+
+- VPC Endpoints
+Endpoints allow you to connect to AWS Services using a private network instead of the public www network
+This gives you enhanced security and lower latency to access AWS services
+VPC Endpoint Gateway to connect to S3 and DynamoDB
+VPC Endpoint Interface to connect to the other services
+
+- Site to Site VPN
+Connect an on-premises VPN to AWS
+The connection is automatically encrypted
+Goes over the public internet
+On-premises must use a Customer Gateway(CGW)
+AWS must use a Virtual Private Gateway(VGW)
+
+-Direct Connect(DX)
+Establish a physical connection between on-premises and AWS
+The connection is private, secure and fast
+Goes over a private network
+Takes at least a month to establish
+
+- Transit Gateway
+For having transitive peering between thousands of VPC and on-premises, hub-and-spoke(star) connection
+One single gateway to provide this functionality
+Works with Direct Connect, VPN connections
