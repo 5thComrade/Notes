@@ -952,7 +952,7 @@ NAT Gateways (AWS managed) & NAT Instances (self-managed) allow your instances i
 the internet while remining private.
 
 - Network ACL & Security Groups
-Network ACL: 
+Network Access Control List (ACL): 
 Is a firewall which controls traffic from and to the subnet.
 Subnet level security.
 Can have ALLOW or DENY rules and rules only include IP addresses
