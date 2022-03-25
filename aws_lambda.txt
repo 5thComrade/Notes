@@ -1,3 +1,29 @@
 The Serverless Framework (https://serverless.com/)
 
 Serverless Framework aims to ease the pain of creating, deploying, managing, and debugging lambda functions
+
+- To install Serverless
+npm i -g serverless
+
+- To configure Serverless
+serverless config credentials --provider aws --key <key> --secret <secret> --profile <profile>
+
+- Download a serverless template
+sls create --template aws-nodejs
+
+- Get available templates
+sls create --help
+
+- Deploy serverless function to lambda
+sls deploy --aws-profile <profile>
+
+- If you modified only the function and not the entire stack
+sls deploy function -f <func name> --aws-profile <profile>
+
+- Invoking the function
+   - directly from the aws lambda console
+   - using serverless
+      sls invoke -f <function name> --log --aws-profile <profile>
+   
+- Get all the logs of the function
+sls logs -f <func name> --aws-profile <profile>
