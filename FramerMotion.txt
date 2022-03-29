@@ -1,1 +1,25 @@
+Framer Motion React Animation Library
 
+=====================================================================================================================
+- To start using Framer Motion
+import {motion} from "framer-motion"
+
+<motion.div animate={{fontSize: 50, color: #ff2994}}>
+   Hello World!
+</motion.dev>
+
+=====================================================================================================================
+- To define the initial animation state of the elements, use the initial prop
+
+<motion.div initial={{x: "-100vw", opacity: 0}} animate={{x: 0, opacity: 1}}>
+   Use the initial prop
+</motion.div>
+
+======================================================================================================================
+- How to control the transition from initial to animate state? Use the transition prop
+
+<motion.div initial={{opacity: 0, x: "100vw"}} animate={{opacity: 1, x: 0}} transition={{type: "spring", delay: 0.5, stiffness: 120}}>
+   Use transition prop
+</motion.div>
+
+======================================================================================================================
