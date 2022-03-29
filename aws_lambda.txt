@@ -27,3 +27,7 @@ sls deploy function -f <func name> --aws-profile <profile>
    
 - Get all the logs of the function
 sls logs -f <func name> --aws-profile <profile>
+
+- Removing a function
+sls remove --aws-profile <profile>
+
