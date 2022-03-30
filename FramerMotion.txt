@@ -23,3 +23,34 @@ import {motion} from "framer-motion"
 </motion.div>
 
 ======================================================================================================================
+- Add Hover animations
+Use the whileHover prop to the motion element
+
+<motion.button whileHover={{scale: 1.1}}>Click Me</motion.button>
+
+======================================================================================================================
+- Variants
+
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+    x: "100vw",
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      delay: 0.5,
+    },
+  },
+};
+
+<motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+>
+   Hello World!
+</motion.div>
+
