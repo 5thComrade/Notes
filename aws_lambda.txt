@@ -31,3 +31,42 @@ sls logs -f <func name> --aws-profile <profile>
 - Removing a function
 sls remove --aws-profile <profile>
 
+===================================================================================================================
+YAML
+YAML is a markup language
+Key-value pairs
+Supports arrays
+Supports multi-line string
+
+invoice: 12345
+date: 12-2-2020
+bill-to:
+   name: Antony
+   address: | Thrissur, Kerala        -------------------> this is how yaml supports multi-line string
+              560030
+product:
+   - title: wifi                      -------------------> this is how yaml supports arrays
+     quantity: 5GB
+     price: 600
+   - title: electricity
+     quantity: 5500
+     price: 4000
+     
+==================================================================================================================
+AWS Functions & Serverless Framework Core Concepts
+
+- Function (Lambda Function)
+  An independent unit of deployment - code that can be deployed in the cloud
+  Does a single job, its the best practice
+ 
+- Events
+  Anything that triggers an AWS Lambda function to execute
+ 
+- Resources
+  AWS infrastructure components which your Functions use
+  Ex: AWS DynamoDB write, S3 Bucket upload
+  
+- Services
+  The Frameworks unit organization
+  Where you define your functions, the events that trigger them and the resources your functions use.
+  A servicecan be described in YAML or JSON
