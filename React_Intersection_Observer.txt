@@ -1,0 +1,58 @@
+const Component1 = React.lazy(() => import("./Component1"))
+const Component2 = React.lazy(() => import("./Component2"))
+
+const useIntersectionObserver = () => {
+    const ref = React.useRef(null)
+
+    const [isVisible, setIsVisible] = React.useState(false)
+
+    React.useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries
+                setIsVisible(entry.isIntersecting)
+            },
+            {
+                root: null, // null refers to browser viewport
+                rootMargin: "0px",
+                threshold: 0.0,
+            }
+        )
+        if (ref.current) {
+            observer.observe(ref.current)
+        }
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current)
+            }
+        }
+    }, [ref])
+
+    return [ref, isVisible]
+}
+
+const MainComponent = () => {
+    const [ref1, isVisible1] = useIntersectionObserver()
+    const [ref2, isVisible2] = useIntersectionObserver()
+    
+    return (
+        <div>
+            <React.Suspense fallback={<div>Loading...</div>}>
+                <div ref={ref1}>
+                    {isVisible1 && (
+                        <Component1/>
+                    )}
+                </div>
+            </React.Suspense>
+            <React.Suspense fallback={<div>Loading...</div>}>
+                <div ref={ref2}>
+                    {isVisible2 && (
+                        <Component2/>
+                    )}
+                </div>
+            </React.Suspense>
+        </div>
+    )
+}
+
+===============================================================================================================
