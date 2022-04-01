@@ -92,4 +92,36 @@ functions:
 In the above yaml snippet, we are deploying 2 functions (hello-short-timeout and hello-long-timeout)
 To each of these functions we are providing additional configurations like timeout, memorySize and description
 
+- Inheriting Settings from Provider
+If you add certain settings in the Provider, it gets inherited by all the functions defined inside functions,
+unless the same settings are over written in the function config.
+Example:
+provider:
+  name: aws
+  runtime: nodejs12.x
+  timeout: 4
+  memorySize: 512
+  
+In the example above, timeout and memorySize is defined inside provider, hence these settings will be inherited by all
+the functions defined in the functions block.
+
 =========================================================================================================================
+IAM Permissions for Lmabda Functions
+In the serverless.yml file add an iam role and attach policies.
+In the example below, severless framework will automatically create an iam role and attach the lambda:listFunctions action 
+on all the lambda resources. This will ensure that our lambda function can now listFunctions.
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-south-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "lambda:ListFunctions"
+          Resource:
+            - "*"
+            
+==========================================================================================================================
