@@ -70,3 +70,26 @@ AWS Functions & Serverless Framework Core Concepts
   The Frameworks unit organization
   Where you define your functions, the events that trigger them and the resources your functions use.
   A servicecan be described in YAML or JSON
+  
+=================================================================================================================
+AWS Functions Timeout and Memory
+
+One can deploy multiple functions to aws lambda by changing the configurations in the serverless.yml file.
+Please take a look at the function below
+
+functions:
+  hello-short-timeout:
+    handler: handler.hello
+    timeout: 3
+    memorySize: 128
+    description: Short timeout function
+  hello-long-timeout:
+    handler: handler.hello
+    timeout: 6
+    memorySize: 256
+    description: Long time out function
+    
+In the above yaml snippet, we are deploying 2 functions (hello-short-timeout and hello-long-timeout)
+To each of these functions we are providing additional configurations like timeout, memorySize and description
+
+=========================================================================================================================
