@@ -125,3 +125,28 @@ provider:
             - "*"
             
 ==========================================================================================================================
+Environment Variables
+
+One can define environment variables in the provider or inside the function definition.
+In the example below, we have defined environment variable MY_NAME in both the provider and the function.
+If there were multiple functions without any env setup, these functions will take the env of the provider. However, if you want to
+override the env in the provider, define the desired env in the function definition.
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ap-south-1
+  environment:
+    MY_NAME: "Antony"
+    
+functions:
+  listLambdaFunctns:
+    name: ListLambdaFunctions-${sls:stage}
+    handler: handler.listFunctions
+    timeout: 60
+    memorySize: 256
+    description: This lambda function lists all the lambda functions
+    environment:
+      MY_NAME: "Rohan"
+=========================================================================================================================
