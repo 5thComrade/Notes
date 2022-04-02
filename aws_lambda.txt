@@ -150,3 +150,13 @@ functions:
     environment:
       MY_NAME: "Rohan"
 =========================================================================================================================
+Running Lambda locally - For Testing
+
+Run Lambda locally using AWS Toolkit for VS Code
+Install the AWS Toolkit extension for VS Code.
+Connect to your aws account by choosing the credentials in the credentials file(available in .aws folder in the users folder).
+Once the connection is established you get an aws icon on the left nav of VS Code which in turn allows you to explore aws services 
+from VS Code.
+
+Use ctrl+shift+p on VS Code to configure credentials, create SAM application etc
+========================================================================================================================
