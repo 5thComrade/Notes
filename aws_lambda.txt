@@ -160,3 +160,30 @@ from VS Code.
 
 Use ctrl+shift+p on VS Code to configure credentials, create SAM application etc
 ========================================================================================================================
+AWS SAM(Serverless Application Model)
+
+Used to define your serverless application
+AWS SAM consists of the following components
+1: AWS SAM Template Sepcification - you write properties to a file to describe functions, APIs, permissions etc
+2: AWS SAM CLI - to invoke functions, packages, and deploy serverless applications to AWS cloud
+
+Once you've installed SAM CLI (I am using it on aws cloudshell, its pre-installed there xD)
+run the following command to initialise a sam app
+
+- sam init
+
+Choose from the templates and options prompted and we are good, so far.
+Make any code changes if you want on the installed files and once you are ready to build run the following command
+
+- sam build
+
+Once the sam app is built, you can run the serverless application locally by running the following command
+
+- sam local invoke
+
+** to run a serverless app locally one need docker installed and running
+
+Once tested locally, you can go ahead and deploy the sam app
+
+- sam deploy --guided
+
