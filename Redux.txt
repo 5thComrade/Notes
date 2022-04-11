@@ -235,4 +235,46 @@ const Counter = () => {
 
 export default Counter;
 
---------------------------------------------------------------------------------------------
+=============================================================================================================================
+In the createSlice function, inside reducers we define various actions and their corresponding reducer
+Example: 
+const postSlice = createSlice({
+	name: "posts",
+	initialState,
+	reducers: {
+		postAdded: (state, action) => {
+			state.push(action.payload)
+		}
+	}
+})
+
+Now we can define the function that updates the state for this action inside the action definition
+const postSlice = createSlice({
+	name: "posts",
+	initialState,
+	reducers: {
+		postAdded: {
+			reducer(state, action) {
+				state.push(action.payload)
+			},
+			prepare(title, content) {
+				return {
+				   payload: {
+				   	id: nanoid(),
+					title,
+					content,
+				   }
+				}
+			}
+		}
+	}
+})
+
+Now in the component when you dispatch the action
+Earlier we used to do 
+dispatch(postAdded({id: nanoid(), title, content})) --------------> old way of dispatching action with payload
+
+With the new style, we can simply do as follows
+dispatch(postAdded(title, content)) ------------------------------> new way of dispatching action with content for the payload
+
+====================================================================================================================================
