@@ -278,3 +278,8 @@ With the new style, we can simply do as follows
 dispatch(postAdded(title, content)) ------------------------------> new way of dispatching action with content for the payload
 
 ====================================================================================================================================
+Async Redux toolkit
+
+import {createSlice, nanoid, createAsyncThunk} from "@reduxjs/toolkit"
+
+export const fetchPosts = createAsyncThunk("posts/fetchPosts")
