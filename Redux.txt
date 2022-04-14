@@ -154,6 +154,8 @@ import reportWebVitals from './reportWebVitals';
 import {store} from "./appStore/store"
 import {Provider} from "react-redux"
 
+store.dispatch(fetchTheme()) ---------------> *** if you want to dispatch an action before the app loads ***
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -279,7 +281,160 @@ dispatch(postAdded(title, content)) ------------------------------> new way of d
 
 ====================================================================================================================================
 Async Redux toolkit
+In Redux toolkit we can use createAsyncThunk to create actions that require async operations.
+The createAsyncThunk will create 3 action types pending, fulfilled, rejected
+These actions must be handled in the extraReducers property in the createSlice method.
 
-import {createSlice, nanoid, createAsyncThunk} from "@reduxjs/toolkit"
+Lets talk a little about extraReducers.
+There are 2 ways to handle reducers in extraReducers
+- 1st Method: the builder addCase chain
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts")
+	const usersSlice = createSlice({
+		name: "users",
+		initialState,
+		reducers: {},
+		extraReducers(builder){
+			builder.addCase(fetchUsers.pending, (state, action) => {
+				state.loading = true
+			}).addCase(fetchUsers.fulfilled, (state, action) => {
+				state.loading = false
+				state.users = action.payload
+			}).addCase(fetchUsers.rejected, (state, action) => {
+				state.loading = false
+				state.users = []
+				state.error = action.payload
+			})
+		}
+	})
+	
+- 2nd Method: direct reducer
+
+	const usersSlice = createSlice({
+		name: "users",
+		initialState,
+		reducers: {},
+		extraReducers: {
+			[fetchUsers.pending]: (state, action) => {
+				state.loading = true
+			},
+			[fetchUsers.fulfilled]: (state, action) => {
+				state.loading = false
+				state.users = action.payload
+			},
+			[fetchUsers.rejected]: (state, action) => {
+				state.loading = false
+				state.users = []
+				state.error = action.payload
+			}
+		}
+	})
+	
+Now lets get back to async operations in redux/toolkit
+
+export const fetchUsers = createAsyncThunk("posts/fetchUsers", async () => {
+  try {
+    const response = await axios.get(USERS_URL);
+    return [...response.data]; -----------------------------------> this array becomes the payload for type: "posts/fetchUsers/filfilled"
+  } catch (err) {
+    return err.message; ------------------------------------------> this message becomes the payload for type: "posts/fetchUsers/rejected"
+  }
+});
+
+As mentioned earlier createAsyncThunk returns 3 actions
+1: {type: "posts/fetchUsers/pending", payload: undefined}
+2: {type: "posts/fetchUsers/filfilled", payload: [1, 2, 3]} --------> payload is whatever you return from the createAsyncThunk method
+3: {type: "posts/fetchUsers/rejected", payload: "Unable to make the network request"}
+
+These actions must be handled in the extraReducers in the createSlice method.
+
+** console.log(await dispatch(fetchUsers()).unwrap()) -----> unwrap is a method given by the toolkit which returns the payload of the action object
+if the action object is {type: "posts/fetchUsers/filfilled", payload: [1, 2, 3]}
+the above console log will be [1, 2, 3]
+
+===========================================================================================================================================
+MY STRATEGY FOR A SCALABLE STORE
+
+The initial store setup as mentioned above
+Here we will talk about actions and reducers residing in their respective files
+For each feature we will have a corresponding action and reducer file
+
+create a folder for your feature
+in this folder create two files
+1: actions.js
+2: slice.js
+
+---------------------------------------------------------------------------------------------------------------------
+Inside actions.js
+In the example below we have created 2 actions one using the normal createAction method and another one using createAsyncThunk.
+Import these actions in your components and dispatch
+The key point of difference between these actions are
+1: for createAction you need to return an object with the payload property, whereas for createAsyncThunk whatever you return is the payload
+2: createAction only creates 1 action object, whereas createAsyncThunk creates 3 action objects internally
+
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const USERS_URL = "https://jsonplaceholder.typicode.com/users";
+
+export const incrementByValue = createAction(
+  "someFeature/incrementByValue",
+  (value) => {
+    return {
+      payload: value,
+    };
+  }
+);
+
+export const getSomeUsers = createAsyncThunk(
+  "someFeature/getSomeUsers",
+  async () => {
+    try {
+      const response = await axios.get(USERS_URL);
+      return { users: response.data }; 
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
+------------------------------------------------------------------------------------------------------------------------------
+Inside slice.js
+Import the actions from the actions files and define these actions in the extraReducers
+Also export the reducer and configure it in the store
+
+import { createSlice } from "@reduxjs/toolkit";
+import { incrementByValue, getSomeUsers } from "./actions";
+
+const initialState = {
+  total: 0,
+  usersLoading: false,
+  users: [],
+  usersFetchFailed: ""
+};
+
+const someFeatureSlice = createSlice({
+  name: "someFeature",
+  initialState,
+  reducers: {},
+  extraReducers: {
+  	[incrementByValue]: (state, action) => {
+		state.total =  action.payload
+	},
+	[getSomeUsers.pending]: (state, action) => {
+		state.usersLoading = true
+	},
+	[getSomeUsers.fulfilled]: (state, action) => {
+		state.usersLoading = false
+		state.users = action.payload
+	}
+	[getSomeUsers.pending]: (state, action) => {
+		state.usersLoading = false
+		state.users = []
+		state.usersFetchFailed = action.payload
+	}
+  },
+});
+
+export default someFeatureSlice.reducer;
+
+===========================================================================================================================================
