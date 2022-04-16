@@ -438,3 +438,8 @@ const someFeatureSlice = createSlice({
 export default someFeatureSlice.reducer;
 
 ===========================================================================================================================================
+Redux Optimisations
+
+1: Memoise your selectors by using createSelector
+2: It is recommended to use normalised state structure for your redux state and it can be achieved by using createEntityAdapter
+===========================================================================================================================================
