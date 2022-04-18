@@ -181,9 +181,23 @@ Once the sam app is built, you can run the serverless application locally by run
 
 - sam local invoke
 
+If You want to test the api endpoint locally on localhost run the below command
+
+- sam local start-api
+
 ** to run a serverless app locally one need docker installed and running
+*** You canuse AWS Cloud9 to build SAM apps, the environment Cloud9 creates has Docker, SAM CLI everything...its pure gold
 
 Once tested locally, you can go ahead and deploy the sam app
 
 - sam deploy --guided
 
+To invoke the deployed function locally run the below command
+
+- sam local invoke "<Function Name>" -e events/event.json
+Ex: sam local invoke "HelloWorldFunction" -e events/event.json
+
+To delete the entire app run the below command
+- aws cloudformation delete-stack --stack-name <stack name> --region <region id>
+
+============================================================================================================================================
