@@ -33,3 +33,11 @@ useEffect
       and state of the render call that defined it.
       Reason: Closures 
      
+=================================================================================================================================
+Lifecycle methods re-created using useEffect()
+
+componentDidMount: useEffect(() => {}, [])
+componentDidUpdate: useEffect(() => {})
+componentWillUnmount: useEffect(() => {return () => {console.log("Cleanup Function")}})
+
+=================================================================================================================================
