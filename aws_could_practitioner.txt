@@ -1036,3 +1036,38 @@ Define Web ACL (Web Access Control List)
  - Protects from common attack - SQL injection and Cross-Site Scripting (XSS)
  - Rate-based rules (to count occurreses of events)
  
+Penetration Testing on AWS Cloud
+AWS customers are welcome to carry out security assessments or penetration tests against their AWS infrastructure without prior approval for 8 services:
+  - AWS EC2 instances, NAT Gateways, and Elastic Load Balancers
+  - AWS RDS
+  - AWS CloudFront
+  - AWS Aurora
+  - AWS API Gateways
+  - AWS Lambda and Lambda Edge functions
+  - AWS Lightsail resources
+  - AWS Elastic Beanstalk environments
+  
+Encryption with KMS and CloudHSM
+Data at Rest: data stored or archived on a device. On a hard disk, on a RDS instance, in S3 Glacier Deep Archive etc
+Data in Transit: data being moved from one location to another. Transfer from on-premises to AWS, EC2 to DynamoDb etc
+AWS KMS (Key Management Service)
+AWS manages the encryption keys for us
+
+Cloud HSM (Hardware Security Module): AWS provisions the encryption hardware, but we gotta manage the keys ourselves.
+HSM device is tamper resistant, FIPS 140-2 Level 3 compliance.
+
+Customer Master Keys (CMK)
+Customer Managed CMK:
+  - Create, manage and used by the customer, can enable or disable
+  - Possibility of rotation policy (new key generated every year, old key preserved)
+  - Possibility to bring-your-own-key
+AWS managed CMK:
+  - Created, managed and used on the customers behalf by AWS
+  - Used by AWS services
+AWS owned CMK:
+  - Collection of CMKs that an AWS service owns and manages to use in multiple accounts
+  - AWS can use those to protect resources in your account(but you can't view the keys)
+CloudHSM Keys(custom keystore)
+  - Keys generated from your own CloudHSM hardware device
+  - Cryptographic operations are performed within the CloudHSM cluster
+ 
