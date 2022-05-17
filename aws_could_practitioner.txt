@@ -1071,3 +1071,32 @@ CloudHSM Keys(custom keystore)
   - Keys generated from your own CloudHSM hardware device
   - Cryptographic operations are performed within the CloudHSM cluster
  
+AWS Certificate Manager (ACM)
+Let's you easily provision, manage and deploy SSL/TLS Certificates
+Used to provide in-flight encryption for websites
+Integrations with ELBs, CloudFront distributions, API gateway etc
+
+AWS Secrets Manager
+Newer service, meant for storing secrets
+Capability to force rotation of secrets every X days
+Integration with Amazon RDS (MySQL, PostgreSQL, Aurora)
+
+AWS Artifact
+Portal that provides customers with on-demand access to AWS complicance documentation and AWS agreements
+Artifact Reports: allows you to download AWS security and compliance documents from third-party auditors ex: AWS ISO certifications
+Artifact Agreements: allows you to review, accept and track the status of AWS agreements
+
+Amazon GuardDuty
+Intelligent Threat discovery to Protect AWS Account
+Uses Machine Learning algorithms, anomaly detection, 3rd party data
+Input data includes: CloudTrail Event logs, VPC Flow logs, DNS logs, Kubernetes Audit logs
+Can setup CloudWatch Event rules to be notified in case of findings
+
+Amazon Inspector
+Automated Security Assessments
+- For EC2 instances: analyze against unintended network accessibility, analyze the running OS against known vulnerabilities
+- For Containers pushed to Amazon ECR: assessments of containers as they are pushed
+Reporting and integration with AWS security hub
+Send findings to Amazon Event Bridge
+
+AWS Config
