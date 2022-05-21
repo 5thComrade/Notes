@@ -1100,3 +1100,46 @@ Reporting and integration with AWS security hub
 Send findings to Amazon Event Bridge
 
 AWS Config
+Helps with auditing and recording compliance of your AWS resources
+Helps record configuration and changes over time
+Possibility of storing the configuration data into S3
+
+Amazon Macie
+Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover
+and protect your sensitive data in AWS.
+Macie helps identify and alert you to sensitive data, such as personally identifiable information(PII)
+
+AWS Security Hub
+Central security tool to manage security across several AWS accounts and automate security checks
+Integrated dashboards showing current security and compliance status to quickly take actions
+Automatically aggregates alerts in predefined or personal findings formats from various AWS services and AWS partner tools
+   - GuardDuty
+   - Inspector
+   - Macie
+   - IAM Access Analyzer
+   - AWS Systems manager
+   - AWS Firewall manager
+   - AWS Partner network solutions
+Must first enable AWS Config service
+
+Amazon Detective
+GuardDuty, Macie and Security Hub are used to identify potential security issues or findings.
+Amazon Detective analyzes, investigates and quickly identifies the root cause of security issues or suspicious activities using ML and graphs.
+Automatically collects and processes events from VPC Flow logs, CloudTrail, GuardDuty and create a unified view
+
+AWS Abuse
+Report suspected AWS Resources used for abusive or illegal purposes.
+Example: Spam, Port scanning, DoS or DDoS, Intrusion attempts, Hosting objectionable or copyrighted content, Distributing malware
+
+Root user privilages
+Root user = Account Owner
+Has complete access to all AWS services and resources
+Actions that can be performed only by the root user
+  - Change account settings (account name, email, root user password, root user access keys)
+  - Close your account
+  - View certain tax invoices
+  - Change or cancel your AWS support plan
+  - Register as a seller in the Reserved Instance Marketplace
+  - Configure an AWS S3 bucket to enable MFA
+  - SignUp for GovCloud
+
