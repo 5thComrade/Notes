@@ -1191,4 +1191,24 @@ Fully managed ML service to build apps with real-time personalized recommendatio
 Example: personalized product recommendations/re-ranking, customized direct marketing
 
 ============================================================================================================================
+Account Management, Billing & Support
 
+AWS Organizations
+Is a global service which allows to manage multiple AWS Accounts.
+The main account is the master account.
+Cost Benefits
+   - Consolidated billing across all accounts - single payment method
+   - Pricing benefits from aggregated usage
+   - Pooling of Reserved EC2 instances for optimal savings
+API is available to automate AWS account creation
+Restrict account privilages using Service Control Policies (SCP)
+Create accounts per department, per dev/test/prod for better resource isolation.
+
+Service Control Policies (SCP)
+Whitelist or Blacklist IAM actions.
+Applied at OU (organisational unit) or Account level.
+Does not apply to master account
+SCP is applied to all the Users and Roles of the Account, including Root.
+The SCP does not affect service-linked roles
+SCP must have an explicit allow(does not allow anything by default)
+Use cases: Restrict access to certain services(for example: can't use EMR is production OU), enforce PCI compliance by explicitly disabling services
