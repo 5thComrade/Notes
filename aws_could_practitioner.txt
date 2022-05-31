@@ -1310,3 +1310,31 @@ Networking Costs
 - Use Private IP instead of public IP for good savings and better network performance
 - Use the same AZ for maximum savings
 
+Savings Plan
+Commit a certain $ amount per hour for 1 or 3 years
+Easiest way to setup long-term commitments on AWS
+EC2 Savings Plan
+  - Upto 72% discount compared to On-Demand
+  - Commit to usage of individual instance families in a region
+  - All upfront, partial upfront or no upfront
+Compute Savings Plan
+  - Upto 66% discount compared to On-Demand
+  - Regardless of Family, region, size, OS, compute options
+  
+AWS Compute Optimizer
+Reduce costs and improve performance by recommending optimal AWS resources for your workloads
+Helps you choose optimal configurations and right size your workloads
+Uses ML to analyze your resources' configurations and their utilization CloudWatch metrics
+
+Billing and Costing Tools
+- Estimating costs in the cloud
+  - Pricing Calculator
+- Traching costs in the cloud
+  - Billing Dashboard
+  - Cost Allocation Tags
+  - Cost and Usage reports
+  - Cost Explorer
+- Monitoring against costs plans
+  - Billing Alarms
+  - Budgets
+
