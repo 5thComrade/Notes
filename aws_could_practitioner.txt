@@ -1212,3 +1212,101 @@ SCP is applied to all the Users and Roles of the Account, including Root.
 The SCP does not affect service-linked roles
 SCP must have an explicit allow(does not allow anything by default)
 Use cases: Restrict access to certain services(for example: can't use EMR is production OU), enforce PCI compliance by explicitly disabling services
+
+AWS Organization - Consolidated Billing
+When enabled, provides you with
+  - Combined Usage - combine the usage across all AWS accounts in the AWS Organization to share the volume pricing, reserved instances and savings plan discounts
+  - One Bill - get one bill for AWS Accounts in the AWS Organization
+The management account can turn off Reserved Instances discount sharing for any account in the AWS Organization, including itself
+
+AWS Control Tower
+Easy way to set up and govern a secure and compliant multi-account AWS environment based on best practices.
+Benefits
+  - Automate the set up of your environment in a few clicks
+  - Automate ongoing policy management using guardrails
+  - Detect policy violations and remediate them
+  - Monitor compliance through an interactive dashboard
+AWS Control Tower runs on top of AWS Organizations
+  - It automatically sets up AWS Organizations to organize accounts and implement SCPs(Service Control Policies)
+  
+Pricing Models in AWS
+AWS has 4 pricing models:
+  - Pay as you go: pay for what you use, remain agile, responsive, meet scale demands
+  - Save when you reserve: minimize risks, predictably manage budgets, comply with long-term requirements
+  - Pay less by using more: volume-based discounts
+  - Pay less as AWS grows
+  
+Free services
+- IAM
+- VPC
+- Consolidated Billing
+- Elastic Beanstalk (you do pay for resources created)
+- CloudFormation (you do pay for resources created)
+- Auto Scaling Groups (you do pay for resources created)
+- Free Tier
+
+Compute Pricing - EC2
+- Only charged for what you use
+- Number of instances
+- Instance configuration
+  - Physical capacity
+  - Region
+  - OS and software
+  - Instance type
+    - on-demand instances
+    - reserved instances
+    - Spot instances
+    - Dedicated host
+  - Instance size
+- ELB running time and amount of data processed
+- Detailed monitoring
+
+Compute Pricing - Lambda & ECS
+- Lambda
+  - Pay per call
+  - Pay per duration
+- ECS
+  No additional fees, you pay for AWS resources stored and created in your application
+- Fargate
+  Pay for vCPU and memory resources allocated to your applications in your containers
+
+Storage Pricing - S3
+- Storage class
+- Number and size of objects
+- Number and type of requests
+- Data transfer OUT of the S3
+- S3 Transfer Acceleration
+- Lifecycle transitions
+
+Storage Pricing - EBS
+- Volume type
+- Storage volume in GB per month provisioned
+- IOPS
+- Snapshots
+- Data transfer
+
+Database pricing - RDS
+- Per hour billing
+- Database characterstics
+  - Engine
+  - Size
+  - Memory class
+- Purchase type
+  - On-demand
+  - Reserved instancs 
+- Backup storage
+- Additional storage
+- Number of input and output requests per month
+- Deployment type
+- Data transfer
+
+Content Delivery - CloudFront
+- Pricing is different across different geographic regions
+- Aggregated for each edge location, then applied to your bill
+- Data transfer out
+- Number of HTTP/HTTPS requests
+
+Networking Costs
+- Use Private IP instead of public IP for good savings and better network performance
+- Use the same AZ for maximum savings
+
