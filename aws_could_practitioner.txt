@@ -1338,3 +1338,19 @@ Billing and Costing Tools
   - Billing Alarms
   - Budgets
 
+AWS Pricing Calculator
+Available at https://calculator.aws/
+Estimate the cost for your solution architecture
+
+AWS Billing Dashboard
+Use cost allocation tags to track your AWS costs on a detailed level
+AWS Resource Groups & Tag Editor to create resource groups and tags, will help you to group resources and helps to see
+a consolidate bill for each tag.
+
+Cost and Usage Reports
+Dive deeper into your AWS costs and usage
+The AWS Cost & Usage Report contains the most comprehensive set of AWS cost and usage data available
+
+Cost Explorer
+Visualize, understand and manage your AWS costs and usage over time
+Forecast usage up to 12 months based on previous usage
