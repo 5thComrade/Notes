@@ -1354,3 +1354,40 @@ The AWS Cost & Usage Report contains the most comprehensive set of AWS cost and 
 Cost Explorer
 Visualize, understand and manage your AWS costs and usage over time
 Forecast usage up to 12 months based on previous usage
+
+Billing Alarms in CloudWatch
+Billing data metric is stored in CloudWatch us-east-1
+
+AWS Budgets
+Create budget and send alarms when costs exceeds the budget
+3 types of budgets: Usage, Cost, Reservation
+Up to 5 SNS notifications per budget
+First 2 budgets are free
+
+AWS Trusted Advisor
+No need to install anything - high level AWS account assessment
+Analyze your AWS accounts and provides recommendation on 5 categories
+  - Cost optimization
+  - Performance
+  - Security
+  - Fault tolerance
+  - Service limits
+Basic & Developer Support plan (7 Core Checks)
+  - S3 Bucket Permissions
+  - Security Groups-Specific Ports Unrestricted
+  - IAM use (one IAM user minimum)
+  - MFA on root account
+  - EBS public snapshots
+  - RDS public snapshots
+  - Service limits
+Business & Enterprise Support plan (Full Checks)
+  - Full checks available on the 5 categories
+  - Ability to set CloudWatch alarms when reaching limits
+  - Programmatic access using AWS support API
+  
+AWS Support Plan Pricing
+Basic Support: free
+AWS Developer Support: support plan features + Business hours email access to Cloud Support Associates
+AWS Business Support: For production workloads. Full checks on trusted advisor, api access, 24x7 phone, email and chat access to Support team
+AWS Enterprise On-Ramp Support: For production or business critical workloads. Access to Technical Account Managers(TAM), Concierge Support Team(for billing and account best prctices)
+AWS Enterprise Support: For mision critical workloads, designated Technical Account Manager, Concierge Support Team(for billing and account best prctices)
