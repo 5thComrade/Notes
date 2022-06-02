@@ -114,4 +114,16 @@ Now's lets see how React Query helps in cacheing server state
     if we set refetchInterval: 2000; the query automatically refetch every 2s
 16: Polling is paused when the browser is not in focus, if you stil want the data to be fetched in the background
     set refetchIntervalInBackground: true,
-17: 
+17: If you want to query only when an event is triggered(ex: button click)
+    - First disable fetching on mount by setting enabled to false
+    - useQuery returns a refetch function, call the function when the event is triggered
+      const { isLoading, isError, error, data, isFetching, refetch } = useQuery(
+        "todos",
+        fetchTodos,
+        {
+             enabled: false,
+        }
+      );
+      
+      <button onClick={refetch}>fetch todos</button>
+ 18: 
