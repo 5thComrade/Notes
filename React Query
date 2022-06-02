@@ -1,0 +1,100 @@
+- React Query initial setup
+In the root file, the App Component file
+
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* Rest of your application */}
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+    </QueryClientProvider>
+  );
+}
+
+export default App;
+
+================================================================================================================================
+- In the file where you want to fetch data
+
+import { useQuery } from "react-query";
+import axios from "axios";
+
+const fetchTodos = async () => {
+  const response = await axios.get("http://localhost:4000/todos");
+  return response.data.map((item) => {
+    return {
+      id: item.id,
+      title: item.title,
+      fulfilled: false,
+    };
+  });
+};
+
+function Home() {
+  const { isLoading, isError, error, data, isFetching } = useQuery(
+    "todos",
+    fetchTodos
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
+
+  return (
+    <div>
+      {data.map((item) => (
+        <div key={item.id}>
+          <p>
+            {item.title}: {`${item.fulfilled}`}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default Home;
+
+====================================================================================================================
+The above example is the very basic version on how to implement react-query
+Now's lets see how React Query helps in cacheing server state
+
+1: React Query is a Server-state management tool
+2: Redux is a Client-state management tool
+3: Redux is not the best at handling async server calls, we need to use redux thunk. The data we need for a feature need not be required elsewhere 
+   in the app hence storing feature data in redux store seems pointless. We can use Redux for setting the theme of the app or storing the user details.
+4: React Query comes in to rescue, imagine we define a useQuery hook in one of the pages in the app.
+5: That page becomes an observer for the query, if we leave that page the query no longer has an observer.
+6: Observer status can be viewed on the React Query devtools.
+7: We can define the fetch logic inside useQuery hook, when one visits the page for the first time
+   - isLoading is set to true
+   - data is fetched and returned
+   - data is stored in cache
+   - isLoading is set to false
+8: If you move away from the page, the observer is removed for that query and an internal timer starts(5mins by default). If the user comes back to the page 
+   within that 5 mins, React Query will take the data from the cache and give it to the UI, and behind the scenes try to fetch the data again, if there is 
+   any difference in the refetched data the UI and cache is updated. isLoading will remain false if the user comes back to the page within the 
+   cachetime. isFetching will become true if the fetching is done behind the scenes.
+9: If the user doesn't navigate to the page within the cache time, the query data is removed from the cache and the query is Garbage collected.
+10: If the user comes back to the page after the cache time, the query will run again, isLoading will become true, isFetching will be true, the cache 
+    will be set again.
+11: If you want to adjust the cacheTime, we need to pass a third prop to the useQuery hook
+    const {isLoading, isError, data} = useQuery("todos", fetchTodo, {
+      cacheTime: 5000, // cache time now becomes 5s
+    })
+ 12: If you know that the server data doesn't get updated that often and it can remain fresh for atleast 5mins, then we can set the staleTime to 5mins.
+     This means that the data fetched by this query will be fresh for 5 mins and if someone goes to another page and comes back to this page within 5 mins,
+     the data will be fresh and you'll see that the api was not hit and the data will be served from the cache. After 5mins, the query will automatically become
+     stale. Default staleTime is 0s
+     const {isLoading, isError, data} = useQuery("todos", fetchTodo, {
+      staleTime: 3000000, // stale time is 5mins
+    })
+ 13: 
