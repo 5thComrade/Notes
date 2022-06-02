@@ -126,4 +126,21 @@ Now's lets see how React Query helps in cacheing server state
       );
       
       <button onClick={refetch}>fetch todos</button>
- 18: 
+ 18: If you want to perform any action once the query successfully works or fails, there are callback functions you can pass to the configuration
+     function onQuerySuccess(finalData) {
+        console.log(`This data can be saved in Global state if needed`, finalData);
+     }
+
+     function onQueryError(fetchError) {
+        console.log("Perform side effect after data fetching failed", fetchError);
+     }
+     
+     const { isLoading, isError, error, data, isFetching, refetch } = useQuery(
+        "todos",
+        fetchTodos,
+        {
+          onSuccess: onQuerySuccess, // assign the callbacks here, they pass the appropriate data to the callback funcs
+          onError: onQueryError,
+        }
+      );
+19: 
