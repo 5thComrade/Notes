@@ -90,11 +90,20 @@ Now's lets see how React Query helps in cacheing server state
     const {isLoading, isError, data} = useQuery("todos", fetchTodo, {
       cacheTime: 5000, // cache time now becomes 5s
     })
- 12: If you know that the server data doesn't get updated that often and it can remain fresh for atleast 5mins, then we can set the staleTime to 5mins.
+12: If you know that the server data doesn't get updated that often and it can remain fresh for atleast 5mins, then we can set the staleTime to 5mins.
      This means that the data fetched by this query will be fresh for 5 mins and if someone goes to another page and comes back to this page within 5 mins,
      the data will be fresh and you'll see that the api was not hit and the data will be served from the cache. After 5mins, the query will automatically become
      stale. Default staleTime is 0s
      const {isLoading, isError, data} = useQuery("todos", fetchTodo, {
       staleTime: 3000000, // stale time is 5mins
     })
- 13: 
+13: refetchOnMount
+     default is true
+     Every time the component is mounted the data is fetched if the query is stale. If you don't want to fetch the data at all again, then set it to false.
+     If you set it to "always", irrespective of whether the data is stale or not fetch the data on window focus.
+14: refetchOnWindowFocus
+     default is true
+     Every time your tab loses focus and gains focus again, the data is fetched if the data is in stale state. 
+     If you set it to "always", irrespective of whether the data is stale or not fetch the data on window focus.
+     Example, if I go to a different app and then come back to the my app, even without refreshing the page, the data will be in sync with the server data.
+15: 
