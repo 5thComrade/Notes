@@ -143,4 +143,21 @@ Now's lets see how React Query helps in cacheing server state
           onError: onQueryError,
         }
       );
-19: 
+19: If you want to beautify the data the api returns, we can set the select option in the configuration.
+    select accepts a function and this function gets the raw data returned from the api call.
+    
+    const { isLoading, isError, error, data, isFetching, refetch } = useQuery(
+        "todos",
+        fetchTodos,
+        {
+          select: (rawData) => {
+              return rawData.map((item) => ({
+                      id: item.id,
+                      title: item.title,
+                      fulfilled: false,
+                      owner: "Antony",
+              }));
+           },
+        }
+        );
+20: 
