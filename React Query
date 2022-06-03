@@ -160,4 +160,41 @@ Now's lets see how React Query helps in cacheing server state
            },
         }
         );
-20: 
+
+==============================================================================================================================================
+Query Dependency
+If your query has dependencies the structure of the useQuery is as bellow
+
+const fetchTodoById = async ({ queryKey }) => {
+  const id = queryKey[1];
+  const response = await axios.get(`http://localhost:4000/todos/${id}`);
+  return response.data;
+};
+
+const {isLoading, isError, error, data, refetch} = useQuery(["todo", todoId], fetchTodoById, {});
+
+The dependency is passed into the queryKey as another element in the array, the queryKey is also available for the queryFunction as a property
+you need to destructure
+============================================================================================================================================== 
+Parallel Queries
+Invoke useQury multiple times and React-query will ensure its called parallely
+
+useQuery("todos", fetchTodos)
+useQuery("cakes", fetchCakes)
+
+==============================================================================================================================================
+Dynamic Parallel Queries
+If you want to make parallel queries that are dynamic(ie we do not know how many queries we may hit beforehand)
+Then we use another hook called useQueries
+
+const cakeIds = [1, 3]; // this array can be dynamic with n values
+
+const queryResults = useQueries(
+    cakeIds.map((id) => ({
+      queryKey: ["cake", id],
+      queryFn: () => fetchCake(id), // pass the id to the fetchCake function
+    }))
+);
+
+console.log("queryResults", queryResults);
+===============================================================================================================================================
