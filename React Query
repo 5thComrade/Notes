@@ -215,3 +215,38 @@ Once the role is available enabled becomes true and the query gets executed. Thi
   });
   
 ===============================================================================================================================================
+Initial Query Data
+One can set the initial query data by setting the initialData prop in the config options.
+initialData accepts a function and the return value of that function will be the initial data.
+We can also set the data we cached from another api, filter what we need and use that as the initial data as shown in the example below
+
+  const queryClient = useQueryClient();
+
+  return useQuery(["todo", todoId], fetchTodoById, {
+    initialData: () => {
+      const todo = queryClient
+        .getQueryData("todos")
+        ?.data?.find((td) => td.id === parseInt(todoId));
+        
+      if (todo) {
+        return todo;
+      } else {
+        return undefined;
+      }
+    },
+  });
+  
+We are using the query client, getting the cached todos finding the individual todo details and using that as the initial data.
+Behind the scenes fetchTodoById is getting called and our initial data will be replaced with the fresh data. The advantage here is, we will not see
+the loader cause isLoading will be false and the initial data covers up until the real data is fetched.
+
+====================================================================================================================================================
+Paginated Queries
+
+set keepPreviousData as true.
+When we set keepPreviousData to true, we will show the previous data on the UI and behind the scenes the new data is being fetched.
+Hence isLoading will stay false when we set keepPreviousData to true and only isFetching toggles.
+It looks as though the app is really smooth
+
+====================================================================================================================================================
+Infinite Queries
