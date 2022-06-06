@@ -198,3 +198,20 @@ const queryResults = useQueries(
 
 console.log("queryResults", queryResults);
 ===============================================================================================================================================
+Dependent Queries
+If you want to write queries that are dependent on the return value of the previous query we need to implement it as follows
+In the second query we have set the enabled config that changes when the role changes, so Initially it will be false and hence the query will not be called.
+Once the role is available enabled becomes true and the query gets executed. This is how we can achieve synchronous quering.
+
+  const userId = "antonychiramel";
+
+  const { data: user } = useQuery(["user", userId], () =>
+    fetchUserById(userId)
+  );
+  const role = user?.role;
+
+  useQuery(["access", role], () => fetchUserAccessDetails(role), {
+    enabled: !!role,
+  });
+  
+===============================================================================================================================================
