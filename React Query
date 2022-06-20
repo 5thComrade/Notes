@@ -284,3 +284,5 @@ export const Gallery = () => {
 }
 
 =====================================================================================================================================================
+Mutations
+Mutations are typically used to create/update/delete data or perform server side-effects. For this purpose, React Query exports a useMutation hook.
