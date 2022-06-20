@@ -307,3 +307,56 @@ const Cakes = () => {
 }
 
 ==========================================================================================================================================================
+Query Invalidation
+
+When we update a server state, we need to automatically refetch the data.
+React Query allows this by invalidating a query.
+
+When a query is invalidated with invalidateQueries, two things happen:
+- It is marked as stale. This stale state overrides any staleTime configurations being used in useQuery or related hooks
+- If the query is currently being rendered via useQuery or related hooks, it will also be refetched in the background
+
+If the query is currently rendered and if we mark the query as invalid, the query gets refetched.
+
+import { useQuery, useMutation, useQueryClient } from "react-query";
+
+const Cakes = () => {
+   const queryClient = useQueryClient();
+   
+   const addCake = async (cakeData) => {
+      await axios.post("http://localhost:4000/cakes", cakeData);
+   }
+   
+   const { mutate } = useMutation(addCake, {
+      onSuccess: () => {
+          queryClient.invalidateQueries("cakes"); ------------> this is how we invalidate queries
+      }
+   })
+   
+   /** Rest of the code */
+}
+
+=================================================================================================================================
+One can also use the response from the mutation query to update the cache.
+It is common when we send a POST rquest, upon success the object is returned back to the client.
+We can use this returned object and update the current state instead of refetching the query.
+
+const { mutate } = useMutation(addCake, {
+      onSuccess: (data) => {                      ------------> the object that was recently created in the server
+          queryClient.setQueryData("cakes", (oldQueryData) => {   ---------> old cached data is automatically available for this callback
+              return {
+                 ...oldQueryData,
+                 data: [...oldQueryData.data, data.data] -------------> finally appending the new data to the old data and returning that, saves us a network call
+              }
+          });
+      }
+   })
+   
+==============================================================================================================================================
+Optimistic Updates
+
+Update the cache even before we send the post request.
+The user will think the app is blazing fast but it was simply an optimistic approach.
+If the POST request fails, react query provides fallback options. 
+
+==============================================================================================================================================
