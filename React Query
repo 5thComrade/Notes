@@ -250,3 +250,37 @@ It looks as though the app is really smooth
 
 ====================================================================================================================================================
 Infinite Queries
+
+If we want to make query calls everytime the user scrolls to the bottom of the page we need to implement infinite queries.
+React Query provides another hook to help in infinite queries, useInfiniteQuery
+The useInfiniteQuery returns data differently. It gives pages now. We need to data?.pages.map((group, i) => {return <>{group.map((item) => JSX)}</>})
+
+import {useInfiniteQuery} from "react-query"
+
+const fetchImages = ({ pageParam = 1 }) => {                   --------------> pageParam is passed to this function by useInfinityQueryHook
+   return axios.get(`https://apiUrl/images?_limit=2&_page=${pageParam}`)
+}
+
+export const Gallery = () => {
+    const {isLoading, isError, error, data, hasNextPage, fetchNextPage, isFetching, isFetchingNextPage} = useInfiniteQuery(
+      ["images"], 
+      fetchImages,
+      {
+        getNextPageParam: (lastPage, pages) => {
+            if (pages.length < 4) {      -------------------> 4 is the max number of pages of our application(it can vary from app to app)
+                return pages.length + 1
+            } else {
+                return undefined
+            }
+        }
+      },
+    )
+    
+    return (
+      <div>
+        <button disabled={!hasNextPage} onClick={fetchNextPage}>Load More Images</button>
+      </div>
+    )
+}
+
+=====================================================================================================================================================
