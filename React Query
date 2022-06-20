@@ -286,3 +286,24 @@ export const Gallery = () => {
 =====================================================================================================================================================
 Mutations
 Mutations are typically used to create/update/delete data or perform server side-effects. For this purpose, React Query exports a useMutation hook.
+
+import { useMutation } from "react-query";
+
+const Cakes = () => {
+   const addCake = async (cakeData) => {
+      await axios.post("http://localhost:4000/cakes", cakeData);
+   }
+   
+   const { mutate } = useMutation(addCake)
+   
+   const handleFormSubmt = (e) => {
+       e.preventDefault()
+       const cake = {
+          name,
+          price
+       }
+       mutate(cake)      --------------------------> call the mutate function and pass it any arguments and the callback func inside useMutation gets called
+   }
+}
+
+==========================================================================================================================================================
