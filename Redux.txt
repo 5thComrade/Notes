@@ -427,7 +427,7 @@ const someFeatureSlice = createSlice({
 		state.usersLoading = false
 		state.users = action.payload
 	}
-	[getSomeUsers.pending]: (state, action) => {
+	[getSomeUsers.rejected]: (state, action) => {
 		state.usersLoading = false
 		state.users = []
 		state.usersFetchFailed = action.payload
