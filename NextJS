@@ -1,2 +1,41 @@
 Next JS
 
+===================================================================================================================================
+- Named/Static Routes
+One can create a new file inside the pages folder and that then becomes the route.
+
+pages
+  index.js ----> https://domain.com/
+  about.js ----> https://domain.com/about/
+  
+OR
+
+pages
+  index.js ----> https://domain.com/
+  about
+    index.js --> https://domain.com/about/
+    antony.js -> https://domain.com/about/antony/
+
+===================================================================================================================================
+- Dynamic Routes
+One can create a file using a special syntax to create dynamic routes.
+
+pages
+  index.js -----> https://domain.com/
+  blog
+    index.js ---> https://domain.com/blog/
+    [id].js ----> https://domain.com/blog/1478
+ 
+Extracting dynamic paths from the url
+
+import { useRouter } from "next/router"
+
+function Component = () => {
+    const router = useRouter()
+    
+    console.log(router.pathname) ---> /blog/[id]
+    console.log(router.query) -----> {id: "1478"}
+    
+    return <div>Hello World!</div>
+}
+===================================================================================================================================
