@@ -59,3 +59,40 @@ pages
                          router.query will give you {id: ["2022", "12"]}
                          
 ===================================================================================================================================
+- Navigation
+
+import Link from 'next/link'
+
+function Home() {
+  return (
+    <div>
+      <Link replace href="/dashboard">Login</Link>
+      <Link href="/about">About</Link>
+    </div>
+  )
+} 
+
+One can use a different syntax for the href in Link component
+
+<Link href={{
+  pathname: '/client/[id]',
+  query: {
+    id: "1234"
+  }
+}}>
+    Client
+</Link>
+
+==================================================================================================================================
+- Navigating Programmatically
+
+const handleLogin = () => {
+  router.replace('/dashboard') -----> we can also use the object notion here too
+  OR 
+  router.push('/dashboard')
+}
+
+<button onClick={handleLogin}>Login</button>
+
+==================================================================================================================================
+- Custom 404 pages
