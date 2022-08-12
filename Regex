@@ -1,1 +1,31 @@
+Regex
 
+/<Regular Expression>/g ---> g flag stands for global and it considers the entire string
+/<Regular Expression>/i ---> i flag stands for case insensitive
+/<Regular Expression>/gi --> both global and case insensitive
+
+There are other flags too
+You can check them out on https://regexr.com/
+
+/a+/g ----> checks if character 'a' appears atleast once(1 or moew)
+/ea?/g ----> 'e' is necessary but 'a' is optional(0 or 1) ex: eat, elf
+/re*/g ----> 'r' is necessary but 'e' is 0 or more ex: read, reed
+
+/.t/g ----> . character means any character ex: it, at
+/\./g ----> \ is escape character, this regex is looking for all the periods
+/\w/g ----> match words in the string
+/\s/g ----> match white space in our string
+
+/\w{3,}/g ---> match all the words with 3 or more characters
+/\w{5}/g ----> match all the words with exact 5 characters
+/\w{4,8}/g --> match all the words that have 4 to 8 characters
+/e{2,}/g ----> match all the e's that are 2 or more
+
+/[fc]at/g ---> match any word that starts with f or c and fllowed by 'at'. ex: fat, cat
+/[a-zA-Z]at/g ---> match any word that starts with any letter between a-z or A-Z and followed by 'at'. ex: Hat, bat, batter
+/(t|T)he/g ----> match any word that starts with t or T and followed by 'he'. ex: The, there
+
+/the|The/g ---> either the or The
+/(ae){2,3}/g --> example: aeae
+
+/^T/g ---> match if our entire string begins with the letter 'T'
