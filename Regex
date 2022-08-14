@@ -29,3 +29,20 @@ You can check them out on https://regexr.com/
 /(ae){2,3}/g --> example: aeae
 
 /^T/g ---> match if our entire string begins with the letter 'T'
+/\.$/g ---> match if the string ends with .
+
+/c(?=at)/g ---> will match 'c' if its followed by 'at' ex: cat
+/(?=.*[A-Z])/g --> this will match if the string has atleast one uppercase letter
+/(?=.*[A-Z])(?=.*[a-z])/g ---> this will match if the string has atleast one uppercase and one lowercase character
+
+=============================================================================================================================
+Strong Password Regex
+/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%&*]).{8,}/g
+
+(?=.*[A-Z]) ---------> atleast one uppercase character
+(?=.*[a-z]) ---------> atleast one lowercase character
+(?=.*[0-9]) ---------> atleast one digit
+(?=.*[!@#$%&*]) -----> atleast one special character
+.{8,} ---------------> minimum password length is 8
+
+=============================================================================================================================
