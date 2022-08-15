@@ -101,3 +101,18 @@ pages
   404.jsx -------> custom 404 page
   
 ===================================================================================================================================
+Page Pre-Rendering
+
+Two Forms of pre-rendering
+- Static Generation
+- Server-side Rendering
+
+Static Generation
+Pre-generate a page (with data prepared on server-side) during build time.
+These pages can be cached by the server/CDN to be served.
+This is what makes apps blazingling fast.
+
+export async function getStaticProps(context){...}  -----> export this function from the page component and your page will be statically generated.
+                                                           
+One can run any code that would typically run in a server here and this code will never reach the client-side bundle.
+
