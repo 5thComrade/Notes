@@ -132,4 +132,10 @@ export async function getStaticProps() {
   };
 }
 
+*** All NodeJS api's are available for us to use in getStaticProps ***
+
+import fs from "fs/promises"; ------> this is nodejs file system api
+import path from "path"; ------------> this is nodejs path api
+
+These api's can be used inside getStaticProps and they will not be bundeled with the client side js.
 ==================================================================================================================================
