@@ -159,3 +159,22 @@ export async function getStaticProps() {
 }
 
 ===================================================================================================================================
+More getStaticProps config options
+
+export async function getStaticProps() {
+  const response = await fetch("http://localhost:4000/products");
+  const products = await response.json();
+
+  return {
+    props: {
+      products,
+    },
+    revalidate: 60, -----------> this page will be re-generated every minute(60s)
+    notFound: true, -----------> if set to true, this route will now return the 404 page
+    redirect: {     -----------> if set, the request to this route will be re-directed to the re-direct destination
+      destination: '/login'
+    }
+  };
+}
+
+======================================================================================================================================
