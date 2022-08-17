@@ -178,3 +178,33 @@ export async function getStaticProps() {
 }
 
 ======================================================================================================================================
+Pre-generating Dynamic Routes
+
+If a page needs to be pre-generated, that page needs to have a fixed name.
+If we have dynamic pages (ex: [id].tsx), NextJS has no clue what all values id can have and hence pre-generating such pages
+are difficult.
+NextJS has a solution to this problem.
+
+export async function getStaticPaths() { ... } -----> export this function from the dynamic route and all those pages will be pre-generated
+
+Example:
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      {
+        params: { productId: "p1" },
+      },
+      {
+        params: { productId: "p2" },
+      },
+      {
+        params: { productId: "p3" },
+      },
+    ],
+    fallback: false,
+  };
+}
+
+In the example above, nextjs will pre-generate the page for 3 productId's
+==============================================================================================================================================
