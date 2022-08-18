@@ -227,3 +227,22 @@ We can also set fallback: 'blocking'
 When we set fallback to 'blcking', we need not handle the loading state, the app will wait until the page is generated
 to navigate to that page(the user may think the page is frozen, but its actually the time taken to generate the page)
 ==============================================================================================================================================
+Server-side Rendering
+
+Sometimes, one needs to pre-render for every request or you need access to the request object(eg for cookies)
+
+export async function getServerSideProps() {...}
+
+This function gets executed whenever there is a request for the page that has this function exported.
+
+The return from getServerSideProps is same as that of getStaticProps, except revalidate is not available as its not necessary
+
+return {
+    props: {
+      userName: "Antony",
+    },
+    notFound: true, -----------> if set to true, this route will now return the 404 page
+    redirect: {     -----------> if set, the request to this route will be re-directed to the re-direct destination
+      destination: '/login'
+    }
+  };
