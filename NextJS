@@ -207,4 +207,23 @@ export async function getStaticPaths() {
 }
 
 In the example above, nextjs will pre-generate the page for 3 productId's
+
+Notice the fallback key in the return object.
+If you set fallback to false, all the pages in the path will get pre-generated for you. Any path outside will re-direct to 404
+What if we have 1 million products, pre-generating all those pages at build time makes no sense.
+There could be pages that are less frequently visited.
+If we set fallback to true, we are telling NextJS, pre-generate the pages for whatever paths were returned, however
+if there is a path that wasn't returned, generate that page just-in-time.
+
+This helps us to pre-generate highly visited pages and postpone the generation of less frequently visited.
+
+When we set fallback to true, we will need to handle the page loading state in the component.
+
+if (!loadedProductProp) {
+  return <div>Loading...</div>
+}
+
+We can also set fallback: 'blocking'
+When we set fallback to 'blcking', we need not handle the loading state, the app will wait until the page is generated
+to navigate to that page(the user may think the page is frozen, but its actually the time taken to generate the page)
 ==============================================================================================================================================
