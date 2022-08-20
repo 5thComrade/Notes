@@ -246,3 +246,17 @@ return {
       destination: '/login'
     }
   };
+===============================================================================================================================================
+getServerSideProps gets one parameter passed into it by NextJS, the context(just like setStaticProps)
+
+export async function getServerSideProps(context) {
+  const {params, req, res} = context; -----------> gets access to the params(just like getStaticProps), req and res object
+  
+  return {
+    props: {
+      userName: "Antony",
+    }
+  }
+}
+
+==============================================================================================================================================
