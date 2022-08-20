@@ -234,6 +234,9 @@ Sometimes, one needs to pre-render for every request or you need access to the r
 export async function getServerSideProps() {...}
 
 This function gets executed whenever there is a request for the page that has this function exported.
+The page is not created at the time of build if the page exports getServerSideProps, the page is generated on the server for every request
+for that page, but getServerSideProps runs before the page is rendered. Because of this incredible feature we can check auth creds in getServerSideProps
+and then decide to show the component or re-direct the user.
 
 The return from getServerSideProps is same as that of getStaticProps, except revalidate is not available as its not necessary
 
