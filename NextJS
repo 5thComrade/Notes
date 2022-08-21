@@ -263,3 +263,12 @@ export async function getServerSideProps(context) {
 }
 
 ==============================================================================================================================================
+Client-side Data Fetching
+
+If we have data that changes very frequently (stock market graphs) it doesn't make sence to pre-render or render on request.
+We need to add data fetching capabilities on the component level. Ex: using fetch inside useEffect
+
+One can also use Server-side state management tools like React Query or SWR to do the client-side data fetching.
+I personally prefer React Query.
+
+===============================================================================================================================================
