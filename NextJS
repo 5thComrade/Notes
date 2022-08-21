@@ -272,3 +272,11 @@ One can also use Server-side state management tools like React Query or SWR to d
 I personally prefer React Query.
 
 ===============================================================================================================================================
+There is a NextJS pattern to make the users believe the page loaded faster.
+Combining getStaticProps and client-side data fetching.
+
+Lets say in the component we need the sales data and we use React Query to handle that.
+What if we fetch the same sales data in getStaticProps, add the revalidate key, pass the sales data as props and pre-build our page.
+The page will load with all the graphs instanly and once thats done React Query will handle the rest of the data fetching.
+
+===============================================================================================================================================
