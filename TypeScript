@@ -1,1 +1,23 @@
 TypeScript
+
+======================================================================================================================================
+Generics
+Lets write a funcion that takes an argument and returns the same argument.
+
+function echo(arg) {
+   return arg
+}
+
+Typescript will explicitely give the arg the any type, which is not what we want.
+We may not know what types of arguments we may pass to the function, but we know for sure whatever the type of the argument is
+the return value of the function should have the same type.
+This is where generics help us.
+
+function echo<Type>(arg: Type): Type {
+  return arg
+}
+
+const a = echo<string>("a") ------> we explicitly set Type to be string
+const a = echo("a") --------------> type argument inference, compiler infers the type automatically
+
+So we are now telling the TypeScript Compiler that the argument and the return of the function will be the same type, indicated by the <Type> generic.
