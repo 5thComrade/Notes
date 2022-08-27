@@ -21,3 +21,11 @@ const a = echo<string>("a") ------> we explicitly set Type to be string
 const a = echo("a") --------------> type argument inference, compiler infers the type automatically
 
 So we are now telling the TypeScript Compiler that the argument and the return of the function will be the same type, indicated by the <Type> generic.
+
+If we want to pass an array of some type as the argument out echo function will look like below.
+
+function echo<Type>(arg: Type[]): Type[] {
+   return arg;
+}
+
+=====================================================================================================================================
