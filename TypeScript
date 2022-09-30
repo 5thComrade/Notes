@@ -86,3 +86,9 @@ Typescript Course Notes
 1: number
 2: string
 3: boolean
+
+- Type Assignment
+const x:string = "Antony"; ----> we are explicitly telling the ts compiler that x is of type string
+
+- Type Inference
+let x = 5; ----> here the type of x which is number is infered by the ts compiler
