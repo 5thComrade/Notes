@@ -92,3 +92,30 @@ const x:string = "Antony"; ----> we are explicitly telling the ts compiler that 
 
 - Type Inference
 let x = 5; ----> here the type of x which is number is infered by the ts compiler
+
+- Core Types (continued)
+4: object
+   const person: object = { -------> object type is a generic type, we want to be more specific
+     name: 'Antony',
+     age: 26,
+   }
+   
+   type PersonType = {  -----------> this is how we can be more specific about objects
+     name: string;
+     age: number;
+   }
+   
+ 5: Array
+    type Hobbies = string[]; ---------> an array of strings
+    
+ 6: Tuple
+    type Role = [number, string] ----> this is a tuple type, an array of fixed length and types of elements
+    
+ 7: Enum
+    enum Roles {ADMIN, CUSTOMER, AGENT}; -----> we can then use enums like Roles.ADMIN
+    
+ 8: any
+    any kind of value, no specific type assignment
+    const something: any = 5;
+    
+ 
