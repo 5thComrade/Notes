@@ -118,4 +118,22 @@ let x = 5; ----> here the type of x which is number is infered by the ts compile
     any kind of value, no specific type assignment
     const something: any = 5;
     
- 
+======================================================================================================================================
+Union types
+
+const input: (string | number) = 'Antony';
+
+======================================================================================================================================
+Literal types
+
+const number = 5; ------> here Typescript infers the type of number as 5 and not number
+let number = 5; --------> here Typescript infers the type of number as number and not 5
+
+=======================================================================================================================================
+Type Aliases
+
+type Inputs = number | string; ------> type aliasing
+
+const input:Inputs = 56;
+
+=======================================================================================================================================
