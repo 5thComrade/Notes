@@ -137,3 +137,19 @@ type Inputs = number | string; ------> type aliasing
 const input:Inputs = 56;
 
 =======================================================================================================================================
+Function return types
+
+const func1(n: number) { ---> this function returns nothing, hence its return type is void
+   console.log(n)
+}
+
+const func2(n: number) { ----> this function returns the parameter, hence its return type is number
+   return n
+}
+
+const func3(n: number) { ----> this function returns undefined, hence its return type is undefined
+   console.log(n)
+   return;
+}
+
+=========================================================================================================================================
