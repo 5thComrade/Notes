@@ -179,3 +179,18 @@ combineValues = () => "Hello World"; -----> this line will throw an error, cause
 console.log(combineValues(8, 8))
 
 =====================================================================================================================================================
+unknown type
+
+let userInput: unknown; -----> the unknown type works more like the any type, but less flexible compared to the any type
+
+userInput = 5;
+userInput = 'Antony';
+
+====================================================================================================================================================
+never type
+
+function generateError(message: string, code: number): never { --------> never behaves like void, the function is intended to 'never' return anything
+   throw {message: message, errorCode: code};
+}
+
+===================================================================================================================================================
