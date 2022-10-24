@@ -153,3 +153,29 @@ const func3(n: number) { ----> this function returns undefined, hence its return
 }
 
 =========================================================================================================================================
+Function types
+
+const add(n1: number, n2: number) {
+   return n1 + n2;
+}
+
+let combineValues: Function; ----------> we are assigning the Function type to combineValues, this simply means any function can be stored in combineValues
+
+combineValues = add;
+combineValues = 5; ----------this line will now throw an error, cause 5 is not a function
+
+console.log(combineValues(8, 8))
+
+---------------
+We want a more specific function type instead of the generic Function type
+So for that we do as follows
+
+let combineValues: (a: number, b: number) => number
+
+
+combineValues = add;
+combineValues = () => "Hello World"; -----> this line will throw an error, cause the function does not comply with the type definition
+
+console.log(combineValues(8, 8))
+
+=====================================================================================================================================================
