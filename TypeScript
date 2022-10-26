@@ -194,3 +194,32 @@ function generateError(message: string, code: number): never { --------> never b
 }
 
 ===================================================================================================================================================
+TypeScript Compiler
+
+- If you have one TypeScript file you can compile it using the following command
+
+tsc app.ts
+
+- If you want to make changes to that one file and the compiler should automatically compile it
+
+tsc app.ts --watch
+
+- If you have an entire project with multiple ts files, in the project folder run the following command
+
+tsc init ----------> this command will create tsconfig.json file
+tsc ---------------> this command will now compile all the ts files in the project
+tsc --watch -------> with the watch mode on
+
+
+In the tsconfig.js file some of the common configurations are
+
+"compilerOptions": {
+   "target": "es5", -----------> what js version you want 
+   "lib": ["dom", "es6", "dom.iterable", scripthost], -----------> all the dom apis, es6 features is now ready to be used in your ts files
+                                                                   otherwise if we use document.querySelector, how will ts know about document object
+   "sourceMap": true, ------------> if you now go to the page sources in the browser we will see ts files and can debug there instead of seeing the compiled js files
+   
+}
+"exclude": [
+   "node_modules", ------------> (node_modules will be excluded by default) this config will exclude all ts files inside node_modules from getting compiled
+]
