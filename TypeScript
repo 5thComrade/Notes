@@ -218,7 +218,11 @@ In the tsconfig.js file some of the common configurations are
    "lib": ["dom", "es6", "dom.iterable", scripthost], -----------> all the dom apis, es6 features is now ready to be used in your ts files
                                                                    otherwise if we use document.querySelector, how will ts know about document object
    "sourceMap": true, ------------> if you now go to the page sources in the browser we will see ts files and can debug there instead of seeing the compiled js files
-   
+   "outDir": "./dist", -----------> the compiled js files will now be placed in the dist folder
+   "rootDir": "./src", -----------> the ts compiler will look at the src folder and compile the ts files into dist folder, keeping the folder str intact.
+   "removeComments": true, -------> removes comments from the compiled js files
+   "noEmitOnError": true, --------> the compiler will not emit any js files if there is a compilation error
+   "stict": true, ----------------> strict type-checking
 }
 "exclude": [
    "node_modules", ------------> (node_modules will be excluded by default) this config will exclude all ts files inside node_modules from getting compiled
