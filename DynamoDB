@@ -19,4 +19,18 @@ Core Concepts in DynamoDB
                  There are two complex types: lists and maps.
       - Sets: Sets are a powerful compound type that represents multiple, unique values. They are similar to sets in your favorite programming language. 
               Each element in a set must be the same type, and there are three set types: string sets, number sets, and binary sets.
-      
+  - Primary Keys: When creating a DynamoDB table, you must declare a primary key for your table. Each item in your table must include the primary key.
+  - Secondary indexes: Secondary indexes allow you to reshape your data into another format for querying, so you can add additional 
+                           access patterns to your data.
+
+PRIMARY KEYS
+Types of primary keys
+  - Simple primary keys: which consist of a single element called a partition key.
+  - Composite primary keys: which consist of two elements, called partition key and sort key.
+
+The type of primary key you choose will depend on your access patterns.
+A simple primary key allows you to fetch only a single item at a time.
+Composite primary keys, on the other hand, enable a "fetch many" access pattern. With a composite primary key, you can use the
+Query API to grab all items with the same partition key.
+
+SECONDARY INDEXES
