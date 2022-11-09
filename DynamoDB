@@ -1,2 +1,22 @@
 DynamoDB is a fully-managed, NoSQL database provided by Amazon Web Services.
 
+When to use DynamoDB?
+  - Hyper-scale applications
+  - Hyper-ephemeral compute (aka serverless) DynamoDB is perfect for applications that are serverless.
+
+Core Concepts in DynamoDB
+  - Table
+    It is a grouping of records that conceptually belong together.
+  - Item
+    An item is a single record in a DynamoDB table. It is comparable to a row in a relational database or a document in MongoDB.
+  - Attributes
+    A DynamoDB item is made up of attributes, which are typed data values holding information about the element.
+    When you write an item to DynamoDB, each attribute is given a specific type. There are ten different data types in DynamoDB. It’s
+    helpful to split them into three categories:
+      - Scalars: Scalars represent a single, simple value, such as a username(string) or an age(number). There are 5 scalar types:
+                 string, number, binary, boolean and null.
+      - Complex: Complex types are the most flexible kind of attribute, as they represent groupings with arbitrary nested attributes.
+                 There are two complex types: lists and maps.
+      - Sets: Sets are a powerful compound type that represents multiple, unique values. They are similar to sets in your favorite programming language. 
+              Each element in a set must be the same type, and there are three set types: string sets, number sets, and binary sets.
+      
