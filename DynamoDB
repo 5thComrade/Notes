@@ -40,3 +40,9 @@ Types of secondary indexes
   
 A local secondary index uses the same partition key as your tables primary key but a different sort key.
 With global secondary index, you can choose any attributes you want for your partition key and your sort key.
+
+Item Collection
+An item collection refers to a group of items that share the same partition key in either the base table or a secondary index.
+DynamoDB partitions your data across a number of nodes in a way that allows for consistent performance as you scale. However, all items with the same
+partition key will be kept on the same storage node.
+
