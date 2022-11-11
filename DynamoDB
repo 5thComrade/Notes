@@ -34,3 +34,9 @@ Composite primary keys, on the other hand, enable a "fetch many" access pattern.
 Query API to grab all items with the same partition key.
 
 SECONDARY INDEXES
+Types of secondary indexes
+  - Local secondary indexes
+  - Global secondary indexes
+  
+A local secondary index uses the same partition key as your tables primary key but a different sort key.
+With global secondary index, you can choose any attributes you want for your partition key and your sort key.
