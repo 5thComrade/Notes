@@ -74,3 +74,6 @@ When you do a write operation
 The reason for having secondary nodes
   - Provide fault-tolerance in case the primary node goes down
   - These secondary nodes can serve read requests to alleviate pressure on the primary node
+
+** Problem **
+Because writes are asynchronously replicated from the primary to secondary nodes, the secondary might be a little behind the primary node.
