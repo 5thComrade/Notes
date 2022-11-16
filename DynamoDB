@@ -77,3 +77,11 @@ The reason for having secondary nodes
 
 ** Problem **
 Because writes are asynchronously replicated from the primary to secondary nodes, the secondary might be a little behind the primary node.
+
+Two consistency options available with DynamoDB
+  - Strong consistency: any item you read from DynamoDB will reflect all writes that occurred prior to the read being executed.
+  - Eventual consistency(default): Its possible the item(s) you read will not reflect all prior writes.
+  
+There are two times you need to think about consistency with DynamoDB
+  - Whenever you are reading data from the base table, you can choose your consistency level. By default its eventually-consistent read.
+  - You should think about consistency when choosing your secondary index type. 
