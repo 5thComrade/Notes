@@ -46,3 +46,10 @@ An item collection refers to a group of items that share the same partition key 
 DynamoDB partitions your data across a number of nodes in a way that allows for consistent performance as you scale. However, all items with the same
 partition key will be kept on the same storage node.
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+DynamoDB Stream
+A DynamoDB stream is an ordered flow of information about changes to items in a DynamoDB table. 
+When you enable a stream on a table, DynamoDB captures information about every modification to data items in the table.
+The combination of DynamoDB Streams with serverless compute with AWS Lambda gives you a fully-managed
+system to react to database changes.
+
