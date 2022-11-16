@@ -53,3 +53,9 @@ When you enable a stream on a table, DynamoDB captures information about every m
 The combination of DynamoDB Streams with serverless compute with AWS Lambda gives you a fully-managed
 system to react to database changes.
 
+Time-to-live(TTL)
+TTL's allow you to have DynamoDB automatically delete items on a per-item basis. This is a great option for storing short-term 
+data in DynamoDB.
+
+Partitions
+Partitions are the core storage units underlying your DynamoDB table.
