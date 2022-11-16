@@ -59,3 +59,18 @@ data in DynamoDB.
 
 Partitions
 Partitions are the core storage units underlying your DynamoDB table.
+We noted before that DynamoDB is built for infinite scale, and it does that by sharding your data across multiple server
+instances. Each item collection will be in a particular partition, and this will enable fast queries on multiple items.
+
+Consistency
+Each partition in DynamoDB is made up of 3 nodes.
+1 primary node and 2 secondary nodes.
+When you do a write operation
+  - DynamoDB request router takes the partition key from the request
+  - hashes the partition key and finds the right partition
+  - writes to the primary node in the partition
+  - responds to the client saying the wite operation is complete
+  - asynchronously replicates the item from the primary to secondary nodes.
+The reason for having secondary nodes
+  - Provide fault-tolerance in case the primary node goes down
+  - These secondary nodes can serve read requests to alleviate pressure on the primary node
