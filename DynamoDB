@@ -85,3 +85,16 @@ Two consistency options available with DynamoDB
 There are two times you need to think about consistency with DynamoDB
   - Whenever you are reading data from the base table, you can choose your consistency level. By default its eventually-consistent read.
   - You should think about consistency when choosing your secondary index type. 
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+DynamoDB Limits
+  - Item size limits
+    A single DynamoDB item is limited to 400KB of data.
+  - Query and Scan request size limits
+    Query and Scan, the two "fetch many" API actions will read a maximum of 1MB of data from your table.
+  - Partition throughput limits
+    A single partition can have a maximum of 3000 Read Capacity Units or 1000 Write Capacity Units.
+    Thus you will need to be doing 3000 reads per second for a given partition key to hit these limits.
+  - Item collection limits
+    An item collection refers to all items with a given partition key. A single item collection cannot be larger than 10GB.
+  
