@@ -98,3 +98,19 @@ DynamoDB Limits
   - Item collection limits
     An item collection refers to all items with a given partition key. A single item collection cannot be larger than 10GB.
   
+------------------------------------------------------------------------------------------------------------------------------------------------
+Overloading Keys
+One unique quirk of modeling with DynamoDB is that you will often include different types of entities in a single table.
+
+              Primary Key                       Attributes
+Partition Key: PK    Sort Key: SK         OrgName        Subscription Level
+ORG#INFOSYS          ORG#INFOSYS          Infosys        Enterprise
+                                          UserName       Role
+ORG#INFOSYS          USER#ANTONY          Antony C       Employee
+ORG#INFOSYS          USER#AASHISH         Aashish A      Employee
+
+In the above table, we have 2 different types of entities, Users and Organisations.
+Organisations and Users have a different set of attributes.
+Look at the way the partition key and the sort key are maintained.
+This concept of using generic names for your primary keys and using different values depending on the type of item is known as
+overloading your keys.
