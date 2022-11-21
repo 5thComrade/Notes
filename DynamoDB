@@ -114,3 +114,37 @@ Organisations and Users have a different set of attributes.
 Look at the way the partition key and the sort key are maintained.
 This concept of using generic names for your primary keys and using different values depending on the type of item is known as
 overloading your keys.
+
+================================================================================================================================================
+DynamoDB API's
+
+API's split into 3 categories
+1: Item-based actions - operating on specific items
+2: Queries - operating on an item collection
+3: Scans - operating on the whole table
+
+Item-based actions
+There are 4 core API actions for item-based actions
+  - GetItem: used for reading a single item from a table
+  - PutItem: used for writing an item to a table. This can completely overwrite an existing item with the same key, if any.
+  - UpdateItem: used for updating an item in a table. This can create a new item if it doesn’t previously exist, or it can add,
+                remove, or alter properties on an existing item.
+  - DeleteItem: used for deleting an item from a table.
+  
+3 rules around item-based actions
+  - Full primary key must be specified in your request
+  - All actions to alter data - writes, updates or delete must use an item-based action.
+  - All item-based actions must be performed on your main table, not a secondary index.
+
+2 sub-categories of single-item API
+  - Batch actions
+  - Transaction actions
+These categories are used for reading and writing multiple DynamoDB items in a single request. While these operate on
+multiple items at once, I still classify them as item-based actions because you must specify the exact items on which you want to
+operate.
+
+Batch action: your reads or writes can succeed or fail independently. The failure of one write
+              won’t affect the other writes in the batch.
+Transaction action: all of your reads or writes will succeed or fail together. The failure of a single
+                    write in your transaction will cause the other writes to be rolled back.
+                    
