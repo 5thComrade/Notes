@@ -123,6 +123,7 @@ API's split into 3 categories
 2: Queries - operating on an item collection
 3: Scans - operating on the whole table
 
+----------------------------------------------------------------------------------------------------------------------------------
 Item-based actions
 There are 4 core API actions for item-based actions
   - GetItem: used for reading a single item from a table
@@ -147,4 +148,8 @@ Batch action: your reads or writes can succeed or fail independently. The failur
               won’t affect the other writes in the batch.
 Transaction action: all of your reads or writes will succeed or fail together. The failure of a single
                     write in your transaction will cause the other writes to be rolled back.
-                    
+  
+-----------------------------------------------------------------------------------------------------------------------------------
+Query API
+
+The Query API action lets you retrive multiple items with the same partition key.
