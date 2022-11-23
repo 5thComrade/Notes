@@ -153,3 +153,32 @@ Transaction action: all of your reads or writes will succeed or fail together. T
 Query API
 
 The Query API action lets you retrive multiple items with the same partition key.
+
+A Query operation using the AWS JavaScript SDK
+
+const inputParams = {
+    TableName: "test_MoviesAndActors",
+    KeyConditionExpression: "#actor = :actor AND #movie BETWEEN :a AND :m",
+    ExpressionAttributeNames: {
+      "#actor": "Actor",
+      "#movie": "Movie",
+    },
+    ExpressionAttributeValues: marshall({
+      ":actor": "Tom Hanks",
+      ":a": "A",
+      ":m": "M",
+    }),
+  };
+  
+const data = await dbClient.send(new QueryCommand(inputParams));
+
+----------------------------------------------------------------------------------------------------------------------------------
+Scan API
+A Scan will grab everything in a table.
+The times you may consider using the scan operation.
+  - When you have a small table
+  - When you're exporting all data from your table to a different system
+  - In exceptional situations, where you have specifically modeled a sparse secondary index in a way that expects a scan.
+
+DON'T USE SCANS
+----------------------------------------------------------------------------------------------------------------------------------
