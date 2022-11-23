@@ -182,3 +182,10 @@ The times you may consider using the scan operation.
 
 DON'T USE SCANS
 ----------------------------------------------------------------------------------------------------------------------------------
+How DynamoDB enforces efficiency?
+DynamoDB uses partitions, or small storage nodes of about 10GB, to shard your data across multiple machines. The
+sharding is done on the basis of the partition key. Thus, if the DynamoDB request router is given the partition key for an item, it
+can do an O(1) lookup in a hash table to find the exact node or set of nodes where that item resides.
+This is why all the single-item actions and the Query action require a partition key.
+
+===================================================================================================================================
