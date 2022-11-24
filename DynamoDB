@@ -189,3 +189,22 @@ can do an O(1) lookup in a hash table to find the exact node or set of nodes whe
 This is why all the single-item actions and the Query action require a partition key.
 
 ===================================================================================================================================
+Expression Attribute names and values
+
+In the query operation example above in the KeyConditionExpression we notice two placeholders
+Ones that start with # and other placeholders that start with :
+The ones that start with a color(:) are expression attribute values. Look at the ExpressionAttributeValues property in our request.
+
+Why can’t we just write our attribute values directly into the expression?
+Remember that each attribute value in DynamoDB has a type. DynamoDB does not infer this type—you must explicitly provide it
+when you make a request.
+
+The placeholders that start with # are expression attribute names.
+These are used to specify the name of the attribute you are evaluating in your request.
+
+Why can’t we just write our attribute name directly into the expression?
+Well you can write the attribute name directly into your expression. That said, there are a few times when the use of
+ExpressionAttributeNames is required. The most common reason is if your attribute name is a reserved word in DynamoDB. There
+are 573 reserved words in DynamoDB, and many of them will conflict with normal attribute names.
+
+-----------------------------------------------------------------------------------------------------------------------------------
