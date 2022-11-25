@@ -208,3 +208,37 @@ ExpressionAttributeNames is required. The most common reason is if your attribut
 are 573 reserved words in DynamoDB, and many of them will conflict with normal attribute names.
 
 -----------------------------------------------------------------------------------------------------------------------------------
+Don't use an ORM
+Object-relational mappers (ORMs) are popular tools when using relational databases in your application code.
+There is an exceptional library called DynamoDB Toolbox. DynamoDB Toolbox is explicitly not an ORM. However, it does help you define entity
+types in your application and map those to your DynamoDB table.
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Understand the optional properties on individual requests
+
+1: ConsistentRead
+   By default, reads from DynamoDB are eventually consistent, meaning that the reads will
+   likely, but not definitely, reflect all write operations that have happened before the given read operation.
+   To get a strongly-consistent read, you need to set ConsistentRead=True in your API call. 
+   The ConsistentRead property is available on four operations:
+   - GetItem
+   - BatchGetItem
+   - Query
+   - Scan
+   
+   Opting into a strongly-consistent read consumes more read request units than using an eventually-consistent read.
+   If you are using a local secondary index, you may opt into strong consistency by passing ConsistentRead=True. 
+   All reads from a global secondary index are eventually consistent.
+  
+2: ScanIndexForward
+   This property is available only on the Query operation, and it controls which way you are reading results from the sort key.
+   Lets say our table has a partition key as the sensor id and the sort key is the timestamp.
+   DynamoDb orders its sort key in ascending order. Imagine your sensor reported data every minute. After a single day
+   of operation, your sensor would have 1440 readings. However, to find the most recent 20 readings, you would need to page through
+   all 1440 readings until you got to the end. That would consume a lot of read capacity!
+   
+   The ScanIndexForward property allows you to flip the direction in which DynamoDB will read your sort key. If you set
+   ScanIndexForward=False, then DynamoDB will read your sort key in descending order.
+   
+3: ReturnValues
+   
