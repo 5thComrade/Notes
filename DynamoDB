@@ -241,4 +241,19 @@ Understand the optional properties on individual requests
    ScanIndexForward=False, then DynamoDB will read your sort key in descending order.
    
 3: ReturnValues
+   It will be helpful to receive additional information about existing or updated item from DynamoDb after certail api call finishes.
+   The API's with th ReturnValues property are 
+   - PutItem
+   - UpdateItem
+   - DeleteItem
+   - TransactWriteItem
+   
+   There are a few different available options for the ReturnValues property:
+   - NONE: Return no attributes from the item. This is the default setting.
+   - ALL_OLD: Return all the attributes from the item as it looked before the operation was applied.
+   - UPDATED_OLD: For any attributes updated in the operation, return the attributes before the operation was applied.
+   - ALL_NEW: Return all the attributes from the item as it looks after the operation is applied.
+   - UPDATED_NEW: For any attributes updated in the operation, return the attributes after the operation is applied.
+   
+4: ReturnConsumedCapacity
    
