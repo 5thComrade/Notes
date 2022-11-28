@@ -268,4 +268,10 @@ Understand the optional properties on individual requests
    - You have a pricing scheme where users are charged according to the size of read or write items.
    
 5: ReturnItemCollectionMetrics
+   If your table has a local secondary index, then a single item collection cannot be larger than 10GB in size. If
+   you try to write an item that would exceed this limit, the write will be rejected.
+   To give yourself advanced warning of this problem, you can use the ReturnItemCollectionMetrics property on all write-based API
+   calls.
+   If you don’t have a local secondary index, there are no limits on the size of an item collection.
    
+=================================================================================================================================================
