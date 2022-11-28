@@ -256,4 +256,16 @@ Understand the optional properties on individual requests
    - UPDATED_NEW: For any attributes updated in the operation, return the attributes after the operation is applied.
    
 4: ReturnConsumedCapacity
+   This property will not change the items that will be returned from your request. Rather, it is an option to include additional metrics with your request.
+   The ReturnConsumedCapacity property is an optional property that will return data about the capacity units that were used by the
+   request.
+   You can specify ReturnConsumedCapacity=INDEXES, which will include detailed information on not only the consumed
+   capacity used for your base table but also for any secondary indexes that were involved in the operation. If you don’t need that level of
+   precision, you can specify ReturnConsumedCapacity=TOTAL to simply receive an overall summary of the capacity consumed in the
+   operation.
+   Use cases:
+   - You may use these metrics if you are in the early stages of designing your table.
+   - You have a pricing scheme where users are charged according to the size of read or write items.
+   
+5: ReturnItemCollectionMetrics
    
