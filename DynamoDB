@@ -275,3 +275,14 @@ Understand the optional properties on individual requests
    If you don’t have a local secondary index, there are no limits on the size of an item collection.
    
 =================================================================================================================================================
+DynamoDB Expressions
+Expressions are statements that operate on your items. They’re sort of like mini SQL statements.
+
+There are five types of expressions in DynamoDB:
+1: Key Condition Expressions: Used in the Query API call to describe which items you want to retrieve in your query.
+2: Filter Expressions: Used in Query and Scan operations to describe which items should be returned to the client after
+                       finding items that match your key condition expression.
+3: Projection Expressions: Used in all read operations to describe which attributes you want to return on items that were read.
+4: Condition Expressions: Used in write operations to assert the existing condition (or non-condition) of an item before writing to it.
+5: Update Expressions: Used in the UpdateItem call to describe the desired updates to an existing item.
+
