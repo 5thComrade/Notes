@@ -286,3 +286,39 @@ There are five types of expressions in DynamoDB:
 4: Condition Expressions: Used in write operations to assert the existing condition (or non-condition) of an item before writing to it.
 5: Update Expressions: Used in the UpdateItem call to describe the desired updates to an existing item.
 
+- Key Condition Expressions
+  It is used on every Query operation to describe which items you want to fetch.
+  Examples
+  ------------------------------------------------------------------------------
+  const inputParams = {
+    TableName: "test_MoviesAndActors",
+    KeyConditionExpression: "#actor = :actor",
+    ExpressionAttributeNames: {
+      "#actor": "Actor",
+    },
+    ExpressionAttributeValues: marshall({
+      ":actor": "Natalie Portman",
+    }),
+  };
+  
+  In the example above our KeyConditionExpression expresses our desire to retrieve all items with Natalie Portman as the actor.
+  
+  --------------------------------------------------------------------------------
+  const inputParams = {
+    TableName: "test_MoviesAndActors",
+    KeyConditionExpression: "#actor = :actor AND #m < :title",
+    ExpressionAttributeNames: {
+      "#actor": "Actor",
+      "#m": "Movie"
+    },
+    ExpressionAttributeValues: marshall({
+      ":actor": "Natalie Portman",
+      ":title": "N"
+    }),
+  };
+  
+  
+  In this example, we are specifying that the Movie value must come before the letter "N".
+
+  -------------------------------------------------------------------------------
+  
