@@ -320,5 +320,21 @@ There are five types of expressions in DynamoDB:
   
   In this example, we are specifying that the Movie value must come before the letter "N".
 
-  -------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+  const inputParams = {
+    TableName: "test_customerTransaction",
+    KeyConditionExpression: "#c = :c AND #ot BETWEEN :start and :end",
+    ExpressionAttributeNames: {
+      "#c": "CustomerId",
+      "#ot": "OrderTime",
+    },
+    ExpressionAttributeValues: marshall({
+      ":c": "1",
+      ":start": moment().startOf("month").format(),
+      ":end": moment().endOf("month").format(),
+    }),
+  };
   
+  In addition to our partition key specifying the CustomerId we want, we also use the BETWEEN operator with the sort key to find all items
+  between our given time range.
+-----------------------------------------------------------------------------------
