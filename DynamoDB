@@ -337,4 +337,36 @@ There are five types of expressions in DynamoDB:
   
   In addition to our partition key specifying the CustomerId we want, we also use the BETWEEN operator with the sort key to find all items
   between our given time range.
------------------------------------------------------------------------------------
+====================================================================================================================
+  - Filter Expressions
+    A filter expression is available for both Query and Scan operations.
+    The key difference with a filter expression vs. a key condition expression is that a filter expression can be applied on any attribute
+    in the table, not just those in the primary key.
+    Examples:
+    -------------------------------------------------------------------------------
+    const inputParams = {
+    TableName: "test_MoviesAndActors",
+    KeyConditionExpression: "#actor = :actor",
+    FilterExpression: "#year = :year",
+    ExpressionAttributeNames: {
+      "#actor": "Actor",
+      "#year": "Year",
+    },
+    ExpressionAttributeValues: marshall({
+      ":actor": actorName,
+      ":year": 2000,
+    }),
+  };
+   
+   In the example above we filter out all the movies by actorName made in year 2000.
+   --------------------------------------------------------------------------------
+   At first we may think FilterExpression is the solution to all our access patterns, but its got problems.
+   DynamoDb will read items from the table based on the KeyConditionExpression, if a FilterExpression is present
+   it will remove items that dont match and then return the final set of items.
+   Step 1, where the items are read DynamoDb applies the max of 1MB data rule before even thinking about Filter Expression.
+   
+   If you want to filter your data, you need to make sure your access patterns are built directly into your primary keys.
+   
+=============================================================================================================================
+  - Projection Expressions
+    
