@@ -369,4 +369,23 @@ There are five types of expressions in DynamoDB:
    
 =============================================================================================================================
   - Projection Expressions
+    A projection expression is similar to a filter expression in that its main utility is in reducing the amount of data sent over the wire in your
+    response. We may not need certain attributes everytime we query, we can use projection expression to filter out these attributes in our response.
     
+    const inputParams = {
+    TableName: "test_MoviesAndActors",
+    KeyConditionExpression: "#actor = :actor",
+    ProjectionExpression: "#actor, #movie",
+    ExpressionAttributeNames: {
+      "#actor": "Actor",
+      "#movie": "Movie",
+    },
+    ExpressionAttributeValues: marshall({
+      ":actor": actorName,
+    }),
+  };
+  
+    In the example above we will only get Actor and Movie attributes in our response and every other attribute will be removed.
+==============================================================================================================================
+   - Condition Expressions
+     
