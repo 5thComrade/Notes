@@ -388,4 +388,38 @@ There are five types of expressions in DynamoDB:
     In the example above we will only get Actor and Movie attributes in our response and every other attribute will be removed.
 ==============================================================================================================================
    - Condition Expressions
-     
+     Condition expressions are available on every operation where you will alter an item—PutItem, UpdateItem, DeletetItem, and their
+     batch and transactional equivalents. 
+     They allow you to assert specific statements about the status of the item before performing the write operation. If the condition 
+     expression evaluates to false, the operation will be cancelled.
+     Use Cases
+      - To avoid overwriting an existing item when using PutItem
+      - To prevent an UpdateItem operation from putting an item in a bad state, such as reducing an account balance below 0
+      - To assert that a given user is the owner of an item when calling DeleteItem
+      
+      Comparison operators
+      = - equals
+      <> - not equals
+      < - less than
+      > - greated than
+      <= - less than and equal
+      >= - greater than and equal
+      BETWEEN - between a and b
+      IN - in (a, b)
+      
+      Logical operators
+      AND
+      OR
+      NOT
+      
+      Functions
+      attribute_exists(): Used to assert that a given attribute exists
+      attribute_not_exists(): Just the opposite—assert that an attribute does not exist on the item.
+      attribute_type(): Used to assert that an attribute is of a particular type
+      begins_with(): Assert that an attribute value begins with a particular substring
+      contains(): Assert that a string contains a particular substring, or that a set contains a particular value.
+      size(): Allows you to assert various properties about the size of an attribute value. For things like strings or binary values, it’s the
+              length of the string or number of bytes in the binary value. For things like lists, maps, or sets, it returns the number of elements
+              in a set.
+  ------------------------------------------------------------------------------------------------------------------------------------------
+  
