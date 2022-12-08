@@ -440,4 +440,78 @@ There are five types of expressions in DynamoDB:
     no item with the same username.
     
   - Limiting in-progress items
+    {
+      TableName='WorkQueue',
+      Key={
+        "PK": { "S": "Tracker" }
+      }
+      ConditionExpression: "size(#inprogress) <= 10",
+      UpdateExpression="Add #inprogress :id",
+      ExpressionAttributeNames={
+        "#inprogress": "InProgress"
+      },
+      ExpressionAttributeValues={
+        ":id": { "SS": [ <jobId> ] }
+      }
+    }
     
+    In the example above we are limiting the size of the InProgress set to be less than or equal to 10.
+    
+  - Asserting user permissions on an item
+  {
+    TableName='BillingDetails',
+    Key={
+      "PK": { "S": 'Amazon' }
+    }
+    ConditionExpression="contains(#a, :user)",
+    UpdateExpression="Set #st :type",
+    ExpressionAttributeNames={
+      "#a": "Admins",
+      "#st": "SubscriptionType"
+    },
+    ExpressionAttributeValues={
+      ":user": { "S": 'Jeff Bezos' },
+      ":type": { "S": 'Pro' }
+    }
+  }
+  
+  In the example above we are checking if the admins set has the user named Jeff Bezos and only if its true continue with the
+  update operation.
+  
+  - Checks across multiple items
+    {
+      TransactItems=[
+        {
+          "ConditionCheck": {
+              "Key": {
+                  "PK": { "S": "Admins#<orgId>" }
+              },
+              "TableName": "SaasApp",
+              ConditionExpression: "contains(#a, :user)",
+              ExpressionAttributeNames={
+                  "#a": "Admins"
+              },
+              ExpressionAttributeValues={
+                  ":user": { "S": <username> }
+              }
+          }
+        },
+        {
+          "Delete": {
+            "Key": {
+              "PK": { "S": "Billing#<orgId>" }
+            },
+            "TableName": "SaasApp"
+           }
+        }
+      ]
+   }
+   
+   In the example above we are using TransactWriteItemsCommand
+   TransactItems, is an array of write items we want to complete and a ConditionCheck.
+   The ConditionCheck can be on another item in the same table or another item in a different table.
+   If the ConditionCheck fails all the write operations will be abandoned.
+   
+=====================================================================================================================================
+  - Update Expressions
+  
