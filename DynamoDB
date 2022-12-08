@@ -514,4 +514,92 @@ There are five types of expressions in DynamoDB:
    
 =====================================================================================================================================
   - Update Expressions
+    In an update expression, you need to state the changes you want to make. There are four verbs for stating these changes
+      - SET: Used for adding or overwriting an attribute on an item. Can also be used to add or subtract from a number attribute
+      - REMOVE: Used for deleting an attribute from an item or deleting nested properties from a list or map
+      - ADD: Used for adding to a number attribute or inserting an element into a set attribute
+      - DELETE: Used for removing an element from a set attribute
+      
+    If you have multiple operations for a single verb, you only state the verb once and use commas to separate the clauses, as shown below:
+    UpdateExpression="SET Name = :name, UpdatedAt = :updatedAt"
+    
+    In the operation above, we’re setting both the Name and UpdatedAt attributes to new values.
+    
+    If you want to include multiple verbs in the same update expression, you don’t need anything to separate the verb clauses.
+    The presence of reserved verb words will be enough. For example:
+    UpdateExpression="SET Name = :name, UpdatedAt = :updatedAt REMOVE InProgress"
+
+    In the example above, we’re using our same SET clause to update the Name and UpdatedAt properties, and we’re using a REMOVE
+    clause to delete the InProgress attribute from our item.
+    
+--------------------------------------------------------------------------------------------------------------------------------------
+  -  Updating or setting an attribute on an item
+  
+     const updateInputs = {
+        TableName='Users',
+        Key={
+          "Username": { "S": "python_fan" }
+        }
+        UpdateExpression="SET #picture :url",
+        ExpressionAttributeNames={
+          "#picture": "ProfilePictureUrl"
+        },
+        ExpressionAttributeValues={
+          ":url": { "S": <https://....> }
+        }
+     }
+
+---------------------------------------------------------------------------------------------------------------------------------------
+ -  Deleting an attribute from an item
+ 
+    const removeAttribute = {
+      TableName='Users',
+      Key={
+        "Username": { "S": "python_fan" }
+      }
+      UpdateExpression="REMOVE #picture",
+      ExpressionAttributeNames={
+        "#picture": "ProfilePictureUrl"
+      }
+    }
+    
+----------------------------------------------------------------------------------------------------------------------------------------
+  - Incrementing a numeric value
+    
+    const updateInputs = {
+      TableName='PageViews',
+      Key={
+        "Page": { "S": "ContactUsPage" }
+      }
+      UpdateExpression="SET #views = #views + :inc",
+      ExpressionAttributeNames={
+        "#views": "PageViews"
+      },
+      ExpressionAttributeValues={
+        ":inc": { "N": "1" }
+      }
+    }
+    
+---------------------------------------------------------------------------------------------------------------------------------------
+ - Adding a nested property
+ 
+ const updateInputs = {
+    TableName='Users',
+    Key={
+      "Username": { "S": "python_fan" }
+    }
+    UpdateExpression="SET #phone.#mobile :cell",
+    ExpressionAttributeNames={
+      "#phone": "PhoneNumbers",
+      "#mobile": "MobileNumber"
+    },
+    ExpressionAttributeValues={
+      ":cell": { "S": "+1-555-555-5555" }
+    }
+ }
+ 
+ 
+----------------------------------------------------------------------------------------------------------------------------------------
+- Adding and removing from a set
+
   
