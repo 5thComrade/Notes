@@ -422,4 +422,22 @@ There are five types of expressions in DynamoDB:
               length of the string or number of bytes in the binary value. For things like lists, maps, or sets, it returns the number of elements
               in a set.
   ------------------------------------------------------------------------------------------------------------------------------------------
-  
+  - Preventing overwrites or checking for uniqueness
+    const inputParams = {
+      TableName: "test_customerTransaction",
+      Item: marshall({
+        CustomerId: cId,
+        Name: "Boba Fett",
+        CreatedAt: new Date(),
+      }),
+      ConditionExpression: "attribute_not_exists(#username)",
+      ExpressionAttributeNames={
+        "#username": "Username"
+      }
+    }
+    
+    We specify the attributes we want to set on our item, but we also include a ConditionExpression parameter that asserts that there is
+    no item with the same username.
+    
+  - Limiting in-progress items
+    
