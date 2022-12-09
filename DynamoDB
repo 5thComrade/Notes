@@ -615,3 +615,9 @@ There are five types of expressions in DynamoDB:
   }
   
 ========================================================================================================================================
+Data Modeling in DynamoDB
+
+Below are a few key areas where DynamoDB differs from relational databases.
+- Joins
+  Joins are inefficient at scale, and DynamoDB is built for scale. Rather than reassembling your data at read time with a join, you should
+  preassemble your data in the exact shape that is needed for a read operation.
