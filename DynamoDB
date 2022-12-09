@@ -601,5 +601,17 @@ There are five types of expressions in DynamoDB:
  
 ----------------------------------------------------------------------------------------------------------------------------------------
 - Adding and removing from a set
-
   
+  const updateInputs = {
+    TableName="SaasApp",
+    Key={ "PK": { "S": "Admins#<orgId>" },
+    UpdateExpression="ADD #a :user",
+    ExpressionAttributeNames={
+      "#a": "Admins"
+    },
+    ExpressionAttributeValues={
+      ":user": { "SS": ["an_admin_user"] }
+    }
+  }
+  
+========================================================================================================================================
