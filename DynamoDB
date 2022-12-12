@@ -618,4 +618,44 @@ There are five types of expressions in DynamoDB:
 Data Modeling in DynamoDB
 
 - Create an entity-relationship diagram(ERD)
+  An entity-relationship diagram is just like it sounds—a diagram that lists the different entities in your application and how they relate to
+  each other.
   
+- Define your access patterns
+  There are two different strategies you can use for building these access patterns.
+  - One is the API-centric approach, you list out each of the API endpoints you want to support in your application, as well as the expected shape you
+    would like to return in your response.
+  - The second approach for building your access patterns is the UI centric approach. With the UI-centric approach, you look at each of the
+    screens in your application and the URLs that will match those screens.
+    
+- Model your primary key structure
+  Model the primary key using the following steps.
+  - Create an entity chart that is used to track the different types of items in the table.
+    
+    -------------------------------
+    Entity         |  PK   |    SK
+    -------------------------------
+    Repo           |       |
+    Issue          |       |
+    Pull Request   |       |
+    
+ - The second step is to decide on a simple or composite primary key.
+ - The last step is to start designing the primary key format for each entity type.
+    - Consider what your client will know at read time
+    - Use primary key prefixes to distinguish between entity types
+      
+      Entity           PK                         SK
+      Customer         CUSTOMER#<CustomerId>      METADATA#<CustomerId>
+      CustomerOrder    ORDER#<OrderId>            METADATA#<OrderId>
+      
+      This will help you maintain clarity as you build out your access patterns chart and will serve as a nice artifact for development and
+      post-development.
+  
+- Handle additional access patterns with secondary indexes and streams
+  You won’t always be able to model everything with your primary key.
+  That’s where you start thinking about secondary indexes. Secondary indexes are a powerful tool for enabling
+  additional read patterns on your DynamoDB table.
+  Use generic attribute names like GSI1PK and GSI1SK for your secondary indexes and handle multiple access patterns
+  within a single secondary index.
+
+============================================================================================================================================
