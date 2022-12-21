@@ -661,3 +661,7 @@ Data Modeling in DynamoDB
 ============================================================================================================================================
 Single-table design
 
+Since there are no joins in DynamoDB we cannot use multiple tables in our design.
+We need to pre-join the data into item collecions.
+If you need to retrieve multiple heterogeneous items in a single request, you organize
+those items so that they are in the same item collection.
