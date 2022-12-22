@@ -665,3 +665,14 @@ Since there are no joins in DynamoDB we cannot use multiple tables in our design
 We need to pre-join the data into item collecions.
 If you need to retrieve multiple heterogeneous items in a single request, you organize
 those items so that they are in the same item collection.
+
+Downsides of Single-table design
+- The steep learning curve to understand single-table design.
+- The inflexibility of adding new access patterns.
+- The difficulty of exporting your tables for analytics.
+
+When not to use single-table design?
+Whenever you need query flexibility and/or easier analytics more than you need blazing fast performance.
+- in new applications where developer agility is more important than application performance.
+- in applications using GraphQL.
+
