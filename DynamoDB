@@ -676,3 +676,37 @@ Whenever you need query flexibility and/or easier analytics more than you need b
 - in new applications where developer agility is more important than application performance.
 - in applications using GraphQL.
 
+============================================================================================================================================
+Data Modeling to Implementation
+
+- Separate application attributes from your indexing attributes
+{
+  "PK": { "S": "USER#alexdebrie" },
+  "SK": { "S": "USER#alexdebrie" },
+  "GSI1PK": { "S": "ORG#facebook" },
+  "GSI1SK": { "S": "USER#alexdebrie" },
+  "Username": { "S": "alexdebrie" },
+  "FirstName": { "S": "Alex" },
+  "LastName": { "S": "DeBrie" },
+  "OrganizationName": { "S": "Facebook" },
+  ...
+}
+
+Notice that the first four attributes are all related to DynamoDb data model but have no meaning in my application business logic. These
+are "indexing attributes" as they're only there for indexing your data in DynamoDb.
+
+-----------------------------------------------------------------------------------------------------------------------------
+- Implement your data model at the very boundary of your application 
+We notice that an item returned from DynamoDb has values in a map which has the type of each attribute.
+We cannot work with nested attributes and hence we need to abstract the data model to the edge of the application and reuse it to abstract 
+the type conversions. Or simply use a dynamodb library which does all that.
+
+------------------------------------------------------------------------------------------------------------------------------
+- Don't reuse attributes across multiple indexes
+For each global secondary index you use, give it a generic name of GSI<Number>. Then, use GSI<Number>PK and GSI<Number>SK for your attribute types.
+
+------------------------------------------------------------------------------------------------------------------------------
+- Add a 'Type' attribute to every item
+
+------------------------------------------------------------------------------------------------------------------------------
+- Write scripts to help debug access patterns
