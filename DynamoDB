@@ -719,3 +719,38 @@ Use short attributes like 'u' for username, 'fn' for first name etc.
 This pattern should be considered for large tables.
 
 ================================================================================================================================
+Strategies for one-to-many relationships
+
+Strategy 1
+Denormalization by using a complex attribute
+Lists and maps are complex attributes in DynamoDb. In an e-commerce site a user can have multiple addresses.
+Storing these addresses in a complex attribute like a map makes our item denormalized. Hence this is a one-to-many mapping.
+One user to many addresses. However, there are two factors to consider when deciding whether to handle a one-to-many relationship by
+denormalizing with a complex attribute:
+ - Do you have any access patterns based on the values in the complex attribute?
+   Will there be a situation where we want to fetch the user details using the address? If the answer is no, we
+   are good to use this strategy.
+ - Is the amount of data in the complex attribute unbounded?
+   A single DynamoDB item cannot exceed 400KB of data. If the amount of data that is contained in your complex attribute is
+   potentially unbounded, it won’t be a good fit for denormalizing and keeping together on a single item.
+   Will the user have infinite addresses? If the answer is no, we are good to use this startegy.
+ 
+-------------------------------------------------------------------------------------------------------------------------------------
+Strategy 2
+Denormalization by duplicating data
+Lets say there is an author who has authored several books. We want for some odd reason, to store the date of birth of the author on all the book items.
+Well its data that we are duplicating but its fine.
+Two main questions you ask when considering this strategy
+ - Is the duplicated information immutable?
+   Dta of birth doesn't change, its immutable and its totally fine if its duplicated.
+ - If the data does change, how often does it change and how many items include the duplicated information?
+ 
+-------------------------------------------------------------------------------------------------------------------------------------
+Strategy 3
+Composite primary key + the Query API action
+Its probably the most common one-to-many strategy. It uses a composite primary key plus the Query API to fetch an object and its related 
+sub-objects.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Strategy 4
+Secondary index + the Query API action
