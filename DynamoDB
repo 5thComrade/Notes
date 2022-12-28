@@ -754,3 +754,38 @@ sub-objects.
 -------------------------------------------------------------------------------------------------------------------------------------
 Strategy 4
 Secondary index + the Query API action
+Its possible that we have a table that has a one-to-many mapping for a company and its users.
+What if we want another one-to-many mapping for user to service tickets raised by the user. Here we will nead a Global Secondary Index.
+
+PK           | SK            | GSI1PK                    | GSI1SK        | email                        | createdDate
+ORG#INFOSYS  | USER#ANTONY   | ORG#INFOSYS#USER#ANTONY   | USER#ANTONY   | antony.chiramel@infosys.com  | 28/12/2022
+               USER#AASHISH  | ORG#INFOSYS#USER#AASHISH  | USER#AASHISH  | aashish.ah@infosys.com       | 01/01/2023
+TICKET#1212  | TICKET#1212   | ORG#INFOSYS#USER#ANTONY   | TICKET#1212   |                              | 29/12/2022
+
+Our primary table will look like above
+If we look at the Global Secondary Index table
+
+GSI1PK                    |  GSI1SK       | PK          | SK           | createdDate  | email
+ORG#INFOSYS#USER#ANTONY   |  TICKET#1212  | TICKET#1212 | TICKET#1212  | 29/12/2022   |
+                          |  USER#ANTONY  | ORG#INFOSYS | USER#ANTONY  | 28/12/2022   | antony.chiramel@infosys.com
+                          
+Since we now have a GSI with a new primary key, we can use its partition key to query all the tickets raised by the user.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Strategy 5
+Composite sort keys with hierarchical data
+In the last two strategies, we saw some data with a couple levels of hierarchy—an Organization has Users, which create Tickets. But
+what if you have more than two levels of hierarchy? You don’t want to keep adding secondary indexes to enable arbitrary levels of
+fetching throughout your hierarchy.
+
+We could solve this problem by using a composite sort key.
+
+PK         | SK                  | Street
+INDIA      | KL#THRISSUR#680581  | Puthenmadamkunnu Rd
+           | KA#BENGALURU#560030 | Sattar Layout
+           
+This way we can achieve 4 levels of granularity 
+We can query our table with the condition expression  
+PK = <Country> AND begins_with(SK, '<State>#')
+PK = <Country> AND begins_with(SK, '<State>#<City>#')
+========================================================================================================================================
