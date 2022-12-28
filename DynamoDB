@@ -710,3 +710,12 @@ For each global secondary index you use, give it a generic name of GSI<Number>. 
 
 ------------------------------------------------------------------------------------------------------------------------------
 - Write scripts to help debug access patterns
+Rather than using the DynamoDb console, write small scripts that can be used to debug your access patterns.
+These scripts can be called via a command-line interface in the terminal. Write these scripts at the same time you're implementing your data model.
+
+-------------------------------------------------------------------------------------------------------------------------------
+- Shorten attribute names to save storage
+Use short attributes like 'u' for username, 'fn' for first name etc.
+This pattern should be considered for large tables.
+
+================================================================================================================================
