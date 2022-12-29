@@ -804,5 +804,32 @@ Lets say we have a table and the partition keys are STUDENT#antony, STUDENT#srik
 In the CLASS# item we maintain a list attribute that has the student names and hence we are shallow duplicating the items. 
 Using the student names in the list we can fetch the student item if necessary.
 
+The shallow duplication strategy works when 
+  - There is a limited number of related entities in the duplicated relationship.
+  - The duplicated information is immutable.
 --------------------------------------------------------------------------------------------------------------------------------------
 Strategy 2
+Adjacency list
+
+PK             | SK             | SCORE | TEACHER | DOB
+CLASS#PHYSICS  | STUDENT#ANTONY | 86    |         |
+               | STUDENT#SAI    | 90    |
+               | CLASS#PHYSICS  |       | Karthik |
+CLASS#CHEM     | STUDENT#ANTONY | 72    |         |
+STUDENT#ANTONY | STUDENT#ANTONY |       |         | 27/07/1996
+
+Using the PK we can get all the students taking the particular class. Now lets create a global secondary index and use the SK in our primary table
+as its PK. Our index would look like
+
+Partition Key: SK | Sort Key: PK  | SCORE | TEACHER | DOB
+STUDENT#ANTONY    | CLASS#PHYSICS | 86    |         |
+                  | CLASS#CHEM    | 72    |         |
+                  | STUDENT#ANTONY|       |         | 27/07/1996
+STUDENT#SAI       | CLASS#PHYSICS | 90    |         |
+CLASS#PHYSICS     | CLASS#PHYSICS |       | Karthik |
+
+Now using the partition key in the Global secondary index we can find all the classes attended by the student.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Strategy 3
+Materialized graph
