@@ -789,3 +789,20 @@ We can query our table with the condition expression
 PK = <Country> AND begins_with(SK, '<State>#')
 PK = <Country> AND begins_with(SK, '<State>#<City>#')
 ========================================================================================================================================
+Strategies for many-to-many relationships
+
+If your table has students & classes, you may have one access pattern where you want to fetch a student and the student’s schedule, 
+and you may have a different access pattern where you want to fetch a class and all the students in the class. This is the main 
+challenge of many-to-many access patterns.
+
+We will cover four strategies for modeling many-to-many relationships with DynamoDb
+
+Strategy 1
+Shallow duplication
+We can duplicate some data in the new items which helps us identify the main item.
+Lets say we have a table and the partition keys are STUDENT#antony, STUDENT#srikar, CLASS#physics
+In the CLASS# item we maintain a list attribute that has the student names and hence we are shallow duplicating the items. 
+Using the student names in the list we can fetch the student item if necessary.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Strategy 2
