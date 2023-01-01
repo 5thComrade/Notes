@@ -851,5 +851,7 @@ single item will not have everthing.
 -----------------------------------------------------------------------------------------------------------------------------------------
 Strategy 4
 Normalization and multiple requests
-
+Fallback option for when you have highly-mutable data contained in the relationship.
           
+===========================================================================================================================================
+Strategies for filtering
