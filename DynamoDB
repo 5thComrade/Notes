@@ -855,3 +855,29 @@ Fallback option for when you have highly-mutable data contained in the relations
           
 ===========================================================================================================================================
 Strategies for filtering
+Filtering in DynamoDB is almost exclusively focused on your primary key.
+
+- Filtering with the partition key
+When a request is received by DynamoDB, it will hash the partition key to find which storage node should be used to
+save or read the requested item.
+
+- Filtering with the sort key
+  - Simple filters with the sort key
+  If you have a clear, simple item collection that’s grouped by a particular parent entity, you can just
+  use the sort key to filter on something inherently meaningful like dates or scores.
+  const filterOrdersByDateRange = {
+        TableName='CustomerOrders',
+        KeyConditionExpression="#c = :c AND #ot BETWEEN :start and :end",
+        ExpressionAttributeNames={
+          "#c": "CustomerId",
+          "#ot": "OrderTime"
+        },
+        ExpressionAttributeValues={
+           ":c": { "S": "36ab55a589e4" },
+           ":start": { "S": "2022-01-11T00:00:00.000000" },
+           ":end": { "S": "2022-02-01T00:00:00.000000" }
+        }
+     }
+     
+    - Assembling different collections of items
+    
