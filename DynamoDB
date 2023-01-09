@@ -857,10 +857,12 @@ Fallback option for when you have highly-mutable data contained in the relations
 Strategies for filtering
 Filtering in DynamoDB is almost exclusively focused on your primary key.
 
+-------------------------------------------------------------------------------------------------------------------------------------------
 - Filtering with the partition key
 When a request is received by DynamoDB, it will hash the partition key to find which storage node should be used to
 save or read the requested item.
 
+-------------------------------------------------------------------------------------------------------------------------------------------
 - Filtering with the sort key
   - Simple filters with the sort key
   If you have a clear, simple item collection that’s grouped by a particular parent entity, you can just
@@ -880,4 +882,46 @@ save or read the requested item.
      }
      
     - Assembling different collections of items
+    In this pattern the sort key also encodes some specific information about how you’ve happened to
+    arrange the data in your table.
     
+    pk                    | sk
+    REPO#5thComrade#Notes | ISSUE#1
+                          | ISSUE#2
+                          | REPO#5thComrade#Notes
+                          | STAR#saiRahul
+                          | STAR#srikar
+                          
+    In the table above, we have encoded keys into the sort key value hence making filting simple.
+-----------------------------------------------------------------------------------------------------------------------------    
+- Composite sort key
+  Primary table
+  pk(customerId) | sk(orderId) | date       | status    | gsi1sk
+  2b5a41c0       | aghsgdha    | 2022-07-6  | DELIVERED | DELIVERED#2022-07-6
+                 | dgugdusa    | 2022-07-27 | CANCELLED | CANCELLED#2022-07-27
+                 | asyafsss    | 2022-07-30 | CANCELLED | CANCELLED#2022-07-30
+                 
+  We will use the same pk as our gsi1pk and the lets use the composite sort key gsi1sk
+  Now using this pattern we can now easily filter out all the cancelled orders between a given date range.
+  
+  const queryParams = {
+    TableName='CustomerOrders',
+    IndexName="OrderStatusDateGSI",
+    KeyConditionExpression="#c = :c AND #os BETWEEN :start and :end",
+    ExpressionAttributeNames={
+      "#c": "customerId",
+      "#os": "gsi1sk"
+    },
+    ExpressionAttributeValues={
+     ":c": { "S": "2b5a41c0" },
+     ":start": { "S": "CANCELLED#2022-07-01T00:00:00.000000" },
+     ":end": { "S": "CANCELLED#2022-07-31T00:00:00.000000" },
+    }
+  }
+  
+  The composite sort key pattern works well when the following statements are true:
+  - You always want to filter on two or more attributes in a particular access pattern.
+  - One of the attributes is an enum-like value
+  
+----------------------------------------------------------------------------------------------------------------------------------------
+- Sparse indexes
