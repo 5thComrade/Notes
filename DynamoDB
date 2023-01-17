@@ -864,10 +864,10 @@ save or read the requested item.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 - Filtering with the sort key
-  - Simple filters with the sort key
-  If you have a clear, simple item collection that’s grouped by a particular parent entity, you can just
-  use the sort key to filter on something inherently meaningful like dates or scores.
-  const filterOrdersByDateRange = {
+  1: Simple filters with the sort key
+      If you have a clear, simple item collection that’s grouped by a particular parent entity, you can just
+      use the sort key to filter on something inherently meaningful like dates or scores.
+      const filterOrdersByDateRange = {
         TableName='CustomerOrders',
         KeyConditionExpression="#c = :c AND #ot BETWEEN :start and :end",
         ExpressionAttributeNames={
@@ -879,9 +879,9 @@ save or read the requested item.
            ":start": { "S": "2022-01-11T00:00:00.000000" },
            ":end": { "S": "2022-02-01T00:00:00.000000" }
         }
-     }
+      }
      
-    - Assembling different collections of items
+  2: Assembling different collections of items
     In this pattern the sort key also encodes some specific information about how you’ve happened to
     arrange the data in your table.
     
@@ -893,35 +893,60 @@ save or read the requested item.
                           | STAR#srikar
                           
     In the table above, we have encoded keys into the sort key value hence making filting simple.
------------------------------------------------------------------------------------------------------------------------------    
-- Composite sort key
-  Primary table
-  pk(customerId) | sk(orderId) | date       | status    | gsi1sk
-  2b5a41c0       | aghsgdha    | 2022-07-6  | DELIVERED | DELIVERED#2022-07-6
-                 | dgugdusa    | 2022-07-27 | CANCELLED | CANCELLED#2022-07-27
-                 | asyafsss    | 2022-07-30 | CANCELLED | CANCELLED#2022-07-30
+    
+  3: Composite sort key
+    Primary table
+    pk(customerId) | sk(orderId) | date       | status    | gsi1sk
+    2b5a41c0       | aghsgdha    | 2022-07-6  | DELIVERED | DELIVERED#2022-07-6
+                  | dgugdusa    | 2022-07-27 | CANCELLED | CANCELLED#2022-07-27
+                  | asyafsss    | 2022-07-30 | CANCELLED | CANCELLED#2022-07-30
                  
-  We will use the same pk as our gsi1pk and the lets use the composite sort key gsi1sk
-  Now using this pattern we can now easily filter out all the cancelled orders between a given date range.
+    We will use the same pk as our gsi1pk and the lets use the composite sort key gsi1sk
+    Now using this pattern we can now easily filter out all the cancelled orders between a given date range.
   
-  const queryParams = {
-    TableName='CustomerOrders',
-    IndexName="OrderStatusDateGSI",
-    KeyConditionExpression="#c = :c AND #os BETWEEN :start and :end",
-    ExpressionAttributeNames={
-      "#c": "customerId",
-      "#os": "gsi1sk"
-    },
-    ExpressionAttributeValues={
-     ":c": { "S": "2b5a41c0" },
-     ":start": { "S": "CANCELLED#2022-07-01T00:00:00.000000" },
-     ":end": { "S": "CANCELLED#2022-07-31T00:00:00.000000" },
+    const queryParams = {
+      TableName='CustomerOrders',
+      IndexName="OrderStatusDateGSI",
+      KeyConditionExpression="#c = :c AND #os BETWEEN :start and :end",
+      ExpressionAttributeNames={
+        "#c": "customerId",
+        "#os": "gsi1sk"
+      },
+      ExpressionAttributeValues={
+      ":c": { "S": "2b5a41c0" },
+      ":start": { "S": "CANCELLED#2022-07-01T00:00:00.000000" },
+      ":end": { "S": "CANCELLED#2022-07-31T00:00:00.000000" },
+      }
     }
-  }
   
-  The composite sort key pattern works well when the following statements are true:
-  - You always want to filter on two or more attributes in a particular access pattern.
-  - One of the attributes is an enum-like value
+    The composite sort key pattern works well when the following statements are true:
+    - You always want to filter on two or more attributes in a particular access pattern.
+    - One of the attributes is an enum-like value
   
-----------------------------------------------------------------------------------------------------------------------------------------
-- Sparse indexes
+  4: Sparse indexes
+     When creating a secondary index, you will define a key schema for the index. When you write an item into your base table,
+     DynamoDB will copy that item into your secondary index if it has the elements of the key schema for your secondary index.
+     Crucially, if an item doesn’t have those elements, it won’t be copied into the secondary index.
+     A sparse index is one that intentionally excludes certain items from your table to help satisfy a query.
+       - Using sparse indexes to provide a global filter on an item type
+         
+         Base Table
+         PK              SK              OrgName               Subscription    UserName            Role
+         ORG#BERKSHIRE   ORG#BERKSHIRE   Berkshire Hathaway    Enterprise     
+                         USER#CHARLIE                                          Charlie Munger      Member
+                         USER#BUFFETT                                          Warren Buffett      Admin
+         ORG#FACEBOOK    ORG#FACEBOK     Facebook              Pro             
+                         USER#SANDBRG                                          Sheryl Sandberg     Admin
+                         
+         Imagine we had an access pattern that wanted to fetch all Users that had Admin privilages within a particular Organization.
+         If the organization had a large number of users and the condition we want is sufficiently rare,  it would be very wasteful to read all
+         Users and filter out those that are not administrators. The access pattern would be slow, and we would expend a lot of read capacity
+         on discarded items.
+         To do this, we would add an attribute to only those User items which have Administrator privileges in their Organization.
+         We’ll add GSI1PK and GSI1SK attributes to Organizations and Users.
+         For organizations we will add GSI1PK as ORGANIZATIONS and GSI1SK as Berkshire Hathaway/Facebook.
+         For users that are "admin" we will add GSI1PK as ORG#BERKSHIRE and GSI1SK as Admin.
+         We will purposefully ignore Member roles and never add GSI1PK or GSI1SK attributes to these items.
+         
+       - Using sparse indexes to project a single type of entity
+         
