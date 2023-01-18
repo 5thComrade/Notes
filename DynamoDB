@@ -854,17 +854,17 @@ Normalization and multiple requests
 Fallback option for when you have highly-mutable data contained in the relationship.
           
 ===========================================================================================================================================
-Strategies for filtering
+===========================================================================================================================================
+Strategies for Filtering
 Filtering in DynamoDB is almost exclusively focused on your primary key.
 
--------------------------------------------------------------------------------------------------------------------------------------------
-- Filtering with the partition key
-When a request is received by DynamoDB, it will hash the partition key to find which storage node should be used to
-save or read the requested item.
+1: Filtering with the partition key
+   When a request is received by DynamoDB, it will hash the partition key to find which storage node should be used to
+   save or read the requested item.
 
 -------------------------------------------------------------------------------------------------------------------------------------------
-- Filtering with the sort key
-  1: Simple filters with the sort key
+2: Filtering with the sort key
+  - Simple filters with the sort key
       If you have a clear, simple item collection that’s grouped by a particular parent entity, you can just
       use the sort key to filter on something inherently meaningful like dates or scores.
       const filterOrdersByDateRange = {
@@ -881,7 +881,7 @@ save or read the requested item.
         }
       }
      
-  2: Assembling different collections of items
+  - Assembling different collections of items
     In this pattern the sort key also encodes some specific information about how you’ve happened to
     arrange the data in your table.
     
@@ -894,7 +894,8 @@ save or read the requested item.
                           
     In the table above, we have encoded keys into the sort key value hence making filting simple.
     
-  3: Composite sort key
+--------------------------------------------------------------------------------------------------------------------------   
+3: Composite sort key
     Primary table
     pk(customerId) | sk(orderId) | date       | status    | gsi1sk
     2b5a41c0       | aghsgdha    | 2022-07-6  | DELIVERED | DELIVERED#2022-07-6
@@ -922,8 +923,8 @@ save or read the requested item.
     The composite sort key pattern works well when the following statements are true:
     - You always want to filter on two or more attributes in a particular access pattern.
     - One of the attributes is an enum-like value
-  
-  4: Sparse indexes
+-----------------------------------------------------------------------------------------------------------------------------
+4: Sparse indexes
      When creating a secondary index, you will define a key schema for the index. When you write an item into your base table,
      DynamoDB will copy that item into your secondary index if it has the elements of the key schema for your secondary index.
      Crucially, if an item doesn’t have those elements, it won’t be copied into the secondary index.
@@ -949,4 +950,28 @@ save or read the requested item.
          We will purposefully ignore Member roles and never add GSI1PK or GSI1SK attributes to these items.
          
        - Using sparse indexes to project a single type of entity
-         
+         Lets say our table has Customer data, orders, inventory data. Now lets say we need to find all the customers. 
+         One thing to get all the customers is to scan the entire table and filter customers. This is simply a waste of read capacity.
+         We could add an attribute called CustomerIndexId to customer items and use it as the pk for our Global Secondary Index.
+         Since this attribute only exists only for customer items only customers gets projected into this index.
+         We can now run a scan operation o this index and get all the customers.
+         This strategy relies on projecting only a single entity type into the secondary index.
+-----------------------------------------------------------------------------------------------------------------------------------------   
+5: Filter Expressions
+      You can include filter expressions in Query and Scan operations to remove items from your results that don’t match a given condition.
+      The filter expression is applied after items are read, meaning you pay for all of the items that get filtered out and you are subject to the 1MB
+      results limit before your filter is evaluated. 
+      Use filter expressions in the following situaions
+      - Reducing response payload size
+      - Easier application filtering
+      - Better validation around time-to-live (TTL) expiry. When using DynamoDB TTL, AWS states that items are generally deleted
+        within 48 hours of their TTL expiry. You could write a filter expression that removes all items that should
+        have been expired by now, even if they’re not quite expired yet.
+------------------------------------------------------------------------------------------------------------------------------------------        
+6: Client-side filtering
+   Use client-side filtering for
+   - When filtering is difficult to model in the database
+   - When the dataset isn't that big
+   
+   
+      
