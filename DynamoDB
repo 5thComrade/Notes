@@ -973,5 +973,7 @@ Filtering in DynamoDB is almost exclusively focused on your primary key.
    - When filtering is difficult to model in the database
    - When the dataset isn't that big
    
-   
+    Client-side filtering can be a great way to get some free compute without adding complexity to your access patterns.
       
+=============================================================================================================================================
+=============================================================================================================================================
