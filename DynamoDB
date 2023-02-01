@@ -978,3 +978,46 @@ Filtering in DynamoDB is almost exclusively focused on your primary key.
 =============================================================================================================================================
 =============================================================================================================================================
 Strategies for sorting
+- Basics of Sorting
+  In DynamoDb sorting happens only on the sort key.
+  For sort keys of type number, the sorting is exactly as you would expect - items are sorted according to the value of the number.
+  For sort keys of type string or binary, they're sorted in order of UTF-8 bytes.
+  
+    - Lexicographical sorting
+      A simplified version of sorting on UTF-8 bytes is to say the ordering is lexicographical. This order is basically dictionary order
+      with two caveats.
+      1: All uppercase letters come before lowercase letters
+      2: Numbers and symbols(eg: # and $) are relevant too.
+      
+      Lets say our sort keys are as follows
+      DeBrie
+      Dean
+      Dern
+      
+      You will notice that DeBrie comes before Dean. This is due to casing - uppercase before lowercase.
+      To avoid odd behavior around this, you should standardize your sort keys in all uppercase or all lowercase values
+      DEAN
+      DEBRIE
+      DERN
+      
+    - Sorting with Timestamps
+      The timestamp needs to be sortable, either epoch timestamps(1583507655) or ISO-8601(2020-03-06T15:14:15) will do.
+      What you absolutely cannot do is use something that’s not sortable, such as a display-friendly format
+      like "May 26, 1988". This won’t be sortable in DynamoDB.
+      
+    - Unique, sortable IDs
+      Use a library that generates unique ids that are sortable.
+      
+- Sorting on changing attributes
+  The sort key in DynamoDB is used for sorting items within a given item collection.
+  It can be tricky if the value you are sorting on is frequently changing.
+  Imagine you have an access pattern where we need the recently updated tickets first. 
+  Our sort key will be the last updated date. Now lets say an item was updated and we need to update the timestamp of the sortkey.
+  Thus, anytime you update a ticket item, we would need first to delete the existing ticket item, then create a new ticket
+  item with the updated primary key.
+  Let’s try a different approach. For our primary key, let’s use two attributes that won’t change. We’ll keep the organization name
+  as the partition key but switch to using TicketId as the sort key. Now we can add a secondary index where the partition key is
+  OrgName and the sort key is UpdatedAt. We can use the Query API against our secondary index to satisfy our ‘Fetch most recently
+  updated tickets’ access pattern. More importantly, we don’t need to worry about complicated delete + create logic when updating an item.
+  
+- Ascending vs descending
