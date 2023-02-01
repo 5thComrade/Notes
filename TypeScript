@@ -82,6 +82,9 @@ myFunc("Yolo")
 =========================================================================================================================================
 Typescript Course Notes
 
+const input = document.getElementById('firstName')!; -----------> here ts will not know if there is an element with id firstName
+                                                                  however as a dev we know and hence we add the ! at the end.
+
 - Core Types
 1: number
 2: string
