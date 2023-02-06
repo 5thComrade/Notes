@@ -110,6 +110,7 @@ let x = 5; ----> here the type of x which is number is infered by the ts compile
    
  5: Array
     type Hobbies = string[]; ---------> an array of strings
+    let arr: (number | string)[]; ----> an array that may have numbers or string
     
  6: Tuple
     type Role = [number, string] ----> this is a tuple type, an array of fixed length and types of elements
