@@ -1021,3 +1021,60 @@ Strategies for sorting
   updated tickets’ access pattern. More importantly, we don’t need to worry about complicated delete + create logic when updating an item.
   
 - Ascending vs descending
+  By default, DynamoDB will read items in ascending order. If you're working with words, this means starting with aardvark and going toward zebra.
+  If you're working with timestamps, this means starting at the year 1900 and working toward the year 2020.
+  You can flip this by using ScanIndexForward = False, which means you'll be reading items in descending order.
+  
+  PK            SK
+  DEVICE#123    DEVICE#123
+                READING#2023-01-02
+                READING#2023-02-02
+                READING#2023-03-02
+                READING#2023-04-02
+                READING#2023-05-02
+                
+  In the above table, if we have a query to get the device and 4 readings, we will get the device and the oldest readings as the table scans from top to
+  bottom. 'DEVICE' comes before 'READING' in the alphabet.
+  If we want the device details but the latest 4 readings, we need to add a # prefix to our readinf items.
+  
+  PK            SK
+  DEVICE#123    #READING#2023-01-02
+                #READING#2023-02-02
+                #READING#2023-03-02
+                #READING#2023-04-02
+                #READING#2023-05-02
+                DEVICE#123
+                
+  Now we can use the Query API to fetch the Device item and the most recent Reading items by starting at the end of our item
+  collection and using the ScanIndexForward=False property.
+  
+- Two relational access patterns in a single item collecion
+  
+  PK               SK
+  ORG#MCDONALDS    #TEAM#FANSOFISH
+                   #TEAM#TEAMBURGER
+                   ORG#MCDONALDS       -----> Parent item
+                   USER#ANTONY
+                   USER#RONALDO
+                   
+  Notice in the above table we have the SK ORG#MCDONALDS right in the middle of teams and users.
+  This is an advanced access pattern and the parent item is sandwiched in between teams and users on purpose.
+  The # prefix before team items ensure they are on top of the parent item.
+  Now we can use this access pattern to fetch the parent item and all the teams or fetch the parent item and all the users.
+  
+  const queryParams = {
+    TableName='SaaSTable',
+    KeyConditionExpression="#pk = :pk AND #sk <= :sk",    ------------> this will fetch the parent item and all the teams
+    ExpressionAttributeNames={                                          switch the check to >= and we will fetch the parent item
+      "#pk": "PK",                                                      and all the users
+      "#sk": "SK"
+    },
+    ExpressionAttributeValues={
+      ":pk": { "S": "ORG#MCDONALDS" },
+      ":sk": { "S": "ORG#MCDONALDS" }
+    },
+    ScanIndexForward=False
+  }
+  
+- Zero-padding with numbers
+  
