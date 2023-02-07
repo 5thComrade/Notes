@@ -1077,4 +1077,38 @@ Strategies for sorting
   }
   
 - Zero-padding with numbers
+  Sometimes we want to sort numerically but the sort key will be a string. ex: <ItemType>#<Number>
   
+  PK           SK
+  DEVICE#123   #READING#1
+               #READING#10   ---------> Reading 10 is placed ahead of Reading 2
+               #READING#2
+               DEVICE#123
+               
+  In the table above, Reading number 10 is placed ahead of Reading number 2. This is because lexicographic sorting evalutes one character
+  at a time, from left to right.
+  To avoid this, you can zero-pad your numbers. To do this, you make the number part of your sort key a fixed length, such as 5
+  digits.
+  
+  PK           SK
+  DEVICE#123   #READING#00001
+               #READING#00002
+               #READING#00010 ---------> now the ordering is proper
+               DEVICE#123
+               
+- Faking ascending order
+  We can use zero-padded difference here.
+  Imagine we were again using a zero-padded number with a width of 5. If we had an item with an ID of "157", the zero padded number would be "00157".
+  To find the zero-padded difference, we subtract our number ("157") from the highest possible value ("99999"). Thus, the zero-padded
+  difference would be "99842".
+  
+  PK          SK               ReadingId
+  DEVICE#123  DEVICE#123
+              READING#99989    10
+              READING#99997    2
+              READING#99998    1
+              
+  Now we can fetch the Device and the most recent Readings by starting at Device and reading forward.
+
+=======================================================================================================================================================
+Strategies for Migrations
