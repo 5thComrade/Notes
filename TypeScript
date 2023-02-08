@@ -130,6 +130,8 @@ const input: (string | number) = 'Antony';
 ======================================================================================================================================
 Literal types
 
+const func = (input: 'admin' | 'agent') => {} -------> the input parameter has the literal type assigned, it cannot be any string it
+                                                       needs to be 'admin' or 'agent'
 const number = 5; ------> here Typescript infers the type of number as 5 and not number
 let number = 5; --------> here Typescript infers the type of number as number and not 5
 
