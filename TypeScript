@@ -229,6 +229,10 @@ In the tsconfig.js file some of the common configurations are
    "removeComments": true, -------> removes comments from the compiled js files
    "noEmitOnError": true, --------> the compiler will not emit any js files if there is a compilation error
    "stict": true, ----------------> strict type-checking
+   "paths": {
+      "@/*": ["./*"],
+      "@/components/*": [./frontend/components/*] --------> now the import lines will be concise
+    }
 }
 "exclude": [
    "node_modules", ------------> (node_modules will be excluded by default) this config will exclude all ts files inside node_modules from getting compiled
