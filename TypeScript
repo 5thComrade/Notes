@@ -229,6 +229,9 @@ In the tsconfig.js file some of the common configurations are
    "removeComments": true, -------> removes comments from the compiled js files
    "noEmitOnError": true, --------> the compiler will not emit any js files if there is a compilation error
    "stict": true, ----------------> strict type-checking
+   "noUnusedParameters": true,----> report errors on unused parameters
+   "noUnusedLocals": true, -------> report errors on unused local variables
+   "noImplicitReturn": true ------> throws an error when the function doesn't return a value for some cases despite expecting a return
    "paths": {
       "@/*": ["./*"],
       "@/components/*": [./frontend/components/*] --------> now the import lines will be concise
