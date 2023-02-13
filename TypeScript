@@ -161,7 +161,7 @@ const func3(n: number) { ----> this function returns undefined, hence its return
 =========================================================================================================================================
 Function types
 
-const add(n1: number, n2: number) {
+const add(n1: number, n2: number = 1) { --------> I have added a default value for the second argument
    return n1 + n2;
 }
 
