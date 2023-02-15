@@ -240,3 +240,6 @@ In the tsconfig.js file some of the common configurations are
 "exclude": [
    "node_modules", ------------> (node_modules will be excluded by default) this config will exclude all ts files inside node_modules from getting compiled
 ]
+
+=============================================================================================================================================
+Classes and Interfaces
