@@ -243,3 +243,14 @@ In the tsconfig.js file some of the common configurations are
 
 =============================================================================================================================================
 Classes and Interfaces
+
+class Department {
+   name: string;
+   
+   constructor(n: string) {
+      this.name = n;
+   }
+}
+
+const accounting = new Department('Accounting');
+
