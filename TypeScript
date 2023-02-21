@@ -245,12 +245,34 @@ In the tsconfig.js file some of the common configurations are
 Classes and Interfaces
 
 class Department {
+   private readonly id: string;  ----------> id is private and readonly, its value won't change after initialization
    name: string;
+   private employees: string[] = [];  ---------> private keyword now makes employees only accessible within the class
    
-   constructor(n: string) {
+   constructor(id: string, n: string) {
+      this.id = id;
       this.name = n;
+   }
+   
+   describe(this: Department) { -----------------------> passing the this parameter is unnecessary but it adds a lot of clarity and ensures this points to the
+      console.log('Department ' + this.name);            correct instance
+   }
+   
+   addEmployee(employee: string) {
+      this.employees.push(employee);
+   }
+   
+   printEmployeeInformation() {
+      console.log(this.employees.length);
+      console.log(this.employees);
    }
 }
 
-const accounting = new Department('Accounting');
+const accounting = new Department('d1', 'Accounting');
+
+
+Shorthand Initialization
+class Department {
+   constructor(private readonly id: string. public name: string) {} -------> don't add anything inside the constructor function and the class still works perfectly
+}
 
