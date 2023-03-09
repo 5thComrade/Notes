@@ -273,6 +273,15 @@ const accounting = new Department('d1', 'Accounting');
 
 Shorthand Initialization
 class Department {
-   constructor(private readonly id: string. public name: string) {} -------> don't add anything inside the constructor function and the class still works perfectly
+   constructor(private readonly id: string, public name: string) {} -------> don't add anything inside the constructor function and the class still works perfectly
 }
 
+Inheritance
+
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
+      super(id, 'IT');
+      this.admins = admins;
+  }
+}
