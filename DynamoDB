@@ -1112,3 +1112,7 @@ Strategies for sorting
 
 =======================================================================================================================================================
 Strategies for Migrations
+Its just not realistic to assume that your data model will be frozen in time. Its going to evolve.
+The fundamental question to ask yourself about a migration is whether it is purely additive or whether you need to edit existing items.
+
+- Adding new attributes to an existing entity
