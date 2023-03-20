@@ -1116,3 +1116,9 @@ Its just not realistic to assume that your data model will be frozen in time. It
 The fundamental question to ask yourself about a migration is whether it is purely additive or whether you need to edit existing items.
 
 - Adding new attributes to an existing entity
+  When adding new attributes, you can simply add this new attribute in your application code. All new items will have this new attribute.
+  When you retrieve existing items that don't have this attribute yet, simply handle in the applicaion code.
+  The schemaless nature of DynamoDB makes it simple to add new attributes in your application without doing large-scale migrations.
+  
+- Adding a new entity type without relations
+  
