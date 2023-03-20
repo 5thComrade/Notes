@@ -1,1 +1,20 @@
 Notes from DynamoDB Course
+
+DynamoDB is a fast, flexible, cost effective, highly scalable, fault tolerant and secure, serverless cloud NoSQL database fully-managed by AWS.
+
+DynamoDB Tables and Naming Conventions
+prefix_tablename
+ex: test_users, staging_users
+
+Data types in DynamoDB
+- Scalar types
+  - Exactly one value
+  - eg: string, number, binary, boolean, and null
+  - keys or index attributes only support string, number and binary scalar types
+- Set types
+  - Multiple scalar values
+  - eg: string set, number set and binary set
+- Document types
+  - Complex structure with nested attributes
+  - eg: list and map
+  
