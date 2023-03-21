@@ -1121,4 +1121,20 @@ The fundamental question to ask yourself about a migration is whether it is pure
   The schemaless nature of DynamoDB makes it simple to add new attributes in your application without doing large-scale migrations.
   
 - Adding a new entity type without relations
+  Lets say we have a SaaS application that has Organizations and Users.
+  Now imagine we have a new entity type: Projects. A project belongs to an organization and an organization can have multiple projects.
+  When reviewing our access patterns, we have a "Get Projects for Organization" access pattern, but we don't need to fetch the parent
+  organization item as part of it. We simply add projects to a new item collection.
+  We didn’t have to make any changes to existing items to handle this new entity and its access patterns, so it’s a purely additive change.
+  Like the addition of an attribute, you just update your application code and move on.
   
+  pk                      sk              OrgName      UserName   ProjectName
+  ORG#MCDONALDS           ORG#MCDONALDS   McDonalds    
+                          USER#ANTONY                  Antony
+                          USER#RONALDO                 Ronaldo
+  ORGPROJECTS#MCDONALDS   PROJECT#ONE                             ProjectOne
+                          PROJECT#TWO                             ProjectTwo
+                          
+- Adding a new entity type into an existing item collection
+  
+                         
