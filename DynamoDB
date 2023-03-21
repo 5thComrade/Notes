@@ -1119,7 +1119,7 @@ The fundamental question to ask yourself about a migration is whether it is pure
   When adding new attributes, you can simply add this new attribute in your application code. All new items will have this new attribute.
   When you retrieve existing items that don't have this attribute yet, simply handle in the applicaion code.
   The schemaless nature of DynamoDB makes it simple to add new attributes in your application without doing large-scale migrations.
-  
+-------------------------------------------------------------------------------------------------------------------------------------------
 - Adding a new entity type without relations
   Lets say we have a SaaS application that has Organizations and Users.
   Now imagine we have a new entity type: Projects. A project belongs to an organization and an organization can have multiple projects.
@@ -1134,7 +1134,25 @@ The fundamental question to ask yourself about a migration is whether it is pure
                           USER#RONALDO                 Ronaldo
   ORGPROJECTS#MCDONALDS   PROJECT#ONE                             ProjectOne
                           PROJECT#TWO                             ProjectTwo
-                          
+-----------------------------------------------------------------------------------------------------------------------------------------------                        
 - Adding a new entity type into an existing item collection
+  Think about an application like Facebook before they introduced the 'Like' button. Their DynamoDB table may have had Post items that represented
+  a particular post that a user made.
+  
+  pk          sk          postOwner   postContent
+  POST#1234   POST#1234   Antony      https://post1234.com
+  POST#4321   POST#4321   Rohan       https://post4321.com
+  
+  When we want to add a feature like 'like' then we need an access pattern of 'fetch post and likes for the post'.
+  
+  pk          sk                    LikedUser        postOwner   postContent
+  POST#1234   LIKE#antony.chiramel  antony.chiramel
+              LIKE#rohang13         rohang13
+              POST#1234                              Antony      https://post1234.com
+  POST#4321   POST#4321                              Rohan       https://post4321.com
+  
+  Now we can fetch the post and the likes associated to that post by designing our item collection as shown above.
+-------------------------------------------------------------------------------------------------------------------------------------------------  
+- Adding a new entity type into a new item collection
   
                          
