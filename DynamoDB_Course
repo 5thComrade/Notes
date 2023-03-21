@@ -18,3 +18,12 @@ Data types in DynamoDB
   - Complex structure with nested attributes
   - eg: list and map
   
+DynamoDB Consistency Model
+  - Strong consistency
+    The most up-to-date data
+    Must be requested explicitly
+    
+  - Eventual Consistency
+    May or may not reflect the latest copy of data
+    Default consistency for all operations
+    50% cheaper
