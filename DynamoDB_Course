@@ -54,3 +54,6 @@ Tables in DynamoDB must be configured with the throughput capacity.
     Scaling Down: Up to 4 times in a day
     1 partition supports up to 1000 WCUs or 3000 RCUs
     
+    DynamoDB now supports On-Demand read/write capacity provisioning, instead of manually provisioning read/write capacity units
+    let DynamoDB take care of that.
+
