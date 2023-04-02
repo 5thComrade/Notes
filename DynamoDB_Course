@@ -27,3 +27,30 @@ DynamoDB Consistency Model
     May or may not reflect the latest copy of data
     Default consistency for all operations
     50% cheaper
+
+DynamoDB Capacity Units
+Tables in DynamoDB must be configured with the throughput capacity. 
+  Allows for predictable performance at scale. 
+  Used to control read/write throughput
+  Supports auto-scaling
+  Defined using RCUs and WCUs
+  Major factor in DynamoDB pricing
+  1 capacity unit = 1 request/sec
+    RCUs
+    1 RCU = 1 strongly consistent table read/sec
+    1 RCU = 2 eventually consistent table read/sec
+    In blocks of 4KB
+    
+    WCUs
+    1 WCU = 1 table write/sec
+    In blocks of 1KB
+    
+    Example
+    RCUs to read 10KB of data per second with strong consistency = 10KB/4KB = 2.5 ~ 3 RCUs
+    WCUs to write 10KB of data per second = 10KB/1KB = 10WCUs
+    
+    Scaling
+    Scaling Up: As and when needed
+    Scaling Down: Up to 4 times in a day
+    1 partition supports up to 1000 WCUs or 3000 RCUs
+    
