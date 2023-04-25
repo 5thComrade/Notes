@@ -5,7 +5,7 @@ DynamoDB is a fast, flexible, cost effective, highly scalable, fault tolerant an
 DynamoDB Tables and Naming Conventions
 prefix_tablename
 ex: test_users, staging_users
-
+---------------------------------------------------------------------------------------------------------------------------------------
 Data types in DynamoDB
 - Scalar types
   - Exactly one value
@@ -17,7 +17,7 @@ Data types in DynamoDB
 - Document types
   - Complex structure with nested attributes
   - eg: list and map
-  
+-----------------------------------------------------------------------------------------------------------------------------------------  
 DynamoDB Consistency Model
   - Strong consistency
     The most up-to-date data
@@ -27,7 +27,7 @@ DynamoDB Consistency Model
     May or may not reflect the latest copy of data
     Default consistency for all operations
     50% cheaper
-
+------------------------------------------------------------------------------------------------------------------------------------------
 DynamoDB Capacity Units
 Tables in DynamoDB must be configured with the throughput capacity. 
   Allows for predictable performance at scale. 
@@ -56,4 +56,31 @@ Tables in DynamoDB must be configured with the throughput capacity.
     
     DynamoDB now supports On-Demand read/write capacity provisioning, instead of manually provisioning read/write capacity units
     let DynamoDB take care of that.
+------------------------------------------------------------------------------------------------------------------------------------------
+DynamoDB Partitions
+A table can have multiple partitions. Its where DynamoDB stores table data.
+This is managed internally by DynamoDB.
+1 partition = 10GB of data
+1 partition = 1000 WCUs or 3000 RCUs
 
+Provisioned Capacity: 500 RCUs and 500 WCUs
+Number of Partitions: P = (500 RCUs/3000 + 500 WCUs/1000) = 0.67 ~ 1 partition
+
+Now lets say the size of this partition exceeds 10GB, DynamoDB will provision another partition for this DynamoDB table.
+Even if we increase the provisioned capacity, DynamoDB will provision partitions accordingly.
+
+New Capacity: 1000 RCUs and 1000 WCUs
+Number of Partitions: P = (1000 RCUs/3000 + 1000 WCUs/1000) = 1.33 ~ 2 partitions
+
+Now the old partition will equally distribute data to the new partitions and will also distribute the provisioned capacity equally among the
+new partitions. Once the distribution is done the old partition will get de-allocated.
+P1 - 500 RCUs and 500 WCUs
+P2 - 500 RCUs and 500 WCUs
+
+NOTE: Once you get 2 partitions, ets say we reduce the provisioned capacity thinking now the number of partitions
+will go back to 1. But that is not the case, once a partition is allocated and if you want to scale down, that partition will not get de-allocated.
+Hence we must be careful when we bump-up the capacity for short-term, cause we may end up with multiple partitions with lower capacity(since capacity is split
+equally among the partitions).
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+DynamoDB Indexes
