@@ -84,3 +84,10 @@ equally among the partitions).
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 DynamoDB Indexes
+Mandatory Primary Key - Either Simple or composite
+Simple Primary Key - Only partition or hash key
+Composite Primary Key - Partition Key + Sort or Range Key
+Partition or Hash Key decides the target partition
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Secondary Indexes
