@@ -82,6 +82,7 @@ will go back to 1. But that is not the case, once a partition is allocated and i
 Hence we must be careful when we bump-up the capacity for short-term, cause we may end up with multiple partitions with lower capacity(since capacity is split
 equally among the partitions).
 
+NOTE: Now there is adaptive-capacity. Adaptive capacity works by automatically increasing throughput capacity for partitions that receive more traffic.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 DynamoDB Indexes
 Mandatory Primary Key - Either Simple or composite
