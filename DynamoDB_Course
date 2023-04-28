@@ -94,3 +94,20 @@ PutItem/GetItem ----> Request Router ----> Hash the primary key -----> determine
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 Secondary Indexes
+Local secondary index – an index that has the same partition key as the base table, but a different sort key.
+                        You can only create LSI at the time of table creation. The storage limit for a local secondary index remains 10GB 
+                        per partition key value, which includes all table items, and index items sharing a partition key value.
+                        
+Global secondary index – an index with a partition key and a sort key that can be different from those on the base table.
+                         Unlike LSI, GSIs are stored in their own partitions. You need to set the RCU/WCU of GSI separately.
+                         You can create a GSI anytime,.
+ 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Interacting with DynamoDB
+
+- AWS Management Console
+- AWS CLI
+- AWS SDK
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
