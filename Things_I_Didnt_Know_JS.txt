@@ -231,7 +231,45 @@ JavaScript under the hood
     Link: https://blog.bitsrc.io/understanding-asynchronous-javascript-the-event-loop-74cd408419ff
     
 28: How Promises work in JavaScript? 
+    Not all the tasks are created of the same priority. There are macrotasks and microtasks.
+    Macrotasks are called Tasks, and MicroTasks are called Jobs. 
+    Examples of macrotasks are setTimeout, setInterval, setImmediate, I/O tasks, etc.
+    Examples of Microtasks are, Promises, processes.nextTick, etc.
+    ES6 introduced the concept of job queue/micro-task queue which is used by Promises in JavaScript.
+    The difference between the message queue and the job queue is that the job queue has a higher priority than the message queue,
+    which means that promise jobs inside the job queue/ micro-task queue will be executed before the callbacks inside the message queue.
+    Check the below code
     
+    ---
+    console.log('Script start');
+    setTimeout(() => {
+      console.log('setTimeout');
+    }, 0);
+    new Promise((resolve, reject) => {
+       resolve('Promise resolved');
+    }).then(res => console.log(res))
+      .catch(err => console.log(err));
+    console.log('Script End');
+    ---
+    
+    Output
+    ---
+    Script start
+    Script End
+    Promise resolved
+    setTimeout
+    ---
+    
+    console.log('Script start') is pushed to the top of the call stack, it gets executed and popped out of the call stack.
+    Next setTimeout is pushed to the call stack, setTimeout starts a timer and keeps the callback function in the web APIs environment. 
+    setTimeout is now popped out of the call stack. Now we encounter a Promise, the callback to the promise is kept in the web APIs environment to get resolved/rejected.
+    The Promise function is popped out of the call stack. Next console.log('Script End') is pushed to the top of the call stack and executed.
+    Meanwhile, the setTimeout timer has expired, the callback is moved to the Task Queue and the Promise has also be resolved, the Promise callback is now oved to 
+    the Job Queue. The event loop will first look at the Job Queue, it sees the Promise callback and moves it to the call stack, executes it and then looks into the Task
+    Queue and the moves the setTimeout callback into the call stack.
+    
+    Link: https://blog.greenroots.info/task-queue-and-job-queue-deep-dive-into-javascript-event-loop-model
+    Link: https://blog.bitsrc.io/understanding-asynchronous-javascript-the-event-loop-74cd408419ff
 
 29: V8 behind the scenes
 	- Parsing the code
