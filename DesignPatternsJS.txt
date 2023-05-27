@@ -22,8 +22,40 @@ Patterns that fall under this category include: Decorator, Facade, Flyweight, Ad
 Behavioral patterns focus on improving or streamlining the communication between disparate objects in a system.
 Some behavioral patterns include: Iterator, Mediator, Observer and Visitor.
 
-------------------------------
-Design Patterns in JavaScript
-------------------------------
+------------------------------------------
+Design Patterns in JavaScript and ReactJS
+------------------------------------------
 
-1: The Constructor Pattern
+1: Dynamic Imports
+Modular JavaScript allows you to logically split your application into smaller pieces called modules. JavaScript allows you to import module dependencies
+and export the module interface to support modular programming.
+Static Imports
+
+import { cakeFactory } from "./modules/cakeFactory.js"; ----------> this is static import
+
+In static import the module graph needs to be downloaded and executed before the main code can run. This can sometimes lead to the eager loading of a lot of
+code up front on the initial page oad, which can be expensive and delay key features being available earlier.
+This is where Dynamic imports come into play. Lazy-loading modules allows you to load what you need when needed - for example, when the user clicks a link or a button.
+
+ - Import on Interaction
+   Some libraries may be required only when a user starts interacting with a paricular feature on the web page. Libraries for these features need not be imported on
+   page load but can be loaded when the user interacts with them.
+   
+   const btn = document.querySelector('button');
+   
+   btn.addEventListener('click', async (e) => {
+     e.preventDefault();
+     try {
+       const module = await import('lodash.sortby');
+       module.sortInput(); // use the imported dependency
+     } catch(err) {
+       console.log(err);
+     }
+   })
+   
+ - Import on Visibility
+   Many components are not visible on the initial page load but become visible as the user scrolls down. 
+   The IntersectionObserver API can detect when a component placeholder is about to become visible, and a dynamic import can load the corresponding modules.
+   
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
