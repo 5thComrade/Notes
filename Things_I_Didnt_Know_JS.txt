@@ -328,6 +328,13 @@ JavaScript under the hood
     The answer is that these methods come built-in within each type of data structure thanks to something called prototype inheritance.
     In JavaScript, objects can inherit properties from other objects — the prototypes.
     
+    Why do we need prototypes?
+    Well lets say for every new array we create, we need to manually add .sort(), .map(), .filter() methods.
+    This would mean all arrays will take a lot of memory and it would affect the performance.
+    What is there was a way where we can define all the methods and properties in a separate object and they point every array to reference that object.
+    This is why we need prototypes, we create a common object and then ask every new object we create to inherit the properties and methods from that, 
+    helping us to avoid repetition.
+    
     When we try to access a property of an object, the property is not only searched in the object itself. It's also searched in the 
     prototype of the object, in the prototype of the prototype, and so on – until a property is found that matches the name or the end of
     the prototype chain is reached.
