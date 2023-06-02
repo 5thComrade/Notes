@@ -299,3 +299,71 @@ JavaScript under the hood
 		The byte code is executed by using the Memory heap and the Call Stack of the V8 engine’s runtime environment. 
 		Memory Heap is the place where all the variables and functions are assigned memory. Call Stack is the place 
 		where each individual functions, when called are pushed to the stack, and popped out after their execution.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------	
+29: What is the new keyword in JavaScript?
+    The new operator lets developers create an instance of a user-defined object type or one of the built-in object types that has a constructor function.
+    That is, new can we used with constructor functions to create new instances of an object.
+    
+    function Car(make, model, year) {
+    	this.make = make;
+	this.model = model;
+	this.year = year;
+    }
+    const car1 = new Car('Ford', 'Mustang', 1969);
+    console.log(car1.make); // expected output: 'Ford'
+    
+    When a function is called with the new keyword, the function will be used as a constructor.
+    new will do the following things
+    1: Creates a blank, plain JavaScript object. For convenience, lets call it newInstance
+    2: Executes the constructor function with the given arguments, binding newInstance as the this context (i.e. all references to this in the 
+       constructor function now refer to newInstance).
+   
+30: What is a constuctor function?
+    A constructor is a special function that creates and initializes an object. The purpose of a constructor is to create a new object and
+    set values for any existing object properties.
+    
+31: What are Prototypes and Prototype Inheritance?
+    Have you ever wondered how strings, arrays or objects 'know' the methods each of them have? How does a string know it can .toUpperCase() or
+    an array know that it can .sort()? We never defined these methods manually.
+    The answer is that these methods come built-in within each type of data structure thanks to something called prototype inheritance.
+    In JavaScript, objects can inherit properties from other objects — the prototypes.
+    
+    When we try to access a property of an object, the property is not only searched in the object itself. It's also searched in the 
+    prototype of the object, in the prototype of the prototype, and so on – until a property is found that matches the name or the end of
+    the prototype chain is reached.
+    If the property or method isn’t found anywhere in the prototype chain, only then will JavaScript return undefined.
+    
+    Every object in JavaScript has an internal property called [[Prototype]].
+    If we create an array and log it to the console we will see the [[Prototype]] property.
+    The double square brackets that enclose [[Prototype]] signify that it is an internal property, and cannot be accessed directly in code.
+    To find the [[Prototype]] of an object, we will use the Object.getPrototypeOf() method.
+    
+    const arr = [1,2,3]
+    console.log(Object.getPrototypeOf(arr))
+    
+    At the end of the prototype chain is Object.prototype. All objects inherit the properties and methods of Object. Any attempt to search 
+    beyond the end of the chain results in null.
+    
+    But under the hood and going up the ladder of the prototype chain, everything in JavaScript is built upon the Object.prototype.
+    
+    ***
+    Article: https://www.freecodecamp.org/news/prototypes-and-inheritance-in-javascript/
+    ***
+    
+32: How can I use constructor functions and prototype together?
+    Lets see a coding example
+    
+    function Alien(name, phrase) {
+    	this.name = name;
+	this.phrase = phrase;
+    }
+    
+    Alien.prototype.fly = () => console.log('flyinggggg!!!');
+    
+    const alien1 = new Alien('Antony', 'I am Batman');
+    
+    console.log(alien1.name); // output 'Antony'
+    alien1.fly() // output 'flyinggggg!!!'
+    
+33: What are classes in JavaScript?
+    
