@@ -317,6 +317,59 @@ JavaScript under the hood
     1: Creates a blank, plain JavaScript object. For convenience, lets call it newInstance
     2: Executes the constructor function with the given arguments, binding newInstance as the this context (i.e. all references to this in the 
        constructor function now refer to newInstance).
+    Here's the cool thing about new - when you invoke a function using the new keyword, a new object is created and returned ("under the hood") 
+    and the object that is created is called this.
+   
+    Let's see how things work without the new keyword
+    Remember every function in JavaScript as a prototype property that references an object.
+   
+    function doThing {}
+    console.log(doThing.prototype); // {} ----> the prototype property is an empty object
+   
+    Another important thing to remember before we move forward is Object.create
+    
+    let child = Object.create(parent);
+    
+    In the above case, we created a child object from the parent object. If we fail to lookup for a property in the child, JavaScript
+    will delegate the lookup on the parent object.
+    
+    Now lets see how life was before the new keyword
+    
+    function Animal(name) {
+    	let animal = Object.create(Animal.prototype); // created a child object from the Animal.prototype parent object
+	animal.name = name; // assigning name property to the newly created child object
+	
+	return animal; // returning the newly created child object
+    }
+    
+    Animal.prototype.eat = function() { // creating a new eat method directly on the Animal.prototype object(ie parent object)
+    	console.log(`${this.name} is eating`); // this refers to the newly created child object
+    }
+    
+    const leo = Animal('leo');
+    leo.eat() // will first look at the newly created obj then it will look in the parent obj(Animal.prototype) where it will find this method.
+    
+    Now lets see how new helps us
+    The new keyword will create a new child object from the parent prototype and return it all under the hood.
+    I will be using comments in the code to show what happens under the hood.
+    
+    function Animal(name){
+    	// const this = Object.create(Animal.prototype); ---> happens under the hood
+	
+	this.name = name;
+	
+	// return this; ----> happens under the hood
+    }
+    
+    Animal.prototype.eat = function() {
+    	console.log(`${this.name} is eating`);
+    }
+    
+    const leo = new Animal('leo');
+    
+    ****
+    Article: https://www.freecodecamp.org/news/a-beginners-guide-to-javascripts-prototype/
+    ****
    
 30: What is a constuctor function?
     A constructor is a special function that creates and initializes an object. The purpose of a constructor is to create a new object and
@@ -373,4 +426,21 @@ JavaScript under the hood
     alien1.fly() // output 'flyinggggg!!!'
     
 33: What are classes in JavaScript?
+    Lets see the Animal constructor function described in the new keyword section written using class
+    
+    class Animal {
+    	constructor(name) {
+	   this.name = name;
+	}
+	
+	eat() {
+	   console.log(`${this.name} is eating`);
+	}
+    }
+    
+    const leo = new Animal('leo');
+    
+    The above implementation using class is just syntatic sugar, behind the scenes we are doing what we did in the new keyword section.
+    
+    Lets deep dive into Classes in JavaScript
     
