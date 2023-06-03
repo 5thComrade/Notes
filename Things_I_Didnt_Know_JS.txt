@@ -426,6 +426,9 @@ JavaScript under the hood
     alien1.fly() // output 'flyinggggg!!!'
     
 33: What are classes in JavaScript?
+    ****
+    Article: https://dev.to/mustapha/a-deep-dive-into-es6-classes-2h52
+    ****
     Lets see the Animal constructor function described in the new keyword section written using class
     
     class Animal {
@@ -444,3 +447,157 @@ JavaScript under the hood
     
     Lets deep dive into Classes in JavaScript
     
+    - Class declaration
+    
+    class Point {
+      constructor() {}
+    }
+    
+    - Class expression
+    
+    let Point = class {
+    	constructor() {}
+    }
+    
+    - Constructor
+    
+    The constructor method is a special method for creating and initialising an object created with a class.
+    There can only be one constructor in each class. A SyntaxError will be thrown if the class contains more than one occurrence of a constructor.
+    
+    - Properties
+      - Instance properties
+      	In the snippet below x and y are instance properties.
+	
+	class Point {
+ 	   constructor(a, b) {
+	       this.x = a;
+	       this.y = b;
+	   }
+	}
+	
+      - Fields
+         Let's refactor the code above using fields
+	 
+	 class Point {
+	    x = 0;
+	    y = 0;
+	    
+	    constructor(a, b) {
+	    	this.x = a;
+		this.y = b;
+	    }
+	 }
+	 
+	 Note also that fields can be declared with or without a default value.
+	
+       - Private Fields
+       	 To declare a private field all you have to do is prefix its name with #.
+	 Trying to access a private field outside the scope of the class will result in a syntax error.
+	 Note that instance properties can not be private, only fields can. So you can't create an instance property with the # prefix.
+	 
+	 class Point {
+	    #x = 0;
+	    #y = 0;
+	    
+	    constructor(a, b) {
+	    	this.#x = a;
+		this.#y = b;
+	    }
+	 }
+	 
+     - Methods
+       - Public methods
+         To declare a method we can use the ES6 shorter syntax for method definitions on objects:
+	 
+	 class Point {
+	    #x = 0;
+	    #y = 0;
+	    
+	    translate(a, b) {
+	    	this.#x += a;
+		this.#y += b;
+	    }
+	 }
+	 
+       - Private methods
+         Like we did with private fields, we can use a # as a prefix of our private methods:
+	 
+	 class Point {
+	    #x = 0;
+	    #y = 0;
+	    
+	    // Private method
+	    #setXY(x, y) {
+	    	this.#x = x;
+		this.#y = y;
+	    }
+	 }
+	 
+      - Getters and Setters
+      	To implement getters and setters we use the get and set keyword.
+	
+	class Point {
+  	   #x = 0;
+  	   #y = 0;
+
+  	   get position() {
+    		return [this.#x, this.#y];
+  	   }
+
+  	   set position(newPosition) {
+   		// newPosition is an array like [0, 0]
+    		[this.#x, this.#y] = newPosition;
+  	  }
+	}
+	
+      - Static fields and methods
+        Static methods and fields (of a class) can be defined using the static keyword. Static members (fields and methods) cannot be called through
+	a class instance and must be called without instantiating the class.
+	
+	Lets create a static method that keeps track of the number of class instances that were invoked.
+	
+	class MyClass {
+	   static count = 0;
+	   
+	   constructor() {
+	      this.instanceId = ++MyClass.count;
+	   }
+	}
+	
+	let x = new MyClass();
+	let y = new MyClass();
+	
+	console.log(MyClass.count); // 2
+	console.log(x.instanceId); // 1
+	console.log(y.instanceId); // 2
+	
+     - Inheritance
+       In class declarations or class expressions, the extends keyword is used to create a class that is a child of another class (a subclass).
+       The super keyword is used to access and call functions on an object's parent.
+       If there is a constructor present in the subclass, it needs to first call super() before using this.
+       
+       class Vehicle {
+  	  #numberOfPassengers = 0;
+
+  	  constructor(nb) {
+    		this.#numberOfPassengers = nb;
+  	  }
+
+  	  getNumberOfPassengers() {
+    		return this.#numberOfPassengers;
+  	  }
+        }
+	
+	class Bike extends Vehicle {
+  	  constructor() {
+    	    	super(1);
+  	  }
+	}
+	
+	const bike = new Bike();
+	
+	bike.getNumberOfPassengers(); // 1
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+	
