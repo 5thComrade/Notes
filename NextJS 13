@@ -8,3 +8,13 @@ fully interactive. This process is called hydration.
 Two forms of pre-rendering
 - Static Generation: The HTML is generated at build time and will be reused on each request.
 - Server-side rendering: The HTML is generated on each request.
+
+Routing
+- Pages
+Create a new folder in the app directory and name this new folder with the desired route name
+Example: /about
+Now add a page.tsx file inside this directory and the jsx inside this page will be rendered when we navigate to this route.
+
+- Layouts
+If you want to add a layout to a page, just add another file called layout.tsx in the same folder and the page will be rendered as a child of this layout.
+Each route can have its own layout.tsx file if necessary.
