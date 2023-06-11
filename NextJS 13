@@ -36,4 +36,19 @@ dashboard/(auth)/register
 Both login and register folders are inside the (auth) folder. But when we naigate to the login page our url will not have (auth)
 dashboard/login
 
+You can add loading.tsx and error.tsx files to your route folders to handle loading and errors.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Rendering
+
+- Server Side Rendering
+All components by default are server components, ie its rendered on the server
+
+- Client Side Rendering
+If we want to use a component on the client side we need to add "use client" statement at the top of the file.
+
+If you put a console.log('Hello') in your component and if you see that logged on the terminal on the IDE, it means its a server component. If the log
+happens on the browser console, then component is a client component.
+If you want to add interactivity(click, change) then you need to use client components(ex Button component)
+If the jsx doesn't require any interactivity then its better if its a server component(ex Footer)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
