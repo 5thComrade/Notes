@@ -9,6 +9,7 @@ Two forms of pre-rendering
 - Static Generation: The HTML is generated at build time and will be reused on each request.
 - Server-side rendering: The HTML is generated on each request.
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Routing
 - Pages
 Create a new folder in the app directory and name this new folder with the desired route name
@@ -18,3 +19,21 @@ Now add a page.tsx file inside this directory and the jsx inside this page will 
 - Layouts
 If you want to add a layout to a page, just add another file called layout.tsx in the same folder and the page will be rendered as a child of this layout.
 Each route can have its own layout.tsx file if necessary.
+
+To navigate between pages import the Link component from "next/link"
+<Link href="/">Link to Home Page</Link>
+
+To create dynamic routes
+First create a folder with the following naming convention
+[id]
+Within the [id] folder, create a page.tsx. You will be able to access the id value within the page.
+
+Sometimes we may want to group certain folders under one category but don't want that category to be a part of the route
+Then we create a new folder like this (auth)
+dashboard/(auth)/login
+dashboard/(auth)/register
+
+Both login and register folders are inside the (auth) folder. But when we naigate to the login page our url will not have (auth)
+dashboard/login
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
