@@ -1,0 +1,27 @@
+Jest and React Testing Library
+
+Jest
+Jest is a javascript testing framework.
+Jest is a test runner that finds tests, runs the tests, determines whether the tests passed or failed and reports it back in a human readable manner.
+
+React Testing Library
+RTL is a javascript utility that provides virtual DOM for testing react components.
+React Testing Library provides a virtual DOM which we can use to interact with and verify the behavour of a react component.
+
+Types of Tests
+- Unit tests
+  Focus is on testing the individual building blocks of an application such as a class or a function or a component.
+  Each unit or building block is tested in isolation, independent of other units.
+  Dependencis are mocked.
+  
+- Integration tests
+  Focus is on testing a combination of units and ensuring they work together.
+  Take longer than unit tests.
+  
+- E2E tests
+  Focus is on testing the entire application flow and ensuring it works as designed from start to finish.
+  Involves in a real UI, a real backend database, real services etc
+  Take the longest as they cover the most amount of code
+  
+
+
