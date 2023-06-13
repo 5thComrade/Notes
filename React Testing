@@ -64,3 +64,54 @@ test('Greet renders correctly', () => {
 })
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Test Driven Development(TDD)
+
+Test driven development is a software development process where you write tests before writing the software code.
+1: Create tests that verify the functionality of a specific feature
+2: Write software code that will run the tests successfully when re-executed
+3: Refactor the code for optimization while ensuring the tests continue to pass
+
+Jest Watch Mode
+When we run 'npm run test' jest behind the scenes enter watch mode
+Watch mode is an option that we can pass to Jest asking to watch files that have changed since the last commit and execute tests
+related only to those changed files.
+This is an optimization designed to make your tests run fast regardless of how many tests you have.
+
+Filtering tests
+After you run 'npm run test', you'll find a few options provided by jest to filter tests
+1: press a to run all tests
+2: press f to run only failed tests
+3: press q to quit watch mode
+4: press p to filter by a filename regex pattern
+5: press t to filter by a test name regex pattern
+6: press o to filter tests that have currently changed
+
+you can also filter tests by adding the only or skip flag
+
+test.only('Some test', () => {     ------------------> with the only flag, only this test will run
+   expect('Something').toBeInTheDocument();
+})
+
+test.skip('Some test', () => {     ------------------> with the skip flag, this test will be skipped
+   expect('Something').toBeInTheDocument();
+})
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Grouping tests
+
+- describe
+  describe(name, fn)
+  The first argument is the group name
+  The second argument is a function that contains the expectations to test
+  The only and skip flags are available for describe blocks too
+  
+  describe('Grouping tests', () => {
+     test('Test 1', () => {
+        expect('Something').toBeInTheDocument();
+     })
+     
+     test('Test 2', () => {
+        expect('Something').toBeInTheDocument();
+     })
+  })
+  
