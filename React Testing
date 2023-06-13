@@ -52,4 +52,15 @@ In the file we use a method by Jest called 'test'
   expect(linkElement).toBeInTheDocument();
   
 
+A simple test file would look like below
 
+import { render, screen } from "@testing-library/react";
+import Greet from "./Greet.component";
+
+test('Greet renders correctly', () => {
+   render(<Greet />);
+   const textElement = screen.getByText('Hello');
+   expect(textElement).toBeInTheDocument();
+})
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
