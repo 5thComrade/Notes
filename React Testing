@@ -24,4 +24,32 @@ Types of Tests
   Take the longest as they cover the most amount of code
   
 
+To run a test using Jest, first create a test file <FileName>.test.js
+In the file we use a method by Jest called 'test'
+- test
+  test accepts 3 parameters
+  test(name, fn, timeout)
+  The first argument is the test name used to identify the test
+  The second argument is a function that contains the expectations to test
+  The third argument is timeout which is optional argument for specifying how long to wait before aborting the test. The default timeout value is
+  5 seconds.
+ 
+- render
+  render is a method from the react testing library.
+  render(<App />)
+  The above code will create a virtual dom and render the App component.
+  
+- screen
+  screen is a object from the react testing library
+  render(<App />);
+  const linkElement = screen.getByText('Learn React');
+  
+  The above code will render the App component on the virtual dom and use the screen object method 'getByText' to query the virtual dom for the link element
+  
+- expect
+  expect is also a method from Jest library.
+  We use expect to check our expectations from the test.
+  expect(linkElement).toBeInTheDocument();
+  
+
 
