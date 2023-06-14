@@ -115,3 +115,17 @@ Grouping tests
      })
   })
   
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Code Coverage Report
+To generate code coverage report follow the below steps
+Add a new script to package.json file
+
+"coverage": "npm run test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{ts,tsx}' --collectCoverageFrom='!src/components/**/*.{types, stories, 
+constants, test, spec}.{ts,tsx}'"
+
+The above script is an extension to the already existing test script with the additional flags.
+The collectCoverageFrom flag generates the report for the test files in the components folder.
+You will also see collectCoverageFrom flag used to ignore certain files.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
