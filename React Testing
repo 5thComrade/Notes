@@ -146,3 +146,77 @@ Assertions decide if a test passes or fails
 jest-dom is an additional plugin that offers matchers for dom manipulation
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+What to test in a React Project?
+
+- Test component renders
+- Test component renders with props
+- Test component renders in different states
+- Test component reacts to events
+
+What not to test?
+
+- Implementation details
+- Third party code
+- Code that is not important from a user point of view
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+React Testing Library Quries
+
+Queries are the methods that Testing Library provides to find elements on the page.
+To find a single element on the page, we have
+- getBy...
+- queryBy...
+- findBy...
+
+To find multiple elements on the page, we have
+- getAllBy...
+- queryAllBy...
+- findAllBy...
+
+The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, AltText, Title and finally TestId
+
+- getByRole
+  getByRole queries for elements with the given role.
+  Role refers to the ARIA(Accessible Rich Internet Applications) role which provides semantic meaning to content to ensure people
+  using assistive technologies are able to use them.
+  By default, many semantic elements in HTML have a role
+  Button element has a button role, anchor element has a link role, h1 to h6 elements have a heading role and so on
+  If you are working with elements that do not have a default role or if you want to specify a different role, the role attribute can be used to
+  add the desired role.
+  To use an anchor element as a button in the navbar, you can add role='button'
+  
+  test('component renders correctly', () => {
+     render(<Login />);
+     const nameElement = screen.getByRole('textbox'); ---------> an input element in the jsx
+     expect(nameElement).toBeInTheDocument();
+     
+     const termsElement = screen.getByRole('checkbox'); ----------> a checkbox element in the jsx
+     expect(termsElement).toBeInTheDocument();
+     
+     const submitButtonElement = screen.getByRole('button'); ----------> a button element in the jsx
+     expect(submitButtonElement).toBeInTheDocument();
+  })
+  
+  getByRole takes a second parameter for options
+  If you have multiple textbox elements in your dom, the test will fail
+  This is where we can use the options object to specificially pick the right element
+  
+  const nameElement = screen.getByRole('textbox', {
+     name: 'Name', ---------------------------------------> <label htmlFor="name">Name</label>
+  });
+  
+  const pageHeading = screen.getByRole('heading', {
+     level: 1, --------------------------------------------> <h1>Page Heading</h1>
+  })
+  
+  The name property will take the accessible name 
+  1: the labe of a form element
+  2: the text content of a button
+  3: the value of the aria-label attribute
+  
+  If your page has both h1 and h2 tags, getByRole will throw an error cause both have the role "heading",
+  this is when we pass the level property to the options object to get the right heading
+  There are more options available for the getByRole method
+  
+- getByLabelText
+  
