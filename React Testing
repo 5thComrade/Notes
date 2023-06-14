@@ -129,3 +129,20 @@ The collectCoverageFrom flag generates the report for the test files in the comp
 You will also see collectCoverageFrom flag used to ignore certain files.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assertions
+
+when writing tests, we often need to check that values meet certain conditions
+Assertions decide if a test passes or fails
+
+- expect
+  expect(value)
+  The argument should be the value your code produces
+  Typically, you will use expect along with a 'matcher' function to assert something about a value.
+  A matcher can optionally accept an argument which is the correct expected value
+  
+  If you sturggle to find what matchers to use visit
+  jest.io/docs/using-matchers
+  
+jest-dom is an additional plugin that offers matchers for dom manipulation
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
