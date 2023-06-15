@@ -52,3 +52,21 @@ If you want to add interactivity(click, change) then you need to use client comp
 If the jsx doesn't require any interactivity then its better if its a server component(ex Footer)
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Access to Dynamic Route pathName
+
+If you want to access the path name of a dynamic route
+In [category]/page.tsx file
+
+export default function PortfolioCategory({
+  params, ----------------------------------------------------------> get access to params
+}: {
+  params: { category: string }; ------------------------------------> add the params type based on the folder name
+}) {
+  return (
+    <main className="h-full">
+      <h1 className="text-4xl font-light">Portfolio Category Page</h1>
+      <h2 className="text-2xl font-light capitalize">{params.category}</h2> -----------> use the category name in JSX
+    </main>
+  );
+}
+
