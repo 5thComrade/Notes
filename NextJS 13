@@ -70,3 +70,26 @@ export default function PortfolioCategory({
   );
 }
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Data Fetching in NextJS 13
+
+- on client side
+  - fetch/axios in useEffect
+  - use a library like react-query, swr
+
+- on server side
+  convert the server component into a async component and use the fetch api to get data.
+
+  async function getData() {
+      const res = await fetch('https://api.example.com/posts', {
+          cache: 'force-cache', -----------> cache your response
+          next: {revalidate: 10} ----------> revalidate the response every 10s
+      });
+      return res.json();
+  }
+
+  const Page = async () => {
+      const data = await getData();
+
+      return <main></main>
+  }
