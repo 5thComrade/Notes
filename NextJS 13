@@ -93,3 +93,22 @@ Data Fetching in NextJS 13
 
       return <main></main>
   }
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+NextJS API
+
+In the app directory create an api folder
+In the api folder we can create as many folders which will act as the api routes.
+Lets say we create a posts folder inside the api folder
+Inside the posts folder create a file named route.ts(the name route is mandatory)
+Now if you visit url/api/posts you will be hitting this api endpoint.
+
+In the route.js file
+
+import { NextResponse } from "next/server";
+export const GET = async (req) => {
+    // get your data from db
+
+    return new NextResponse('It works!', {status: 200})
+}
+
