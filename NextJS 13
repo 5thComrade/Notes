@@ -112,3 +112,42 @@ export const GET = async (req) => {
     return new NextResponse('It works!', {status: 200})
 }
 
+You can also have dynamic routes just like pages
+Create a folder with the folling naming convention [id] and inside this folder create a route.ts file
+In this route.ts file
+
+import { NextResponse } from "next/server";
+export const GET = async (req, { params }) => {
+    const { id } = params;
+    // use the id to fetch the data
+    return new NextResponse('It works!', {status: 200})
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+NextJS Meta Data
+
+export an object with the name 'metadata' from each page where you want to set page metadata.
+
+export const metadata = {
+    title: 'Page title',
+    description: 'Page description'
+}
+
+You can also generate dynamic metadata by exporting a 'generateMetadata' function
+
+export async function generateMetadata({ params }) {
+    const data = await getData(params.id); --------------------> you can use an async function to get the title using the id
+
+    return {
+      title: data.title,
+      description: data.description
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Next Auth
+
+Use Auth.js for oAuth related stuff
+or use Supabase for auth and other related stuff
+
+------------------------------------------------------------------------------------------------------------------------------------------------
