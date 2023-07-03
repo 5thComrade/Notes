@@ -25,8 +25,8 @@ Core Concepts in DynamoDB
 
 PRIMARY KEYS
 Types of primary keys
-  - Simple primary keys: which consist of a single element called a partition key.
-  - Composite primary keys: which consist of two elements, called partition key and sort key.
+  - Simple primary keys: which consist of a single element called a partition key or hash key.
+  - Composite primary keys: which consist of two elements, called partition key and sort key or range key.
 
 The type of primary key you choose will depend on your access patterns.
 A simple primary key allows you to fetch only a single item at a time.
