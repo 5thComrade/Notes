@@ -41,6 +41,12 @@ Types of secondary indexes
 A local secondary index uses the same partition key as your tables primary key but a different sort key.
 With global secondary index, you can choose any attributes you want for your partition key and your sort key.
 
+For global secondary indexes, you need to provision additional throughput for the secondary index. The read and write throughput for the index is
+separate from the core table’s throughput. This is not the case for local secondary indexes, which use the throughput from the core table.
+With global secondary indexes, your only choice is eventual consistency. Data is replicated from the core table to global
+secondary indexes in an asynchronous manner. Local secondary indexes allow you to opt for strongly-consistent reads if you want it.
+
+
 Item Collection
 An item collection refers to a group of items that share the same partition key in either the base table or a secondary index.
 DynamoDB partitions your data across a number of nodes in a way that allows for consistent performance as you scale. However, all items with the same
