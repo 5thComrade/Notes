@@ -31,7 +31,7 @@ Types of primary keys
 The type of primary key you choose will depend on your access patterns.
 A simple primary key allows you to fetch only a single item at a time.
 Composite primary keys, on the other hand, enable a "fetch many" access pattern. With a composite primary key, you can use the
-Query API to grab all items with the same partition key.
+Query API to grab all items with the same partition key.  You can even specify conditions on the sort key to narrow down your query space.
 
 SECONDARY INDEXES
 Types of secondary indexes
