@@ -202,7 +202,7 @@ The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, A
   This is where we can use the options object to specificially pick the right element
   
   const nameElement = screen.getByRole('textbox', {
-     name: 'Name', ---------------------------------------> <label htmlFor="name">Name</label>
+     name: 'Name', ---------------------------------------> Input with this label <label htmlFor="name">Name</label>
   });
   
   const pageHeading = screen.getByRole('heading', {
@@ -210,7 +210,7 @@ The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, A
   })
   
   The name property will take the accessible name 
-  1: the labe of a form element
+  1: the label of a form element
   2: the text content of a button
   3: the value of the aria-label attribute
   
@@ -219,4 +219,13 @@ The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, A
   There are more options available for the getByRole method
   
 - getByLabelText
-  
+  getByLabelText will search for the label that matches the given text, then find the element associated with that label.
+
+  const nameElement = screen.getByLabelText('Name') ----------- Input with this label <label htmlFor="name">Name</label>
+
+  If you have multiple elements with the Name label then pass the selector option to getByLabelText
+  const nameElement = screen.getByLabelText('Name', {
+    selector: 'input'
+  })
+
+- getByPlaceholderText
