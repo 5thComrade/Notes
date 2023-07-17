@@ -229,3 +229,14 @@ The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, A
   })
 
 - getByPlaceholderText
+  getByPlaceholderText will search for all elements with a placeholder attribute and find one that matches the given text.
+  const nameElement = screen.getByPlaceholderText('First Name') --------- <input type='text' value={name} placeHolder='First Name' />
+
+- getByText
+  getByText will search for all elements that have a text node with textContent matching the given text.
+  Typically, you'd use this to find paragraphs, div or span elements.
+
+  const paraElement = screen.getByText('My Name is Antony!') ----------<p>My Name is Antony!</p>
+
+- getByDisplayValue
+  
