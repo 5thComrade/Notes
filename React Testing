@@ -236,7 +236,97 @@ The suffix can be one of Role, LabelText, PlaceHolderText, Text, DisplayValue, A
   getByText will search for all elements that have a text node with textContent matching the given text.
   Typically, you'd use this to find paragraphs, div or span elements.
 
-  const paraElement = screen.getByText('My Name is Antony!') ----------<p>My Name is Antony!</p>
+  const paraElement = screen.getByText('My Name is Antony!') ---------- <p>My Name is Antony!</p>
 
 - getByDisplayValue
-  
+  getByDisplayValue returns the input, textarea, or select element that has the matching display value.
+
+  const inputElement = screen.getByDisplayValue('Antony Chiramel') ------- <input type="text" value="Antony Chiramel" />
+
+- getByAltText
+  getByAltText will return the element that has the given alt text.
+  This method only supports elements which accept an alt attribute like <img>, <input>, <area> or custom HTML elements
+
+  const imgElement = screen.getByAltText('a person with laptop') ------ <img src="https://image.com/" alt="a person with laptop">
+
+- getByTitle
+  getByTitle returns the element that has the matching title attribute
+
+  const closeIcon = screen.getByTitle('close') ------ <span title="close">X</span>
+
+- getByTestId
+  getByTestId returns the element that has the matching data-testid attribute
+
+  const element =screen.getByTestId('custom-element') ------ <div data-testid="custom-element">Some Custom Element</div>
+
+
+Priority order for queries(when to choose which query)
+"Your test should resemble how users interact with your code as much as possible"
+1: getByRole ----- this should be your first choice
+2: getByLabelText
+3: getByPlaceholderText
+4: getByText
+5: getByDisplayValue
+6: getByAltText
+7: getByTitle
+8: getByTestId ----- your last choice if above don't work
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Query Multiple Elements
+
+- getAllBy...
+  getAllBy returns an array of all matching nodes for a query, and throws an error if no elements match
+  Every getBy query has a corresponding getAllBy query, getAllByRole, getAllByLabelText etc
+
+  const listItems = screen.getAllByRole('listitem')
+  expect(listItems).toHaveLength(skills.length) --------- list items will be listItems array
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+TextMatch
+
+The first property of every query we have used so far may look like a string
+screen.getByRole('list') ---------- 'list' is not of type String, its of type TextMatch
+
+TextMatch can be a string, regex or even a function
+screen.getByText("Hello World") ----- <div>Hello World</div>
+screen.getByText(/^hello world$/i) ----- <div>Hello World</div>
+
+TextMatch - custom function
+(content?: string, element?: Element | null) => boolean
+
+screen.getByText((content) => content.startsWith('Hello')) ----- <div>Hello World</div>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+queryBy... and queryAllBy...
+How to check if something is not rendered on the screen? 
+
+test('Renders login button', () => {
+  render(<Skills skills={skills} />);
+  const loginButton = screen.getByRole('button', {
+    name: 'Login'
+  })
+  expect(loginButton).toBeInTheDocument()
+})
+
+test('Start learing button is not rendered', () => {
+  render(<Skills skills={skills} />);
+  const startLearningButton = screen.getByRole('button', {
+    name: 'Start learning'
+  })
+  expect(startLearningButton).not.toBeInTheDocument() --------- will throw an error cause getByRole will not be able to find this element
+})
+
+queryBy returns the matching node for a query and return null(not throw an error) if no elements match
+useful for asserting an element that is not present
+throws an error if more than one match is found
+
+queryAllBy returns an array of all matching nodes for a query and return an empty array if no elements match
+
+test('Start learing button is not rendered', () => {
+  render(<Skills skills={skills} />);
+  const startLearningButton = screen.queryByRole('button', { -----------replace getByRole with queryByRole
+    name: 'Start learning'
+  })
+  expect(startLearningButton).not.toBeInTheDocument()
+})
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
