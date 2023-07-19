@@ -330,3 +330,40 @@ test('Start learing button is not rendered', () => {
 })
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+findBy... and findAllBy...
+What if elements are not present in the DOM to begin but make their way into the DOM after some time?
+For example, data that is fetched from a server will be rendered only after a few milliseconds
+
+test('Start learning button is eventually displayed', () => {
+    render(<Skills skills={data} />);
+    const startLearningButton = screen.getByRole('button', {
+        name: 'Start learning'
+    })
+    expect(startLearningButton).toBeInTheDocument(); ------------- will throw an error cause this button appears after login
+})
+
+findBy returns a Promise which resolves when a element is found which matches the given query. The promise is rejected if no element is found
+or if more than one element is found after a default timeout of 1000ms.
+
+findAllBy returns a promise which resolves to an array of elements when any elements are found which match the given query. The promise is rejected
+if no elements are found after a default timeout of 1000ms.
+
+test('Start learning button is eventually displayed', async () => {
+    render(<Skills skills={data} />);
+    const startLearningButton = await screen.findByRole('button', { ----------replaced getByRole with findByRole
+        name: 'Start learning'
+    }, {
+        timeout: 2000, ---------------- override the default timeout
+    })
+    expect(startLearningButton).toBeInTheDocument();
+})
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+Debugging
+
+screen.debug() ---- will show the DOM tree nodes on the console for easy debugging
+
+const view = render(<Skills skills={data} />);
+logRoles(view.container) ---------- will log the roles of elements of the dom in the console
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
