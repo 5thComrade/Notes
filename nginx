@@ -1,0 +1,94 @@
+nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server.
+
+Installing nginx on Mac
+brew install nginx
+
+To locate where nginx config file is installed on your machine
+nginx -t
+
+To check for help commands
+nginx -h
+
+The config file for nginx is
+nginx.config
+
+To start nginx just run the following command in the terminal
+nginx
+
+Visit localhost:8080 to view the default html file served by nginx
+
+To stop nginx
+nginx -s stop
+--------------------------------------------------------------------------------------------------------------------------------------------------
+The nginx config file has key value pairs
+Each key-value pair is called a directive.
+
+Each directive is inside a context(the block in curly braces)
+
+events { ------------------------------- context
+    worker_connections: 1024; ---------- directive
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Serving static content
+
+Create a html file wherever you want in your machine.
+Name the html file as index.html
+
+In the nginx.config file lets add the contexts and directives
+
+http {
+    server {
+        listen 8080;                                -------- listen to port 8080
+        root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
+    }
+}
+
+Once the configuration is set lets start nginx
+Command
+nginx
+
+We will not see the new html file, we will see the default. We need to reload nginx
+Command
+nginx -s reload
+
+Now refresh localhost:8080 you will see the new html page.
+--------------------------------------------------------------------------------------------------------------------------------------------
+MIME Types
+
+Now lets say you have a css file in someFolder(the folder that is getting served by nginx)
+You have imported the css file in your html and you've also styled some elements.
+
+However, when we navigate to localhost:8080 and refresh the page, we do not see the styles getting applied.
+We inspect the network tab and we are able to see styles.css is actually getting served by nginx. So where is the problem?
+
+The problem is MIME type of the css file.
+If we inspect the file closely in the network tab, we see the Content-Type of the css file is text/plain not text/css.
+We can fix this by adding the types context inside the http context
+
+http {
+    types {
+        text/css    css; -------- files with css extension is of type/css
+        text/html   html; ------- files with html extension is of type/html
+    }
+
+    server {
+        listen 8080;                                -------- listen to port 8080
+        root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
+    }
+}
+
+
+There are a ton of MIME types and we cannot it and type each and every type.
+This is why nginx comes with default mime types.
+In the same folder as your nginx.config you'll see another file call mime.types
+This file holds the mime types for all the common files. We just need to include this in our config
+
+http {
+    include mime.types;
+
+    server {
+        listen 8080;                                -------- listen to port 8080
+        root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
+    }
+}
