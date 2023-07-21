@@ -95,4 +95,106 @@ http {
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 Location block
+If we want to serve specific files when we hit specific endpoints we need to use the location context.
+Ex: If you want to serve the index.html file inside the fruits directory(localhost:8080/fruits) we need the location context
 
+http {
+    include mime.types;                             -------- include the default mime types file
+
+    server {
+        listen 8080;                                -------- listen to port 8080
+        root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
+
+        location /media {
+            root /Users/antony.chiramel/someFolder; -------- same root? wtf? Yeap, nginx will automatically append /media(location name) to the root
+        }
+    }
+}
+
+If you don't want the location to be appended to the root, we can use alias
+
+http {
+    include mime.types;                             -------- include the default mime types file
+
+    server {
+        listen 8080;                                -------- listen to port 8080
+        root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
+
+        location /media {
+            root /Users/antony.chiramel/someFolder; -------- same root? wtf? Yeap, nginx will automatically append /media(location name) to the root
+        }
+
+        location /video {
+            alias /Users/antony.chiramel/someFolder/media; -------- we used alias for /video location which will serve the same files as /media
+        }
+    }
+}
+
+Lets say we want to serve a folder which doesn't have an index.html file but instead has something.html file.
+How do we handle this?
+
+location /something {
+    root /Users/antony.chiramel/someFolder;
+    try_files /something/something.html /index.html =404; --------- try to find something.html if it doesn't file serve the index.html from the original root instead
+}                                                                   if the root index.html also doesn't exisit, throw 404
+
+We can also add regex for location names
+
+location ~* /count/[0-9] {
+    root /Users/antony.chiramel/someFolder;
+    try_files /index.html =404;
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Redirects and Rewrites
+
+location /redirect {
+    return 307 /video; -------------------- 307 is the http status code for redirect and /redirect will redirect us to /video location
+}                                           but after the redirect, your url will be localhost:8080/video not localhost:8080/redirect
+
+If you don't want the url to change but only want the content from the redirect path we need to use rewrite
+
+server {
+    listen 8080;
+    root /Users/antony.chiramel/someFolder;
+
+    rewrite ^/number/(\w+) /count/$1; ------------ whenever you visit /number/4 you will be served the content from /count/4 but the url will still be /number/4
+
+    location ~* /count/[0-9] {
+        root /Users/antony.chiramel/someFolder;
+        try_files /index.html =404;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Load Balancer
+Lets say we have multiple servers doing the same stuff.
+How will the client know which server to hit cause there are like 3 servers in total.
+That is where the boss, nginx comes into picture.
+The client sends the request to nginx and then nginx will send it to one of the servers acting like a load balancer.
+
+nginx follows the round-robin algorithm to send requests to multiple servers. First it sends the request to server 1, the next request will not be sent to server 1
+but instead it will be sent server 2 and so on and so forth.
+
+Lets say you have an express server running in a docker container on port 7777.
+We can map this container port ie 7777 to 1111, 2222, 3333 and 4444 on our machine.
+Now we have the express server running on 4 different ports on the same machine, creating a feel its 4 different servers for our nginx to hit on
+
+http {
+    upsteam backendserver { ------------ upstream name
+        server 127.0.0.1:1111; --------- all the server endpoints endpoints
+        server 127.0.0.1:2222;
+        server 127.0.0.1:3333;
+        server 127.0.0.1:4444;
+    }
+
+    server {
+        listen 8080;
+
+        location / {
+            proxy_pass http://backendserver/; -------- the upstream name for our servers
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
