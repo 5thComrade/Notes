@@ -10,7 +10,7 @@ To check for help commands
 nginx -h
 
 The config file for nginx is
-nginx.config
+nginx.conf
 
 To start nginx just run the following command in the terminal
 nginx
@@ -35,7 +35,7 @@ Serving static content
 Create a html file wherever you want in your machine.
 Name the html file as index.html
 
-In the nginx.config file lets add the contexts and directives
+In the nginx.conf file lets add the contexts and directives
 
 http {
     server {
@@ -81,14 +81,18 @@ http {
 
 There are a ton of MIME types and we cannot it and type each and every type.
 This is why nginx comes with default mime types.
-In the same folder as your nginx.config you'll see another file call mime.types
+In the same folder as your nginx.conf you'll see another file call mime.types
 This file holds the mime types for all the common files. We just need to include this in our config
 
 http {
-    include mime.types;
+    include mime.types;                             -------- include the default mime types file
 
     server {
         listen 8080;                                -------- listen to port 8080
         root /Users/antony.chiramel/someFolder;     -------- serve whatever is there in someFolder, if there is an index.html file that will get served
     }
 }
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Location block
+
