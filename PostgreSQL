@@ -1,1 +1,13 @@
+PostgreSQL
+Is an Object Relational Database. 
+- Adheres to SQL Standards
+- Excels in concurrency
+- Superior at avoiding data corruption
+- Custom data types, operations and index types
+- Extensible, Scalable and Protects your data
 
+Dummy Table for further usage
+
+|-----------------|------------------|-------------------|-------------------|---------------------|
+|                 |                  |                   |                   |                     |
+|-----------------|------------------|-------------------|-------------------|---------------------|
