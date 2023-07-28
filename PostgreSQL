@@ -109,3 +109,42 @@ How to assign this new type to an already existing table
 ALTER TABLE tutorial_customer 
 ALTER COLUMN sex TYPE sex_type USING sex::sex_type;
 --------------------------------------------------------------------------------------------------------------------------------------------
+If you want to create a foreign key reference to another table
+
+CREATE TABLE product(
+  type_id INTEGER REFERENCES product_type(id),
+  name VARCHAR(30) NOT NULL,
+  id SERIAL PRIMARY KEY;
+)
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Add a new column
+
+ALTER TABLE customer ADD points INTEGER;
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Modify a column
+
+ALTER TABLE customer ALTER COLUMN points SET NOT NULL;
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Change the column name
+
+ALTER TABLE customer RENAME COLUMN points TO reward_points;
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Delete a column
+
+ALTER TABLE customer DROP COLUMN reward_points;
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Delete everything inside a table
+
+TRUNCATE TABLE transaction;
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Delete the table and everything in it
+
+DROP TABLE transaction;
+
+---------------------------------------------------------------------------------------------------------------------------------------------
