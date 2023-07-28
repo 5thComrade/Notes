@@ -71,3 +71,32 @@ There are several other data types and you also have the ability to build your o
 -----------------------------------------------------------------------------------------------------------------------------------
 Insert into the database
 
+INSERT INTO tutorial_customer(
+  first_name,
+  last_name,
+  email,
+  company,
+  street,
+  city,
+  state,
+  zip,
+  phone,
+  birth_date,
+  sex,
+  date_entered
+) VALUES (
+  'Antony',
+  'Chiramel',
+  'antonychiramel69@gmail.com',
+  'Infosys',
+  'P Rd',
+  'Thrissur',
+  'KL',
+  '680008',
+  '9998887777',
+  '2000-09-28',
+  'M',
+  current_timestamp
+);
+
+--------------------------------------------------------------------------------------------------------------------------------------------
