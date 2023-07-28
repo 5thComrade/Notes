@@ -23,7 +23,7 @@ CREATE TABLE tutorial_customer(
   company VARCHAR(60) NOT null,
   street VARCHAR(50) NOT null,
   city VARCHAR(40) NOT null,
-  state CHAR(2) NOT null,
+  state CHAR(2) NOT null DEFAULT 'KA',
   zip SMALLINT NOT null,
   phone VARCHAR(20) NOT null,
   birth_date DATE NULL,
@@ -99,4 +99,13 @@ INSERT INTO tutorial_customer(
   current_timestamp
 );
 
+--------------------------------------------------------------------------------------------------------------------------------------------
+Create Custom Data Type
+
+CREATE TYPE sex_type as enum ('M', 'F');
+
+How to assign this new type to an already existing table
+
+ALTER TABLE tutorial_customer 
+ALTER COLUMN sex TYPE sex_type USING sex::sex_type;
 --------------------------------------------------------------------------------------------------------------------------------------------
