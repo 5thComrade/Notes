@@ -11,3 +11,63 @@ Dummy Table for further usage
 |-----------------|------------------|-------------------|-------------------|---------------------|
 |                 |                  |                   |                   |                     |
 |-----------------|------------------|-------------------|-------------------|---------------------|
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Create a new table
+The below query creates a new table
+
+CREATE TABLE tutorial_customer(
+  first_name VARCHAR(30) NOT null,
+  last_name VARCHAR(30) NOT null,
+  email VARCHAR(60) NOT null,
+  company VARCHAR(60) NOT null,
+  street VARCHAR(50) NOT null,
+  city VARCHAR(40) NOT null,
+  state CHAR(2) NOT null,
+  zip SMALLINT NOT null,
+  phone VARCHAR(20) NOT null,
+  birth_date DATE NULL,
+  sex CHAR(1) NOT NULL,
+  date_entered TIMESTAMP NOT null,
+  id SERIAL PRIMARY KEY
+)
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Data types in PostgreSQL
+
+- Character Types
+  - Char(5): stores up to a max number of 5 characters
+  - Varchar: Store any length of characters
+  - Varchar(20): Store up to 20 characters
+  - Text: Store any length of characters
+
+- Numberic Types
+  Serials
+  - Smallserial: 1 to 32,767
+  - Serial: 1 to 2147483647
+  - Bigserial: 1 to 9223372036854775807 (serial8 in supabase)
+
+  Integers
+  - Smallint: -32,768 to 32,768 (int2 in supabase)
+  - Integer: -2147483647 to 2147483647 (int, int4 in supabase)
+  - Bigint: -9223372036854775807 to 9223372036854775807 (int8 in supabase)
+
+  Floats
+  Decimal: 131072 whole digits and 16383 after decimal
+  Numeric: 131072 whole digits and 16383 after decimal (decimal in supabase)
+  Real: 1E-37 to 1E37(6 places of precision)
+  Double Precision: 1E-307 to 1E308(15 places of precision) (float8 in supabase)
+
+- Boolean
+  - true
+  - false
+
+- Data/Time
+  timetz: time of day, including time zone
+  timestamptz: date and time, including time zone
+
+There are several other data types and you also have the ability to build your own data types
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Insert into the database
+
