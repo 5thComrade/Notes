@@ -1,4 +1,7 @@
 PostgreSQL
+
+Youtube Course: https://www.youtube.com/watch?v=85pG_pDkITY
+
 Is an Object Relational Database. 
 - Adheres to SQL Standards
 - Excels in concurrency
@@ -153,3 +156,33 @@ Get everything from a table
 select * from customers;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
+Comments
+
+--This is a single line comment
+
+/* This is a multi-line 
+comment */
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+WHERE 
+
+Conditional Operators
+= : Equal
+< : Less than
+> : Grater than
+<= : Less than or equal
+>= : Greated than or equal
+<> : Not equal
+!= : Not equal
+
+Logical Operators
+AND
+OR
+NOT
+
+select * from users where role = 'admin';
+
+select * from orders where time > '2018-12-01' and time < '2020-12-01';
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+ORDER BY (course timestamp: 58:19)
