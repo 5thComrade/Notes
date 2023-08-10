@@ -367,3 +367,21 @@ const view = render(<Skills skills={data} />);
 logRoles(view.container) ---------- will log the roles of elements of the dom in the console
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+Testing Playground
+
+Testing Playground is a Chrome extension that allows users to select the right queries for testing.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+User Interactions
+
+user-event 
+A companion library for Testing Library that simulates user interactions by dispatching the events that would happen if the interaction took place in a browser.
+
+fireEvent vs user-event
+fireEvent is a method from RTL which is used to dispatch DOM events
+user-event simulates full interactions, which may fire multiple events and do additional check along the way.
+For example, we can dispatch the change event on an input field using fireEvent.
+user-event allows you to describe a user interaction instead of a concrete event. It adds visibility and interactability checks along the way and
+manipulates the DOM just like a user interaction in the browser would.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
