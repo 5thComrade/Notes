@@ -385,3 +385,37 @@ user-event allows you to describe a user interaction instead of a concrete event
 manipulates the DOM just like a user interaction in the browser would.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+Pointer Interactions
+
+import {render, screen} from "@testing-library/react";
+import user from "@testing-library/user-event";
+import Counter from "./Counter";
+
+describe('Counter component', () => {
+  test('renders a count of 1 after click', async () => {
+    user.setup(),
+    render(<Counter />);
+    const incrementBtn = screen.getByRole('button', {
+      name: 'Increment'
+    })
+
+    await user.click(incrementBtn)
+    const countElement = screen.getByRole('heading')
+    expect(countElement).toHaveTextContent('1')
+  })
+})
+
+
+Convenience APIs to check pointer interactions
+click()
+dblClick()
+tripleClick()
+hover()
+unhover()
+
+Pointer APIs
+pointer({keys: '[MouseLeft]'}) -------- left click is simulated
+pointer({keys: '[MouseLeft][MouseRight]'}) -------- simulates a left click followed by a right click
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Keyboard Interactions
+
