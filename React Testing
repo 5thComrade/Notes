@@ -419,3 +419,49 @@ pointer({keys: '[MouseLeft][MouseRight]'}) -------- simulates a left click follo
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 Keyboard Interactions
 
+user.setup()
+render(<Component />)
+const nameInputElement = screen.getByRole('text')
+await user.type(nameInputElement, 'Antony') ---------- simulate a user typing Antony into an input field
+expect(nameInputElement).toHaveValue('Antony')
+
+await user.tab() --------------- simulate the user clicked the tab button
+expect(someButton).toHaveFocus()
+
+utility apis for keyboard interactions
+type()
+clear()
+selectOptions()
+deselectOptions()
+upload()
+
+convenience apis
+tab()
+
+clipboard apis
+copy()
+cut()
+paste()
+
+keyboard apis
+keyboard('foo') ----- simulates the user pressing f first, o next and o again
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Providers
+How to test components wrapped in a Provider Component
+
+import {render, screen} from ""@testing-library/react";
+import Component from "./somewhere"; ------------ this component is not wrapped in the provider but its parent is(1)
+
+describe('test provider', () => {
+  test('renders test correctly', () => {
+    render (<Component />, {
+        wrapper: AppProvider ----------------------- now the test will not fail cause we are adding the wrapper(3)
+    })
+    const headingEle = screen.getByRole('heading')
+    expect(headingEle).toHaveTextContent('dark mode') ------------- test fails, since thie component is not wrapped in provider(2)
+  })
+})
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Custom React Hook
