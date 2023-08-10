@@ -450,7 +450,7 @@ keyboard('foo') ----- simulates the user pressing f first, o next and o again
 Providers
 How to test components wrapped in a Provider Component
 
-import {render, screen} from ""@testing-library/react";
+import {render, screen} from "@testing-library/react";
 import Component from "./somewhere"; ------------ this component is not wrapped in the provider but its parent is(1)
 
 describe('test provider', () => {
@@ -465,3 +465,101 @@ describe('test provider', () => {
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 Custom React Hook
+
+import { renderHook, act } from "@testing-library/react";
+import useCunter from "./useCounter";
+
+describe('test custom hook', () => {
+    test('initial count of 0', () => {
+        const { result } = renderHook(useCunter)
+        expect(result.current.count).toBe(0)
+    })
+
+    test('increment the counter by 1', () => {
+        const { result } = renderHook(useCunter)
+        act(() => {                      --------------------------- use act when you make state updates
+            result.current.increment()
+        })
+        expect(result.current.count).toBe(1)
+    })
+})
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Mocking Functions
+
+Lets say you have a component that accepts props. Two of the props are functions.
+How will you test this component?
+
+import {render, screen} from "@testing-library/react";
+import Counter from "./somewhere"; ------------ this component accepts 3 props, one count prop and 2 optional props that are funcs
+import user from "@@testing-library/user-event"
+
+describe('Test Counter', () => {
+  test('handlers are called', async () => {
+      user.setup()
+      const incrementHandler = jest.fn(); ------------------ this is how one can mock functions in jest
+      const incrementHandler = jest.fn();
+      render(<Counter count={0} handleIncrement={incrementHandler} handleDecrement={incrementHandler} />)
+
+      const incrementBtn = screen.getByRole('button', {name: 'Increment'})
+      await user.click(incrementBtn)
+
+      expect(incrementHandler).toHaveBeenCalledTimes(1)
+  })
+})
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Mock HTTP Requests
+
+We will use another package to mock http requests
+This package is called Mock Service Worker(MSW)
+
+In the src folder create a new folder called mocks
+Create a new file in this newly created folder called server.ts
+
+import { setupServer } from "msw/node"
+import { handlers } from "./handlers"
+
+export const server = setupSever(...handlers)
+
+
+In the mocks folder create a new file called handlers.ts
+
+import { rest } from "msw"
+
+export const handlers = [
+  rest.get('api url', (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json([
+        {
+          name: 'Antony'
+        },
+        {
+          name: 'Rohan'
+        },
+        {
+          name: 'Yogi'
+        }
+      ]))
+  })
+]
+
+test('renders a list of users', async () => {
+    render(<Users />)
+    const users = await screen.findAllByRole('listitem')
+    expect(users).toHaveLength(3)
+})
+
+To ask our tests to use our mock server, we need to update the src/setupTests.js file
+
+How to mock an error?
+
+test('renders error', () => {
+    server.use(        ------------------------------------- per-test handler
+        rest.get('api url', (req, res, ctx) => {
+            return res(ctx.status(500))
+        })
+    )
+    render(<Component />)
+})
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
