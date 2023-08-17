@@ -564,3 +564,42 @@ test('renders error', () => {
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 Static Analysis Testing
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Test an asynchronous custom hook that uses axios
+
+import MockAdapter from "axios-mock-adapter";
+import { renderHook, waitFor, act } from "@testing-library/react";
+import { axiosIntance } from "../services/axios.service";
+import useCustomHook from "../hooks/useCustom.hook"; ------- this hook returns [getSessionId, isFetching, isSuccess, isError]
+
+describe('test useCustomHook hook', () => {
+    let mock;
+
+    beforeAll(() => {
+        mock = new MockAdapter(axiosIntance);
+    });
+
+    afterAll(() => {
+        mock.reset();
+    });
+
+    test('api was success', async () => {
+        const { result } = renderHook(() => useCustomHook());
+
+        mock.onGet('/api/getSessionId').reply(200, {
+          sessionId: 'some session id'
+        });
+
+        await act(async () => {
+            await result.current[0](); // call the getSessionId function returned by the hook
+        });
+
+        await waitFor(() => expect(result.current[1]).toBe(false)); // isFetching is false
+        await waitFor(() => expect(result.current[2]).toBe(true)); // isSuccess is true
+        await waitFor(() => expect(result.current[3]).toBe(false)); // isError is false
+    })
+})
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
