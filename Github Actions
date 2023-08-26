@@ -1,0 +1,7 @@
+What is Github Actions?
+It is a Workflow automation service offered by GitHub. Automate all kinds of repository-related processes and actions.
+GitHub Actions works well with CI/CD.
+Continuous Integration(CI): code changes are automatically built, tested and merged with existing code.
+Continuous Delivery(CD): After integration, new app or package versions are published automatically.
+Github Actions can also help in code & repository management.
+
