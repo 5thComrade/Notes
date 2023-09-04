@@ -10,3 +10,26 @@ A Github repository can have
 2: Jobs: A workflow can have one or more jobs. A job defines a Runner(execution environment). Jobs can run in parallel(default) or sequential.
 3: Steps: A job can then have one or more steps. Execute a shell script or an action.
 
+The First Workflow
+
+```yml
+name: First Workflow         ------------- name of the workflow
+
+on: workflow_dispatch        ------------- trigger this workflow manually
+
+jobs:
+  some-job-name:             -------------- The name of the job
+    runs-on: ubuntu-latest   -------------- Run this job on the latest ubantu github actions runner image
+    steps:
+      - name: print greeting 
+        run: echo "Hello World!" ---------- single line shell command. use pipe symbol for multi-line shell commands 
+      - name: print goodbye                                                       
+        run: echo "Done - Bye!!"
+```
+
+To run multi-line shell commands
+
+run: |
+     echo "Name is Antony"
+     echo "I am a software engineer"
+
