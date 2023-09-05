@@ -90,3 +90,39 @@ jobs:
 ```
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+Multiple Triggers(Events)
+
+```yml
+name: Test React App
+
+on: [push, workflow_dispatch] ----------- this is how we achieve multiple triggers
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm run test
+```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Expressions & Github Contexts
+
+```yml
+name: Output Github Context
+
+on: workflow_dispatch
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Github Context
+        run: echo "${{ toJSON(github) }}" ----------- toJSON is a github action expression function and github is a github action context
+```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
