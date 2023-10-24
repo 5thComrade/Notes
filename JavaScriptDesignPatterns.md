@@ -3,7 +3,7 @@
 
 These are my personal notes from a book I read about JavaScript Design Patterns.
 
-## Chapter 1. Introduction to Design Patterns
+## Introduction to Design Patterns
 
 "Good code is like a love letter to the next developer who will maintain it!"
 
@@ -35,7 +35,7 @@ Learning and using design patterns is mainly advantageous for developers because
 
 ---
 
-## Chapter 2. “Pattern”-ity Testing, Proto-Patterns, and the Rule of Three
+## “Pattern”-ity Testing, Proto-Patterns, and the Rule of Three
 
 ### What is a Proto-Pattern?
 A pattern that has not yet conclusively passed the “pattern”-ity tests is usually referred to as a proto-pattern.
