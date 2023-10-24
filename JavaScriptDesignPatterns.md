@@ -77,3 +77,48 @@ One of the additional requirements for a pattern to be valid is that it displays
     Is the design worthy of being a pattern because it has broader applicability?
 
 ---
+
+## Modern JavaScript Syntax and Features
+
+### The Importance of Decoupling Applications
+
+In the world of scalable JavaScript, when we say an application is modular, we often mean it’s composed of a set of highly decoupled, distinct pieces of functionality stored in modules. Loose coupling facilitates easier maintainability of apps by removing dependencies where possible. If implemented efficiently, it allows you to see how changes to one part of a system may affect another.
+
+
+### Modules with Imports and Exports
+
+Modules allow us to separate our application code into independent units, each containing code for one aspect of the functionality. Modules also encourage code reusability and expose features that can be integrated into different applications.
+
+// Filename: staff.mjs
+
+```js
+    export const baker = {
+        bake(item) {
+            console.log( `Woo! I just baked ${item}` );
+        }
+    };
+```
+
+// Filename: cakeFactory.mjs
+
+```js
+    import baker from "/modules/staff.mjs";
+```
+
+### Module Objects
+
+A cleaner approach to importing and using module resources is to import the module as an object.
+
+```js
+    import * as Staff from "/modules/staff.mjs";
+```
+
+### Modules Loaded from Remote Sources
+
+ES2015+ also supports remote modules (e.g., third-party libraries), making it simplistic to load modules from external locations. 
+
+```js
+    import {cakeFactory} from "https://example.com/modules/cakeFactory.mjs";
+```
+
+### Static Imports
