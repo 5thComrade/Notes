@@ -350,7 +350,7 @@ Since the master pointer and issue56 pointer does not point to the same commit(p
 merging the code in master and issue56 and the master moves to this new commit Z. This kind of commit is called merge commit.
 
 Now lets say the hotfix and issue56 branch changed the same line of code.
-Then there will be a merge conflit, this happens when two or more branchs change the same piece of content, at this poiny the developer 
+Then there will be a merge conflit, this happens when two or more branchs change the same piece of content, at this point the developer 
 should choose which line he wants to keep and which line he wants to discard.
 If the changes were different, then both the changes will appear in master branch.
 
@@ -530,5 +530,27 @@ Try to avoid rebasing, its confusing as hell
 
 =====================================================================================================================================================
 
+Git Rebase New
+
+Rebasing a branch in Git is a way to move the entirety of a branch to another point in the tree. The simplest example is moving a branch further up in the tree.
+
+                                              (experiement branch)
+                            commit4'-------commit5'
+                               |
+commit1-------commit2-------commit3--------commit4------commit5
+                                                        (master branch)
 
 
+git checkout experiment
+git rebase master
+
+
+                                                                       (experiement branch)
+                                                        commit4'-------commit5'
+                                                           |
+commit1-------commit2-------commit3--------commit4------commit5
+                                                        (master branch)
+
+After rebasing you need to merge the code from experiment branch to master branch.
+
+===========================================================================================================================================================
